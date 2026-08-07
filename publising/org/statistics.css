@@ -1,0 +1,623 @@
+/* ==========================================================================
+   SimSPEND · statistics.css (statistics.html - 통계)
+   ========================================================================== */
+
+.stats {
+  padding: var(--space-5) var(--space-4) 110px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* ---------- 헤더 ---------- */
+/* ---------- 2x2 요약 카드 ---------- */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+.stat-box {
+  min-height: 170px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-box__label {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.stat-box__value {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.stat-box__value--accent {
+  color: var(--color-yellow);
+}
+
+.stat-box__caption {
+  font-size: 11.5px;
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+}
+
+/* 카드1: 이번 달 총 지출 */
+.stat-box__footer {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.pill {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 5px 9px;
+  border-radius: var(--radius-pill);
+  margin-bottom: 6px;
+}
+
+.pill--negative {
+  background: #FFE1E1;
+  color: var(--color-expense);
+}
+
+.pill--positive {
+  background: #E4F5EC;
+  color: var(--color-income);
+}
+
+.stat-box__icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: var(--color-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+
+.stat-box__icon svg {
+  width: 22px;
+  height: 22px;
+  color: var(--color-charcoal);
+}
+
+/* 카드2: 예산 달성률 (미니 도넛) */
+.stat-box--center {
+  align-items: center;
+  text-align: center;
+}
+
+.mini-donut {
+  position: relative;
+  width: 108px;
+  height: 108px;
+  margin: 4px 0 10px;
+}
+
+.mini-donut__value {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--color-charcoal);
+}
+
+/* 카드4: 목표 저축 진행률 */
+.progress-bar {
+  width: 100%;
+  height: 10px;
+  border-radius: var(--radius-pill);
+  background: var(--color-border);
+  overflow: hidden;
+  margin: 4px 0 10px;
+  height: 20px;
+}
+
+.progress-bar__fill {
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--color-charcoal);
+}
+
+.stat-box__value--lg {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--color-charcoal);
+  margin-bottom: 4px;
+}
+
+/* ---------- 카테고리별 소비 카드 ---------- */
+/* ---------- 카테고리별 소비 카드 ---------- */
+.category-card {
+  padding: 22px;
+}
+
+.category-card__title {
+  margin-bottom: 22px;
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--color-charcoal);
+}
+
+.category-card__body {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  align-items: center;
+  gap: 24px;
+}
+
+.category-donut {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  flex: none;
+}
+
+.category-donut svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.category-donut__value {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--color-charcoal);
+}
+
+.category-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  min-width: 0;
+}
+
+.category-legend__row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.category-legend__dot {
+  width: 10px;
+  height: 10px;
+  margin-right: 10px;
+  flex: none;
+  border-radius: 50%;
+}
+
+.category-legend__name {
+  flex: 1;
+}
+
+.category-legend__percent {
+  margin-left: 12px;
+  font-weight: 800;
+  color: var(--color-charcoal);
+}
+
+/* 범례 색상 */
+.category-legend__dot--food {
+  background: #22263c;
+}
+
+.category-legend__dot--shopping {
+  background: #52617a;
+}
+
+.category-legend__dot--transport {
+  background: #74849c;
+}
+
+.category-legend__dot--hobby {
+  background: #9aabc0;
+}
+
+.category-legend__dot--etc {
+  background: #d8dee7;
+}
+
+/* ---------- TOP1 / 지난 달 대비 카드 ---------- */
+.top-card__label {
+  font-size: 12.5px;
+  color: var(--color-text-secondary);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.top-card__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--color-charcoal);
+  margin-bottom: var(--space-4);
+}
+
+.top-card__emoji {
+  font-size: 20px;
+}
+
+.diff-card__value {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--color-expense);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: var(--space-3);
+}
+
+.diff-card__footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.diff-card__bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 26px;
+  flex: none;
+}
+
+.diff-card__bars span {
+  width: 5px;
+  border-radius: 3px;
+  background: var(--color-expense);
+  opacity: 0.55;
+}
+
+.diff-card__bars span:last-child {
+  opacity: 1;
+}
+
+/* ---------- 요일별 소비 카드 ---------- */
+/* ---------- 요일별 소비 카드 ---------- */
+.weekday-card {
+  min-height: 200px;
+  padding: 22px;
+}
+
+.weekday-card__title {
+  margin-bottom: 24px;
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--color-charcoal);
+}
+
+.weekday-chart {
+  height: 125px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.weekday-chart__col {
+  height: 100%;
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.weekday-chart__bar {
+  width: 20px;
+  max-height: 96px;
+
+  border-radius: 3px 3px 0 0;
+  background: #eef2f7;
+}
+
+.weekday-chart__col.is-peak .weekday-chart__bar {
+  background: var(--color-charcoal);
+}
+
+.weekday-chart__label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.weekday-chart__col.is-peak .weekday-chart__label {
+  font-weight: 800;
+  color: var(--color-charcoal);
+}
+
+/* ---------- AI 소비 분석 카드 ---------- */
+.ai-card {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+}
+
+.ai-card__title {
+  width: 100%;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--color-charcoal);
+  margin-bottom: var(--space-4);
+}
+
+.ai-card__icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-yellow-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+
+.ai-card__icon svg {
+  width: 18px;
+  height: 18px;
+  color: var(--color-yellow);
+}
+
+.ai-card__text {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--color-charcoal);
+}
+
+.category-donut__segment {
+  stroke-linecap: butt;
+}
+
+.category-donut__segment--food {
+  stroke: #22263c;
+}
+
+.category-donut__segment--shopping {
+  stroke: #52617a;
+}
+
+.category-donut__segment--transport {
+  stroke: #74849c;
+}
+
+.category-donut__segment--hobby {
+  stroke: #9aabc0;
+}
+
+.category-donut__segment--etc {
+  stroke: #d8dee7;
+}
+
+/* ---------- 소비 TOP1 / 지난 달 대비 ---------- */
+
+.top-card,
+.diff-card {
+  min-height: 188px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.top-card__label {
+  margin-bottom: 20px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+}
+
+/* 소비 TOP 1 제목 */
+.top-card__title {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  margin-bottom: auto;
+
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--color-charcoal);
+}
+
+.top-card__emoji {
+  font-size: 32px;
+  line-height: 1;
+}
+
+.top-card__amount {
+  margin-bottom: 6px;
+
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--color-charcoal);
+}
+
+/* 지난 달 대비 숫자 */
+.diff-card__value {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin: 0;
+
+  font-size: 40px;
+  font-weight: 800;
+  color: var(--color-expense);
+}
+
+.diff-card__arrow {
+  font-size: 28px;
+  line-height: 1;
+}
+
+/* 하단 설명 + 그래프 */
+.diff-card__footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.diff-card__bars {
+  height: 48px;
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+  flex: none;
+}
+
+.diff-card__bars span {
+  width: 10px;
+  border-radius: 3px 3px 0 0;
+  background: #dce3ec;
+  opacity: 1;
+}
+
+.diff-card__bars span:nth-child(2) {
+  background: #c5d0df;
+}
+
+.diff-card__bars span:nth-child(3) {
+  background: #96a8bf;
+}
+
+/* ---------- AI 소비 분석 ---------- */
+
+.ai-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+} 
+
+.ai-card__title {
+  margin-bottom: 18px;
+
+  font-size: 17px;
+  font-weight: 800;
+
+  color: var(--color-charcoal);
+}
+
+.ai-card__content {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.ai-card__icon {
+  width: 54px;
+  height: 54px;
+
+  flex: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+  background: #F5F7FB;
+
+  font-size: 28px;
+}
+
+.ai-card__text {
+  flex: 1;
+
+  margin: 0;
+
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.8;
+
+  color: var(--color-charcoal);
+}
+
+.ai-analysis {
+  min-height: 120px;
+  padding: 24px;
+}
+
+/* ---------- 이미지 하단 네비게이션 ---------- */
+.image-nav {
+  position: fixed;
+  left: 50%;
+  bottom: calc(12px + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+
+  width: calc(100% - 32px);
+  max-width: calc(var(--app-max-width) - 32px);
+  aspect-ratio: 350 / 58;
+
+  z-index: 100;
+}
+
+.image-nav__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.image-nav__link {
+  position: absolute;
+  top: 0;
+  display: block;
+  height: 100%;
+  border-radius: 24px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.image-nav__link--home {
+  left: 0;
+  width: 20.3%;
+}
+
+.image-nav__link--ledger {
+  left: 20.3%;
+  width: 20.3%;
+}
+
+.image-nav__link--statistics {
+  left: 40.6%;
+  width: 20.3%;
+}
+
+.image-nav__link--more {
+  left: 60.9%;
+  width: 20.3%;
+}
+
+.image-nav__link--purchase {
+  left: 83.4%;
+  width: 16.6%;
+}

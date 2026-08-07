@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>SimSPEND · 가상 구매 입력</title>
+  <link rel="stylesheet" href="common.css">
+  <link rel="stylesheet" href="pay.css">
+</head>
+<body>
+  <div class="app">
+    <main class="pay-page" aria-labelledby="page-title">
+      <header class="page-header">
+        <button type="button" class="icon-button" aria-label="이전 화면으로 이동" id="backButton">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg>
+        </button>
+        <h1 id="page-title">상품 정보</h1>
+      </header>
+
+      <section class="stepper" aria-label="구매 진행 단계">
+        <div class="step is-current">
+          <span class="step__circle">1</span>
+          <span class="step__label">정보 입력</span>
+        </div>
+        <div class="step-line"></div>
+        <div class="step">
+          <span class="step__circle">2</span>
+          <span class="step__label">결제 확인</span>
+        </div>
+        <div class="step-line"></div>
+        <div class="step">
+          <span class="step__circle">3</span>
+          <span class="step__label">준비 중</span>
+        </div>
+        <div class="step-line"></div>
+        <div class="step">
+          <span class="step__circle">4</span>
+          <span class="step__label">배송 중</span>
+        </div>
+        <div class="step-line"></div>
+        <div class="step">
+          <span class="step__circle">5</span>
+          <span class="step__label">도착 완료</span>
+        </div>
+      </section>
+
+      <section class="product-visual" aria-label="선택 상품 이미지">
+        <img
+          src="../design/airpods-max.jpg"
+          alt="실버 색상의 애플 에어팟 맥스"
+        >
+      </section>
+
+      <form class="purchase-form" id="purchaseForm">
+        <section class="form-card form-card--single">
+          <label for="productName">상품명</label>
+          <input id="productName" name="productName" type="text" value="애플 에어팟 맥스" required>
+        </section>
+
+        <div class="form-grid">
+          <section class="form-card">
+            <label for="category">카테고리</label>
+            <div class="select-wrap">
+              <select id="category" name="category">
+                <option value="electronics" selected>전자제품</option>
+                <option value="fashion">패션</option>
+                <option value="beauty">뷰티</option>
+                <option value="home">생활용품</option>
+                <option value="hobby">취미</option>
+              </select>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 10 4 4 4-4"/></svg>
+            </div>
+          </section>
+
+          <section class="form-card">
+            <label for="brand">브랜드</label>
+            <input id="brand" name="brand" type="text" value="Apple">
+          </section>
+        </div>
+
+        <fieldset class="form-card color-card">
+          <legend>컬러 선택</legend>
+          <div class="color-options">
+            <label class="color-option">
+              <input type="radio" name="color" value="스페이스 그레이">
+              <span class="color-chip color-chip--space"></span>
+              <span>스페이스 그레이</span>
+            </label>
+            <label class="color-option is-selected">
+              <input type="radio" name="color" value="실버" checked>
+              <span class="color-chip color-chip--silver"></span>
+              <span>실버</span>
+            </label>
+            <label class="color-option">
+              <input type="radio" name="color" value="스카이 블루">
+              <span class="color-chip color-chip--sky"></span>
+              <span>스카이 블루</span>
+            </label>
+            <label class="color-option">
+              <input type="radio" name="color" value="핑크">
+              <span class="color-chip color-chip--pink"></span>
+              <span>핑크</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <section class="form-card price-card">
+          <label for="price">상품 가격</label>
+          <div class="price-input-wrap">
+            <span>₩</span>
+            <input id="price" name="price" inputmode="numeric" value="769,000" aria-describedby="priceHelp">
+          </div>
+          <p id="priceHelp" class="sr-only">숫자만 입력하면 천 단위 쉼표가 자동으로 표시됩니다.</p>
+        </section>
+
+        <section class="form-card memo-card">
+          <label for="memo">구매 이유 및 메모</label>
+          <textarea id="memo" name="memo" maxlength="120" placeholder="나를 위한 생일 선물, 이번 달 저축 목표 달성 기념"></textarea>
+          <span class="memo-count"><span id="memoCount">0</span>/120</span>
+        </section>
+      </form>
+    </main>
+
+    <footer class="checkout-bar">
+      <div class="checkout-summary">
+        <span>최종 결제 예정 금액</span>
+        <strong id="finalPrice">₩769,000</strong>
+      </div>
+      <button type="submit" form="purchaseForm" class="checkout-button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.2 9.2a2 2 0 0 0 2 1.6h7.5a2 2 0 0 0 1.9-1.4L21 7H7"/><circle cx="10" cy="19" r="1.5"/><circle cx="18" cy="19" r="1.5"/></svg>
+        가상 결제하기
+      </button>
+    </footer>
+
+    <div class="toast" id="toast" role="status" aria-live="polite">가상 구매 정보가 저장되었습니다.</div>
+  </div>
+
+  <script src="pay.js"></script>
+</body>
+</html>

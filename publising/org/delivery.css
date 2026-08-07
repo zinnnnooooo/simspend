@@ -1,0 +1,177 @@
+/* ==========================================================================
+   SimSPEND · delivery.css (delivery.html - 가상 배송)
+   ========================================================================== */
+
+.delivery {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 64px var(--space-6) var(--space-8);
+}
+
+.delivery__title {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--color-charcoal);
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.delivery__subtitle {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  text-align: center;
+  margin-bottom: var(--space-6);
+}
+
+.delivery__card {
+  padding: var(--space-6) var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  margin-bottom: var(--space-6);
+}
+
+/* 총 구매금액 서브 카드 */
+.delivery__amount-box {
+  background: var(--color-bg);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  text-align: center;
+}
+
+.delivery__amount-label {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin-bottom: 6px;
+}
+
+.delivery__amount-value {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--color-charcoal);
+}
+
+/* 배송 프로세스 */
+.delivery__process-label {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--color-charcoal);
+  text-align: center;
+}
+
+.delivery__stepper {
+  display: flex;
+  align-items: flex-start;
+}
+
+.delivery__step {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.delivery__step-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-border);
+  color: var(--color-text-muted);
+  flex: none;
+}
+
+.delivery__step-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.delivery__step.is-active .delivery__step-icon,
+.delivery__step.is-done .delivery__step-icon {
+  color: #ffffff;
+}
+
+.delivery__step.is-active .delivery__step-icon,
+.delivery__step.is-done .delivery__step-icon {
+  background: var(--color-yellow);
+}
+
+.delivery__step-label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.delivery__step.is-active .delivery__step-label,
+.delivery__step.is-done .delivery__step-label {
+  color: var(--color-charcoal);
+  font-weight: 800;
+}
+
+.delivery__connector {
+  flex: none;
+  width: 46px;
+  height: 2px;
+  background: var(--color-border);
+  margin-top: 22px;
+}
+
+.delivery__connector.is-filled {
+  background: var(--color-charcoal);
+}
+
+/* 안내 배너 */
+.delivery__banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: var(--color-yellow-soft);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+}
+
+.delivery__banner-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--color-yellow);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  font-size: 12px;
+  font-weight: 800;
+  margin-top: 1px;
+}
+
+.delivery__banner-text {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--color-charcoal);
+}
+
+/* CTA */
+.delivery__cta {
+  margin-top: auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--color-charcoal);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 800;
+  padding: var(--space-4) 0;
+  border-radius: var(--radius-pill);
+}
+
+.delivery__cta svg {
+  width: 18px;
+  height: 18px;
+}

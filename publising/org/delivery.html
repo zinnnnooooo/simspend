@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>SimSPEND · 가상 배송</title>
+  <link rel="stylesheet" href="common.css" />
+  <link rel="stylesheet" href="delivery.css" />
+</head>
+<body>
+  <div class="app">
+    <main class="delivery">
+      <h1 class="delivery__title">축하합니다!</h1>
+      <p class="delivery__subtitle">심스펜드에 성공하셨습니다. 🎉</p>
+
+      <section class="card delivery__card">
+        <div class="delivery__amount-box">
+          <p class="delivery__amount-label">오늘 심스펜드에서 구매한 총 금액</p>
+          <p class="delivery__amount-value" id="deliveryAmount">₩0</p>
+        </div>
+
+        <div>
+          <p class="delivery__process-label">배송 프로세스</p>
+          <div class="delivery__stepper" id="deliveryStepper"></div>
+        </div>
+
+        <div class="delivery__banner">
+          <span class="delivery__banner-icon" aria-hidden="true">i</span>
+          <p class="delivery__banner-text">
+            절약된 금액이 가상 자산 금고로 안전하게 이동되었습니다. 내일도 습관을 이어가 보세요!
+          </p>
+        </div>
+      </section>
+
+      <a href="index.html" class="delivery__cta">
+        대시보드로 돌아가기
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5 12h14M13 6l6 6-6 6" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </main>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="delivery.js"></script>
+</body>
+</html>

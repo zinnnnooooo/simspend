@@ -1,0 +1,263 @@
+/* ==========================================================================
+   SimSPEND · target.css (target.html - 저축 목표 관리)
+   ========================================================================== */
+
+.target {
+  padding: var(--space-5) var(--space-4) 110px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  position: relative;
+}
+
+/* ---------- 총 모은 금액 카드 ---------- */
+.total-saved-card {
+  background: var(--color-charcoal);
+  border-radius: var(--radius-card);
+  padding: var(--space-5) var(--space-5) var(--space-6);
+}
+
+.total-saved-card__label {
+  font-size: 13px;
+  color: #B7B9CC;
+  margin-bottom: 8px;
+}
+
+.total-saved-card__value {
+  font-size: 30px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+/* ---------- 목표 카드 리스트 ---------- */
+.target-goal-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* ---------- 목표 카드 ---------- */
+.goal-item {
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+}
+
+.goal-item__top {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.goal-item__icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  background: #EEEFF3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+
+.goal-item__icon svg {
+  width: 22px;
+  height: 22px;
+  color: var(--color-charcoal);
+}
+
+.goal-item__title-wrap {
+  flex: 1;
+}
+
+.goal-item__title {
+  font-size: 15.5px;
+  font-weight: 800;
+  color: var(--color-charcoal);
+  margin-bottom: 2px;
+}
+
+.goal-item__meta {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.goal-item__percent {
+  font-size: 19px;
+  font-weight: 800;
+  color: var(--color-charcoal);
+  flex: none;
+}
+
+.goal-item__amount-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--color-charcoal);
+  margin-bottom: 8px;
+}
+
+.goal-item__amount-row span:last-child {
+  color: var(--color-text-secondary);
+  font-weight: 600;
+}
+
+.goal-item__bar {
+  width: 100%;
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--color-border);
+  overflow: hidden;
+  margin-bottom: var(--space-4);
+}
+
+.goal-item__bar-fill {
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--color-charcoal);
+}
+
+/* actionType: edit-fill */
+.goal-item__actions {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.goal-item__btn {
+  flex: 1;
+  text-align: center;
+  padding: var(--space-3) 0;
+  border-radius: var(--radius-md);
+  font-size: 13.5px;
+  font-weight: 700;
+}
+
+.goal-item__btn--ghost {
+  background: var(--color-bg);
+  color: var(--color-charcoal);
+}
+
+.goal-item__btn--solid {
+  background: var(--color-charcoal);
+  color: #ffffff;
+}
+
+/* actionType: tip */
+.goal-item__tip {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: var(--color-yellow-soft);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+}
+
+.goal-item__tip-icon {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-yellow);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  font-size: 11px;
+  font-weight: 800;
+  margin-top: 1px;
+}
+
+.goal-item__tip-text {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--color-charcoal);
+}
+
+/* actionType: celebrate */
+.goal-item__celebrate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--color-charcoal);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 800;
+  padding: var(--space-4) 0;
+  border-radius: var(--radius-md);
+}
+
+/* ---------- 새 목표 추가 카드 ---------- */
+.add-goal-card {
+  border: 1.5px dashed #C9CBD6;
+  border-radius: var(--radius-card);
+  padding: var(--space-8) var(--space-5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+}
+
+.add-goal-card__icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--color-bg);
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-goal-card__icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.add-goal-card__title {
+  font-size: 14.5px;
+  font-weight: 800;
+  color: var(--color-charcoal);
+}
+
+.add-goal-card__subtitle {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+/* ---------- 새 목표 FAB (원형, 차콜) ---------- */
+.target__fab-wrap {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 100px;
+  width: 100%;
+  max-width: var(--app-max-width);
+  height: 0;
+  z-index: 15;
+  pointer-events: none;
+}
+
+.target__fab {
+  position: absolute;
+  right: 14px;
+  bottom: 0;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--color-charcoal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 20px rgba(43, 45, 66, 0.35);
+  pointer-events: auto;
+}
+
+.target__fab svg {
+  width: 22px;
+  height: 22px;
+}

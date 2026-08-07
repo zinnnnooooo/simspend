@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>SimSPEND · 가계부 작성</title>
+  <link rel="stylesheet" href="common.css" />
+  <link rel="stylesheet" href="add.css" />
+</head>
+<body>
+  <div class="app">
+    <main class="ledger">
+
+      <!-- 헤더 -->
+      <header class="page-header">
+        <a href="index.html" class="page-header__back" aria-label="뒤로가기">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 5 8 12l7 7" stroke="#2B2D42" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <h1 class="page-header__title">가계부</h1>
+      </header>
+
+      <!-- 이번 달 총 사용 금액 -->
+      <section class="ledger__total">
+        <p class="ledger__total-label">이번 달 총 사용 금액</p>
+        <p class="ledger__total-value" id="monthTotal">₩0</p>
+      </section>
+
+      <!-- 캘린더 -->
+      <section class="card calendar-card">
+        <div class="calendar__nav">
+          <button type="button" class="calendar__nav-btn" id="prevMonthBtn" aria-label="이전 달">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M15 5 8 12l7 7" stroke="#2B2D42" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <span class="calendar__nav-label" id="calendarMonthLabel">2024년 10월</span>
+          <button type="button" class="calendar__nav-btn" id="nextMonthBtn" aria-label="다음 달">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 5l7 7-7 7" stroke="#2B2D42" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+        <div class="calendar__weekdays">
+          <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
+        </div>
+        <div class="calendar__grid" id="calendarGrid"></div>
+      </section>
+
+      <!-- 내역 리스트 -->
+      <section>
+        <div class="ledger-list__header">
+          <p class="ledger-list__title">내역 리스트</p>
+          <span class="ledger-list__sort">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 5v14M4 8l3-3 3 3M17 19V5M14 16l3 3 3-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            최신순
+          </span>
+        </div>
+        <div id="ledgerList"></div>
+      </section>
+
+    </main>
+
+    <!-- 작성하기 FAB -->
+    <div class="ledger__fab-wrap">
+      <button type="button" class="ledger__fab" id="openSheetBtn" aria-label="가계부 작성하기">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 5v14M5 12h14" stroke="#2B2D42" stroke-width="2.2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- 하단 내비게이션 -->
+    <nav class="image-nav" aria-label="하단 메뉴">
+
+      <img
+        src="../../design/nav_bar.svg"
+        alt=""
+        class="image-nav__image"
+        aria-hidden="true"
+      />
+    
+      <!-- 홈 -->
+      <a
+        href="index.html"
+        class="image-nav__link image-nav__link--home"
+        aria-label="홈"
+      ></a>
+    
+      <!-- 가계부 -->
+      <a
+        href="add.html"
+        class="image-nav__link image-nav__link--ledger"
+        aria-label="가계부"
+      ></a>
+    
+      <!-- 통계 -->
+      <a
+        href="statistics.html"
+        class="image-nav__link image-nav__link--statistics"
+        aria-label="통계"
+      ></a>
+    
+      <!-- 더보기 -->
+      <a
+        href="more.html"
+        class="image-nav__link image-nav__link--more"
+        aria-label="더보기"
+      ></a>
+    
+      <!-- 가상 구매 -->
+      <a
+        href="pay.html"
+        class="image-nav__link image-nav__link--purchase"
+        aria-label="가상 구매"
+      ></a>
+    
+    </nav>
+
+    <!-- 가계부 작성 입력 폼 (바텀시트) -->
+    <div class="sheet-overlay" id="sheetOverlay">
+      <form class="sheet" id="txForm">
+        <div class="sheet__handle"></div>
+        <p class="sheet__title">가계부 작성</p>
+
+        <div class="field">
+          <label class="field__label" for="txDate">날짜</label>
+          <input class="field__input" type="date" id="txDate" required />
+        </div>
+
+        <div class="field">
+          <label class="field__label">수입 / 지출</label>
+          <div class="segment" id="typeSegment">
+            <span class="segment__btn is-active" data-type="expense">지출</span>
+            <span class="segment__btn" data-type="income">수입</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="txAmount">금액</label>
+          <input class="field__input" type="number" id="txAmount" placeholder="0" min="0" required />
+        </div>
+
+        <div class="field">
+          <label class="field__label">카테고리</label>
+          <div class="chip-group" id="categoryChips">
+            <span class="chip is-active" data-category="식비">식비</span>
+            <span class="chip" data-category="교통">교통</span>
+            <span class="chip" data-category="쇼핑">쇼핑</span>
+            <span class="chip" data-category="구독">구독</span>
+            <span class="chip" data-category="의료">의료</span>
+            <span class="chip" data-category="주거">주거</span>
+            <span class="chip" data-category="여행">여행</span>
+            <span class="chip" data-category="기타">기타</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="txPayment">결제 수단</label>
+          <select class="field__input" id="txPayment">
+            <option value="카드">카드</option>
+            <option value="현금">현금</option>
+            <option value="계좌이체">계좌이체</option>
+            <option value="정기지출">정기지출</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="txMemo">메모</label>
+          <input class="field__input" type="text" id="txMemo" placeholder="예: 스타벅스 신사점" />
+        </div>
+
+        <button type="submit" class="sheet__submit">저장하기</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="add.js"></script>
+</body>
+</html>

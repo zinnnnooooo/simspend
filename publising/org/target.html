@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>SimSPEND · 저축 목표 관리</title>
+  <link rel="stylesheet" href="common.css" />
+  <link rel="stylesheet" href="target.css" />
+</head>
+<body>
+  <div class="app">
+    <main class="target">
+
+      <!-- 헤더 -->
+      <header class="page-header">
+        <a href="index.html" class="page-header__back" aria-label="뒤로가기">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 5 8 12l7 7" stroke="#2B2D42" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <h1 class="page-header__title">저축 목표 관리</h1>
+      </header>
+
+      <!-- 총 모은 금액 -->
+      <section class="total-saved-card">
+        <p class="total-saved-card__label">총 모은 금액</p>
+        <p class="total-saved-card__value" id="totalSaved">₩0</p>
+      </section>
+
+      <!-- 목표 카드 리스트 -->
+      <div id="goalList" class="target-goal-list"></div>
+
+      <!-- 새 목표 추가 -->
+      <a href="#" class="add-goal-card">
+        <span class="add-goal-card__icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 6v12M6 12h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <p class="add-goal-card__title">새로운 목표를 세워보세요</p>
+        <p class="add-goal-card__subtitle">꿈꾸던 것을 현실로 만드는 가장 빠른 방법</p>
+      </a>
+
+    </main>
+
+    <!-- 새 목표 추가 FAB -->
+    <div class="target__fab-wrap">
+      <a href="#" class="target__fab" aria-label="새 목표 추가">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 5v14M5 12h14" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/>
+        </svg>
+      </a>
+    </div>
+
+    <!-- 하단 내비게이션 -->
+    <nav class="bottom-nav">
+      <a href="index.html" class="bottom-nav__item is-active">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 10.5 12 4l8 6.5" stroke="#FFAE00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M6 9.5V19a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V9.5" stroke="#FFAE00" stroke-width="2" stroke-linejoin="round"/>
+        </svg>
+        <span class="bottom-nav__label">홈</span>
+      </a>
+      <a href="list.html" class="bottom-nav__item">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="3.5" y="6" width="17" height="13" rx="2.4" stroke="#2B2D42" stroke-width="1.8"/>
+          <path d="M3.5 10.5h17" stroke="#2B2D42" stroke-width="1.8"/>
+          <circle cx="16.5" cy="14.3" r="1.1" fill="#2B2D42"/>
+        </svg>
+        <span class="bottom-nav__label">가계부</span>
+      </a>
+      <a href="statistics.html" class="bottom-nav__item">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="8.5" stroke="#2F9E6E" stroke-width="1.8"/>
+          <path d="M8.3 12.3 10.7 14.7 15.6 9.8" stroke="#2F9E6E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="bottom-nav__label">통계</span>
+      </a>
+      <a href="#" class="bottom-nav__item">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="5.5" cy="12" r="1.6" fill="#8B8D9B"/>
+          <circle cx="12" cy="12" r="1.6" fill="#8B8D9B"/>
+          <circle cx="18.5" cy="12" r="1.6" fill="#8B8D9B"/>
+        </svg>
+        <span class="bottom-nav__label">더보기</span>
+      </a>
+
+      <a href="add.html" class="bottom-nav__fab" aria-label="가계부 작성하기">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 9.5 12 5l6 4.5" stroke="#2B2D42" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="5.5" y="9" width="13" height="9.5" rx="2.4" stroke="#2B2D42" stroke-width="1.8"/>
+          <path d="M12 12v3.4M10.3 13.7h3.4" stroke="#2B2D42" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </a>
+    </nav>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="target.js"></script>
+</body>
+</html>

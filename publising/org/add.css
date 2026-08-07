@@ -1,0 +1,469 @@
+/* ==========================================================================
+   SimSPEND · add.css (add.html - 가계부 작성)
+   ========================================================================== */
+
+.ledger {
+  padding: var(--space-2) var(--space-4) 110px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  position: relative;
+}
+
+/* ---------- 이번 달 총 사용 금액 ---------- */
+.ledger__total {
+  text-align: center;
+  padding: var(--space-4) 0 var(--space-2);
+}
+
+.ledger__total-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-charcoal);
+  margin-bottom: 8px;
+}
+
+.ledger__total-value {
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--color-yellow);
+}
+
+/* ---------- 캘린더 카드 ---------- */
+.calendar-card {
+  padding: var(--space-5) var(--space-4);
+}
+
+.calendar__nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-5);
+  margin-bottom: var(--space-4);
+}
+
+.calendar__nav-btn {
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-charcoal);
+}
+
+.calendar__nav-label {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--color-charcoal);
+  min-width: 108px;
+  text-align: center;
+}
+
+.calendar__weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 6px;
+}
+
+.calendar__weekdays span {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+}
+
+.calendar__weekdays span:first-child {
+  color: var(--color-expense);
+}
+
+.calendar__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  row-gap: 6px;
+}
+
+.calendar__cell {
+  min-height: 42px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2px;
+  border-radius: 10px;
+  padding-top: 4px;
+}
+
+.calendar__cell.is-selected {
+  background: var(--color-bg);
+}
+
+.calendar__date-num {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-charcoal);
+}
+
+.calendar__amount {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--color-expense);
+}
+
+/* ---------- 내역 리스트 ---------- */
+.ledger-list__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ledger-list__title {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--color-charcoal);
+}
+
+.ledger-list__sort {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12.5px;
+  color: var(--color-text-secondary);
+  font-weight: 600;
+}
+
+.ledger-list__sort svg {
+  width: 14px;
+  height: 14px;
+}
+
+.ledger-day {
+  margin-top: var(--space-4);
+}
+
+.ledger-day__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px;
+  margin-bottom: var(--space-2);
+}
+
+.ledger-day__date {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-charcoal);
+}
+
+.ledger-day__total {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.ledger-card {
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.ledger-tx {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.ledger-tx + .ledger-tx {
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+.ledger-tx__icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--color-yellow-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+
+.ledger-tx__icon svg {
+  width: 18px;
+  height: 18px;
+  color: #C97B00;
+}
+
+.ledger-tx__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.ledger-tx__memo {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--color-charcoal);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ledger-tx__meta {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  margin-top: 2px;
+}
+
+.ledger-tx__amount {
+  font-size: 14.5px;
+  font-weight: 800;
+  color: var(--color-expense);
+  flex: none;
+}
+
+.ledger-tx__amount.is-income {
+  color: var(--color-income);
+}
+
+.ledger__empty {
+  text-align: center;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  padding: var(--space-6) 0;
+}
+
+/* ---------- 작성하기 FAB ---------- */
+.ledger__fab-wrap {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 100px;
+  width: 100%;
+  max-width: var(--app-max-width);
+  height: 0;
+  z-index: 15;
+  pointer-events: none;
+}
+
+.ledger__fab {
+  position: absolute;
+  right: 14px;
+  bottom: 0;
+  width: 54px;
+  height: 54px;
+  border-radius: var(--radius-md);
+  background: var(--color-yellow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-float);
+  pointer-events: auto;
+}
+
+.ledger__fab svg {
+  width: 26px;
+  height: 26px;
+}
+
+/* ==========================================================================
+   가계부 작성 입력 폼 (바텀시트)
+   ========================================================================== */
+
+.sheet-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(30, 31, 46, 0.45);
+  z-index: 40;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.sheet-overlay.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.sheet {
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  transform: translate(-50%, 100%);
+  width: 100%;
+  max-width: var(--app-max-width);
+  background: var(--color-surface);
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  padding: var(--space-5) var(--space-5) calc(var(--space-6) + env(safe-area-inset-bottom));
+  z-index: 41;
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  max-height: 88vh;
+  overflow-y: auto;
+}
+
+.sheet-overlay.is-open .sheet {
+  transform: translate(-50%, 0);
+}
+
+.sheet__handle {
+  width: 40px;
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--color-border);
+  margin: 0 auto var(--space-5);
+}
+
+.sheet__title {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--color-charcoal);
+  text-align: center;
+  margin-bottom: var(--space-5);
+}
+
+.field {
+  margin-bottom: var(--space-4);
+}
+
+.field__label {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  margin-bottom: 8px;
+}
+
+.field__input {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 14.5px;
+  color: var(--color-charcoal);
+  background: #ffffff;
+}
+
+.field__input:focus {
+  outline: none;
+  border-color: var(--color-charcoal);
+}
+
+/* 지출/수입 세그먼트 토글 */
+.segment {
+  display: flex;
+  background: var(--color-bg);
+  border-radius: var(--radius-md);
+  padding: 4px;
+  gap: 4px;
+}
+
+.segment__btn {
+  flex: 1;
+  text-align: center;
+  padding: 10px 0;
+  border-radius: 10px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+}
+
+.segment__btn.is-active {
+  background: var(--color-charcoal);
+  color: #ffffff;
+}
+
+/* 카테고리 칩 */
+.chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  padding: 9px 14px;
+  border-radius: var(--radius-pill);
+  background: var(--color-bg);
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.chip.is-active {
+  background: var(--color-yellow);
+  color: var(--color-charcoal);
+}
+
+.sheet__submit {
+  width: 100%;
+  margin-top: var(--space-2);
+  padding: var(--space-4) 0;
+  border-radius: var(--radius-pill);
+  background: var(--color-charcoal);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.sheet__submit:disabled {
+  opacity: 0.4;
+}
+
+/* ---------- 이미지 하단 네비게이션 ---------- */
+.image-nav {
+  position: fixed;
+  left: 50%;
+  bottom: calc(12px + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+
+  width: calc(100% - 32px);
+  max-width: calc(var(--app-max-width) - 32px);
+  aspect-ratio: 350 / 58;
+
+  z-index: 100;
+}
+
+.image-nav__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.image-nav__link {
+  position: absolute;
+  top: 0;
+  display: block;
+  height: 100%;
+  border-radius: 24px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.image-nav__link--home {
+  left: 0;
+  width: 20.3%;
+}
+
+.image-nav__link--ledger {
+  left: 20.3%;
+  width: 20.3%;
+}
+
+.image-nav__link--statistics {
+  left: 40.6%;
+  width: 20.3%;
+}
+
+.image-nav__link--more {
+  left: 60.9%;
+  width: 20.3%;
+}
+
+.image-nav__link--purchase {
+  left: 83.4%;
+  width: 16.6%;
+}

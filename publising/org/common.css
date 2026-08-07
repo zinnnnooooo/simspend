@@ -1,0 +1,230 @@
+/* ==========================================================================
+   SimSPEND · common.css
+   공통 변수, 리셋, 베이스 스타일
+   ========================================================================== */
+
+:root {
+  /* Color */
+  --color-charcoal: #2B2D42;
+  --color-charcoal-soft: #4C4F6B;
+  --color-yellow: #FFAE00;
+  --color-yellow-soft: #FFF3D9;
+  --color-bg: #F4F5F7;
+  --color-surface: #FFFFFF;
+  --color-border: #ECEDF1;
+  --color-text-primary: #1E1F2E;
+  --color-text-secondary: #8B8D9B;
+  --color-text-muted: #B5B7C3;
+  --color-expense: #FF5A5F;
+  --color-income: #2F9E6E;
+
+  /* Radius */
+  --radius-card: 20px;
+  --radius-md: 14px;
+  --radius-sm: 10px;
+  --radius-pill: 999px;
+
+  /* Shadow */
+  --shadow-card: 0 8px 24px rgba(43, 45, 66, 0.06);
+  --shadow-float: 0 10px 20px rgba(255, 174, 0, 0.35);
+
+  /* Layout */
+  --app-max-width: 480px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+
+  /* Type */
+  --font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+    "Segoe UI", Roboto, "Malgun Gothic", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-family);
+  background: var(--color-bg);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  font-family: inherit;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: inherit;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+input, select, textarea {
+  font-family: inherit;
+  color: inherit;
+}
+
+/* App shell: 모바일 우선, 480px 중앙 정렬 (데스크톱에서 확인용) */
+.app {
+  width: 100%;
+  max-width: var(--app-max-width);
+  min-height: 100vh;
+  margin: 0 auto;
+  position: relative;
+  background: var(--color-bg);
+  overflow-x: hidden;
+}
+
+/* 공통 카드 */
+.card {
+  background: var(--color-surface);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+}
+
+/* 공통 버튼 */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.btn:active {
+  transform: scale(0.98);
+  opacity: 0.9;
+}
+
+.btn-primary {
+  background: var(--color-charcoal);
+  color: #FFFFFF;
+}
+
+.btn-accent {
+  background: var(--color-yellow);
+  color: var(--color-charcoal);
+}
+
+/* 공통 페이지 헤더 (뒤로가기 + 타이틀, 여러 화면에서 공유) */
+.page-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2) 0 var(--space-3);
+}
+
+.page-header__back {
+  position: absolute;
+  left: 0;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-charcoal);
+}
+
+.page-header__title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--color-charcoal);
+}
+
+/* 공통 하단 내비게이션 (index/statistics/list/add 등 여러 화면에서 공유) */
+.bottom-nav {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+  width: 100%;
+  max-width: var(--app-max-width);
+  background: var(--color-surface);
+  border-top-left-radius: 22px;
+  border-top-right-radius: 22px;
+  box-shadow: 0 -8px 24px rgba(43, 45, 66, 0.08);
+  display: flex;
+  align-items: center;
+  padding: 10px var(--space-4) calc(10px + env(safe-area-inset-bottom));
+  z-index: 20;
+}
+
+.bottom-nav__item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.bottom-nav__item svg {
+  width: 22px;
+  height: 22px;
+}
+
+.bottom-nav__label {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.bottom-nav__item.is-active .bottom-nav__label {
+  color: var(--color-charcoal);
+  font-weight: 800;
+}
+
+.bottom-nav__fab {
+  position: absolute;
+  right: 14px;
+  bottom: 30px;
+  width: 54px;
+  height: 54px;
+  border-radius: var(--radius-md);
+  background: var(--color-yellow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-float);
+}
+
+.bottom-nav__fab svg {
+  width: 26px;
+  height: 26px;
+}
+
+/* 스크린 리더 전용 */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

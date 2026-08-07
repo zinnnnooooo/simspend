@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>SimSPEND · 스플래시</title>
+  <link rel="stylesheet" href="common.css" />
+  <link rel="stylesheet" href="splash.css" />
+</head>
+<body>
+  <div class="app">
+    <main class="splash" id="splash">
+      <div class="splash__spacer-top" aria-hidden="true"></div>
+
+      <div class="splash__brand">
+        <!-- 로고: 쇼핑백 + 하트 + 계산기 -->
+        <svg class="splash__logo" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="SimSPEND 로고">
+          <!-- 가방 손잡이 -->
+          <path d="M45 37 Q45 15 60 15 Q75 15 75 37"
+                fill="none" stroke="#1E1F2E" stroke-width="6.5" stroke-linecap="round"/>
+          <!-- 가방 몸체 -->
+          <rect x="21" y="34" width="78" height="62" rx="20"
+                fill="#FFFFFF" stroke="#1E1F2E" stroke-width="6.5"/>
+          <!-- 하트 -->
+          <path d="M60 74
+                   C 52 67, 40 60, 40 49
+                   C 40 42, 45 37, 52 37
+                   C 56 37, 59 39, 60 43
+                   C 61 39, 64 37, 68 37
+                   C 75 37, 80 42, 80 49
+                   C 80 60, 68 67, 60 74 Z"
+                fill="#FFAE00"/>
+          <!-- 계산기 (가방 위에 겹쳐 배치) -->
+          <g transform="translate(70,58)">
+            <rect x="0" y="0" width="34" height="44" rx="8"
+                  fill="#FFFFFF" stroke="#1E1F2E" stroke-width="5.5"/>
+            <rect x="5.5" y="6.5" width="23" height="9" rx="3" fill="#FFAE00"/>
+            <rect x="6" y="21" width="6" height="6" rx="1.6" fill="#1E1F2E"/>
+            <rect x="14" y="21" width="6" height="6" rx="1.6" fill="#1E1F2E"/>
+            <rect x="22" y="21" width="6" height="6" rx="1.6" fill="#1E1F2E"/>
+            <rect x="6" y="30" width="6" height="6" rx="1.6" fill="#1E1F2E"/>
+            <rect x="14" y="30" width="6" height="6" rx="1.6" fill="#1E1F2E"/>
+            <rect x="22" y="30" width="6" height="6" rx="1.6" fill="#1E1F2E"/>
+          </g>
+        </svg>
+
+        <p class="splash__tagline">당신의 소비 습관을 지키는 가장 쉬운 방법</p>
+        <h1 class="splash__wordmark">SimSPEND</h1>
+      </div>
+
+      <div class="splash__spacer-grow" aria-hidden="true"></div>
+
+      <div class="splash__footer">
+        <div class="splash__progress-track" role="progressbar" aria-label="로딩 중">
+          <div class="splash__progress-fill"></div>
+        </div>
+        <p class="splash__secure">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="5" y="10" width="14" height="10" rx="2" stroke="currentColor" stroke-width="2"/>
+            <path d="M8 10V7a4 4 0 0 1 8 0v3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          Securely managed by SimSpend Finance
+        </p>
+      </div>
+    </main>
+  </div>
+
+  <script src="splash.js"></script>
+</body>
+</html>

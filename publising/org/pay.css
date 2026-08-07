@@ -1,0 +1,425 @@
+.pay-page {
+  padding: 18px 20px 156px;
+}
+
+.pay-page .page-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  height: 42px;
+}
+
+.pay-page .page-header .icon-button {
+  position: static;
+  flex: none;
+  width: 34px;
+  height: 34px;
+}
+
+.pay-page .page-header h1 {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+
+  margin: 0;
+
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--color-purple);
+}
+
+.icon-button {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  color: var(--color-purple);
+  cursor: pointer;
+}
+
+.icon-button svg {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.stepper {
+  display: grid;
+  grid-template-columns: auto 1fr auto 1fr auto 1fr auto 1fr auto;
+  align-items: start;
+  margin: 20px 7px 28px;
+}
+
+.step {
+  position: relative;
+  z-index: 1;
+  width: 50px;
+  text-align: center;
+}
+
+.step__circle {
+  width: 32px;
+  height: 32px;
+  margin: 0 auto 7px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #96a6bb;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.step__label {
+  display: block;
+  white-space: nowrap;
+  font-size: 11px;
+  color: #777f8b;
+}
+
+.step.is-current .step__circle {
+  background: var(--color-charcoal);
+}
+
+.step.is-current .step__label {
+  color: var(--color-yellow);
+  font-weight: 700;
+}
+
+.step-line {
+  height: 2px;
+  margin-top: 16px;
+  background: #e4e9ef;
+}
+
+/* 상품 이미지 */
+.product-visual {
+  width: 100%;
+  height: auto;
+  margin-bottom: 30px;
+  overflow: hidden;
+  border-radius: var(--radius-card);
+  background: transparent;
+  box-shadow: var(--shadow-card);
+}
+
+.product-visual img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: inherit;
+}
+
+/* 입력 폼 */
+.purchase-form {
+  display: grid;
+  gap: 15px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+/* 모든 입력 카드 공통 */
+.form-card {
+  min-height: 74px;
+  padding: 17px 17px 14px;
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.form-card label,
+.form-card legend {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #252d3c;
+}
+
+.form-card input,
+.form-card select,
+.form-card textarea {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #171d27;
+}
+
+.form-card input {
+  font-size: 19px;
+}
+
+/* 셀렉트 */
+.select-wrap {
+  position: relative;
+}
+
+.select-wrap select {
+  appearance: none;
+  padding-right: 24px;
+  font-size: 17px;
+}
+
+.select-wrap svg {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 17px;
+  height: 17px;
+  transform: translateY(-50%);
+  fill: none;
+  stroke: #b4c2b2;
+  stroke-width: 2;
+}
+
+/* 컬러 선택 카드 */
+.color-card {
+  position: relative;
+  min-width: 0;
+  margin: 0;
+  padding: 32px 17px 18px;
+  padding-top: 50px;
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.color-card legend {
+  position: absolute;
+  top: 11px;
+  left: 17px;
+  width: auto;
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+}
+
+.color-options {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.color-option {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;                 /* 8px → 4px */
+  min-width: 0;
+  margin: 0 !important;
+  padding-bottom: 4px;      /* 아래에서 살짝 띄움 */
+  text-align: center;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  cursor: pointer;
+}
+
+.color-option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.color-chip {
+  width: 38px;
+  height: 38px;
+  flex: none;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px #e5e7eb;
+}
+
+.color-option.is-selected .color-chip {
+  box-shadow: 0 0 0 2px var(--color-yellow);
+}
+
+.color-option.is-selected span:last-child {
+  color: var(--color-yellow);
+  font-weight: 700;
+}
+
+.color-chip--space {
+  background: #44464a;
+}
+
+.color-chip--silver {
+  background: linear-gradient(145deg, #d7dadd, #f8f8f8);
+}
+
+.color-chip--sky {
+  background: #9db5c8;
+}
+
+.color-chip--pink {
+  background: #e98777;
+}
+
+/* 가격 카드 */
+.price-card {
+  min-height: 101px;
+}
+
+.price-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.price-input-wrap span,
+.price-input-wrap input {
+  color: var(--color-charcoal);
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+/* 메모 카드 */
+.memo-card {
+  position: relative;
+  min-height: 145px;
+}
+
+.memo-card textarea {
+  height: 76px;
+  resize: none;
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+.memo-card textarea::placeholder {
+  color: #c2c3c6;
+}
+
+.memo-count {
+  position: absolute;
+  right: 17px;
+  bottom: 13px;
+  font-size: 11px;
+  color: #b6bac1;
+}
+
+/* 하단 결제 영역 */
+.checkout-bar {
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  z-index: 10;
+  width: min(100%, 480px);
+  transform: translateX(-50%);
+  padding: 18px 20px calc(19px + env(safe-area-inset-bottom));
+  background: rgba(255, 255, 255, 0.96);
+  border-top: 1px solid rgba(24, 34, 53, 0.05);
+  backdrop-filter: blur(16px);
+}
+
+.checkout-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.checkout-summary span {
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.checkout-summary strong {
+  color: var(--color-yellow);
+  font-size: 28px;
+  line-height: 1;
+}
+
+.checkout-button {
+  width: 100%;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 0;
+  border-radius: var(--radius-card);
+  background: var(--color-charcoal);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 800;
+  box-shadow: 0 5px 10px rgba(24, 34, 53, 0.2);
+  cursor: pointer;
+}
+
+.checkout-button svg {
+  width: 23px;
+  height: 23px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* 토스트 */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 150px;
+  z-index: 30;
+  transform: translate(-50%, 16px);
+  padding: 12px 17px;
+  border-radius: 999px;
+  background: rgba(32, 43, 64, 0.95);
+  color: #fff;
+  font-size: 13px;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.25s ease;
+  white-space: nowrap;
+}
+
+.toast.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+@media (max-width: 360px) {
+  .pay-page {
+    padding-inline: 14px;
+  }
+
+  .step {
+    width: 44px;
+  }
+
+  .step__label {
+    font-size: 10px;
+  }
+
+  .form-grid {
+    gap: 10px;
+  }
+
+  .checkout-bar {
+    padding-inline: 14px;
+  }
+
+  .checkout-summary strong {
+    font-size: 24px;
+  }
+}
