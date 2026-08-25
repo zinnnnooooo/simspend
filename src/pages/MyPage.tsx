@@ -3,10 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useThemeMode } from '@/context/ThemeContext';
 import { UserProfile, PROFILE_STORAGE_KEY, defaultProfile } from '@/pages/EditProfile';
+import { useAuth } from '@/context/AuthContext';
 
 export const MyPage: React.FC = () => {
   const navigate = useNavigate();
   const { isDarkMode, toggleDarkMode } = useThemeMode();
+  const { user, loginWithGoogle, logout } = useAuth();
 
   const [profile, setProfile] = useState<UserProfile>(() => {
     try {
@@ -48,7 +50,17 @@ export const MyPage: React.FC = () => {
       {/* 프로필 카드 */}
       <Card 
         className="profile-card" 
-        onClick={() => navigate('/edit-profile')} 
+        onClick={async () => {
+          if (!user) {
+            try {
+              await loginWithGoogle();
+            } catch (error) {
+              console.error('로그인 에러:', error);
+            }
+          } else {
+            navigate('/edit-profile');
+          }
+        }} 
         style={{ cursor: 'pointer' }}
       >
         <ProfileAvatar id="profileAvatar" style={{ backgroundColor: profile.bgColor }}>
@@ -65,8 +77,8 @@ export const MyPage: React.FC = () => {
           )}
         </ProfileAvatar>
         <ProfileInfo>
-          <p className="profile-card__name">{profile.name} 님</p>
-          <p className="profile-card__email">{profile.email}</p>
+          <p className="profile-card__name">{user ? `${profile.name} 님` : '로그인이 필요합니다'}</p>
+          <p className="profile-card__email">{user ? profile.email : '여기를 눌러 Google 로그인하기'}</p>
         </ProfileInfo>
         <button type="button" className="profile-card__edit" aria-label="프로필 수정">
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -151,7 +163,19 @@ export const MyPage: React.FC = () => {
       <SettingsSection>
         <p className="settings-section__title">계정 관리</p>
         <Card className="settings-list">
-          <SettingsRowAsLink href="#" onClick={(e) => e.preventDefault()}>
+          <SettingsRowAsLink href="#" onClick={async (e) => {
+            e.preventDefault();
+            if (user) {
+              try {
+                await logout();
+                alert('로그아웃 되었습니다.');
+              } catch (error) {
+                console.error('로그아웃 에러:', error);
+              }
+            } else {
+              alert('로그인된 상태가 아닙니다.');
+            }
+          }}>
             <span className="settings-row__icon">
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M9 4H5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>

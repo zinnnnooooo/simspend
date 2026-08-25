@@ -6,6 +6,7 @@ import { GlobalStyle } from '@/styles/GlobalStyle';
 import { Layout } from '@/components/Layout';
 import { LedgerProvider } from '@/context/LedgerContext';
 import { ThemeModeProvider, useThemeMode } from '@/context/ThemeContext';
+import { AuthProvider } from '@/context/AuthContext';
 
 // 페이지 임포트
 import { Splash } from '@/pages/Splash';
@@ -105,7 +106,9 @@ const StyledApp: React.FC = () => {
 export const App: React.FC = () => {
   return (
     <ThemeModeProvider>
-      <StyledApp />
+      <AuthProvider>
+        <StyledApp />
+      </AuthProvider>
     </ThemeModeProvider>
   );
 };
