@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useLedger } from '@/context/LedgerContext';
 import { SavingsGoal } from '@/@types';
+import { useGraphAnimation } from '@/hooks/useGraphAnimation';
 
 const ICONS: Record<string, React.ReactNode> = {
   travel: (
@@ -27,6 +28,8 @@ const ICONS: Record<string, React.ReactNode> = {
 export const Target: React.FC = () => {
   const navigate = useNavigate();
   const { savingsGoals, getTotalSaved } = useLedger();
+
+  const progress = useGraphAnimation(1000);
 
   const totalSaved = getTotalSaved();
   const fmtWon = (n: number) => n.toLocaleString('ko-KR') + '원';
@@ -74,13 +77,15 @@ export const Target: React.FC = () => {
       {/* 총 모은 금액 */}
       <TotalSavedCard>
         <p className="total-saved-card__label">총 모은 금액</p>
-        <p className="total-saved-card__value">₩{totalSaved.toLocaleString('ko-KR')}</p>
+        <p className="total-saved-card__value">₩{Math.round(totalSaved * progress).toLocaleString('ko-KR')}</p>
       </TotalSavedCard>
 
       {/* 목표 카드 리스트 */}
       <GoalList>
         {savingsGoals.map((goal) => {
           const percent = Math.round((goal.saved / goal.target) * 100);
+          const animatedPercent = Math.round(percent * progress);
+          const animatedSaved = goal.saved * progress;
           const meta = goal.daysLeft !== null
             ? `D-${goal.daysLeft} · ${goal.targetDate} 목표`
             : goal.statusLabel;
@@ -93,16 +98,16 @@ export const Target: React.FC = () => {
                   <p className="goal-item__title">{goal.title}</p>
                   <p className="goal-item__meta">{meta}</p>
                 </GoalItemTitleWrap>
-                <span className="goal-item__percent">{percent}%</span>
+                <span className="goal-item__percent">{animatedPercent}%</span>
               </GoalItemTop>
               
               <GoalItemAmountRow>
-                <span>{fmtWon(goal.saved)}</span>
+                <span>{fmtWon(animatedSaved)}</span>
                 <span>목표 {fmtWon(goal.target)}</span>
               </GoalItemAmountRow>
               
               <GoalItemBar>
-                <GoalItemBarFill style={{ width: `${percent}%` }} />
+                <GoalItemBarFill style={{ width: `${percent * progress}%` }} />
               </GoalItemBar>
 
               {renderActionArea(goal)}

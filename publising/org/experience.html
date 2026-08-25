@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>SimSPEND · 경험 선택</title>
+  <link rel="stylesheet" href="css/common.css" />
+  <link rel="stylesheet" href="css/experience.css" />
+</head>
+<body>
+  <div class="app">
+    <main class="experience">
+
+      <!-- 헤더 -->
+      <header class="experience-header">
+        <a href="index.html" class="experience-header__back" aria-label="뒤로가기">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 5 8 12l7 7" stroke="#2B2D42" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <span class="experience-header__label">S05 Virtual Experience</span>
+      </header>
+
+      <!-- 인트로 -->
+      <div>
+        <h1 class="experience__title">오늘은 어떤 경험을<br />해볼까요?</h1>
+        <p class="experience__subtitle">원하는 가상 서비스를 선택하고 실제 앱처럼<br />새로운 경험을 시작해보세요.</p>
+      </div>
+
+      <!-- 가상 배달 카드 -->
+      <section class="card experience-card">
+        <div class="experience-card__icon" aria-hidden="true">🍗</div>
+        <p class="experience-card__title">가상 배달</p>
+        <p class="experience-card__desc">
+          실제 배달앱처럼 음식점을 둘러보고 메뉴를 선택한 뒤 가상 주문과 가상 배달을 체험합니다.
+        </p>
+        <div class="experience-card__tags">
+          <span class="experience-card__tag">#치킨</span>
+          <span class="experience-card__tag">#피자</span>
+          <span class="experience-card__tag">#햄버거</span>
+          <span class="experience-card__tag">#카페</span>
+          <span class="experience-card__tag">#디저트</span>
+        </div>
+        <a href="delivery-home.html" class="experience-card__cta">
+          가상 배달 시작하기
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 12h14M13 6l6 6-6 6" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </section>
+
+      <!-- 가상 쇼핑 카드 -->
+      <section class="card experience-card">
+        <div class="experience-card__icon" aria-hidden="true">🛍️</div>
+        <p class="experience-card__title">가상 쇼핑</p>
+        <p class="experience-card__desc">
+          실제 쇼핑앱처럼 상품을 둘러보고 장바구니에 담아 가상 구매 과정을 체험합니다.
+        </p>
+        <div class="experience-card__tags">
+          <span class="experience-card__tag">#패션</span>
+          <span class="experience-card__tag">#전자기기</span>
+          <span class="experience-card__tag">#생활용품</span>
+          <span class="experience-card__tag">#뷰티</span>
+          <span class="experience-card__tag">#취미</span>
+        </div>
+        <a href="#" class="experience-card__cta">
+          가상 쇼핑 시작하기
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="9" cy="20" r="1.4" fill="#ffffff"/>
+            <circle cx="18" cy="20" r="1.4" fill="#ffffff"/>
+            <path d="M3 4h2l2.2 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.6L20.5 8H6" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </section>
+
+      <!-- 안내 배너 -->
+      <section class="card experience-banner">
+        <span class="experience-banner__icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.45.9 1.15.9 1.9V16h5.2v-.2c0-.75.3-1.45.9-1.9A6 6 0 0 0 12 3Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <p class="experience-banner__text">실제 결제는 진행되지 않습니다. 원하는 서비스를 자유롭게 체험해보세요.</p>
+      </section>
+
+    </main>
+
+    <!-- 5탭 하단 내비게이션 -->
+    <nav class="exp-nav">
+      <a href="index.html" class="exp-nav__item">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 10.5 12 4l8 6.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M6 9.5V19a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V9.5" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        </svg>
+        <span class="exp-nav__label">홈</span>
+      </a>
+      <a href="add.html" class="exp-nav__item">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="3.5" y="6" width="17" height="13" rx="2.4" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M3.5 10.5h17" stroke="currentColor" stroke-width="1.8"/>
+          <circle cx="16.5" cy="14.3" r="1.1" fill="currentColor"/>
+        </svg>
+        <span class="exp-nav__label">가계부</span>
+      </a>
+
+      <a href="index.html" class="exp-nav__center">
+        <span class="exp-nav__center-btn" aria-label="메인으로">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 5 8 12l7 7" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="exp-nav__label">심스펜드</span>
+      </a>
+
+      <a href="statistics.html" class="exp-nav__item">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5 19V10M12 19V5M19 19v-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="exp-nav__label">통계</span>
+      </a>
+      <a href="mypage.html" class="exp-nav__item">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="8.5" r="3.5" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M4.5 19.5c1.4-3.2 4.3-5 7.5-5s6.1 1.8 7.5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+        <span class="exp-nav__label">마이</span>
+      </a>
+    </nav>
+  </div>
+</body>
+</html>

@@ -1,11 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useThemeMode } from '@/context/ThemeContext';
+import { UserProfile, PROFILE_STORAGE_KEY, defaultProfile } from '@/pages/EditProfile';
 
 export const MyPage: React.FC = () => {
   const navigate = useNavigate();
   const { isDarkMode, toggleDarkMode } = useThemeMode();
+
+  const [profile, setProfile] = useState<UserProfile>(() => {
+    try {
+      const saved = localStorage.getItem(PROFILE_STORAGE_KEY);
+      return saved ? { ...defaultProfile, ...JSON.parse(saved) } : defaultProfile;
+    } catch {
+      return defaultProfile;
+    }
+  });
+
+  useEffect(() => {
+    const handleProfileUpdate = () => {
+      try {
+        const saved = localStorage.getItem(PROFILE_STORAGE_KEY);
+        if (saved) {
+          setProfile(JSON.parse(saved));
+        }
+      } catch {
+        // fallback
+      }
+    };
+
+    window.addEventListener('simspend_profile_updated', handleProfileUpdate);
+    return () => window.removeEventListener('simspend_profile_updated', handleProfileUpdate);
+  }, []);
 
   return (
     <MyPageContainer>
@@ -16,21 +42,31 @@ export const MyPage: React.FC = () => {
             <path d="M15 5 8 12l7 7" stroke="#2B2D42" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </BackButton>
-        <HeaderTitle>마이페이지</HeaderTitle>
+        <HeaderTitle>더보기</HeaderTitle>
       </PageHeader>
 
       {/* 프로필 카드 */}
-      <Card className="profile-card">
-        <ProfileAvatar id="profileAvatar">
-          <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
-            <rect width="56" height="56" fill="#FFE8B8"/>
-            <circle cx="28" cy="23" r="10" fill="#2B2D42"/>
-            <path d="M6 56c0-12 9-19 22-19s22 7 22 19" fill="#2B2D42"/>
-          </svg>
+      <Card 
+        className="profile-card" 
+        onClick={() => navigate('/edit-profile')} 
+        style={{ cursor: 'pointer' }}
+      >
+        <ProfileAvatar id="profileAvatar" style={{ backgroundColor: profile.bgColor }}>
+          {profile.avatarType === 'image' && profile.avatarValue ? (
+            <img src={profile.avatarValue} alt="프로필" className="avatar-img" />
+          ) : profile.avatarType === 'emoji' ? (
+            <span className="avatar-emoji">{profile.avatarValue}</span>
+          ) : (
+            <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+              <rect width="56" height="56" fill={profile.bgColor || '#FFE8B8'}/>
+              <circle cx="28" cy="23" r="10" fill="#2B2D42"/>
+              <path d="M6 56c0-12 9-19 22-19s22 7 22 19" fill="#2B2D42"/>
+            </svg>
+          )}
         </ProfileAvatar>
         <ProfileInfo>
-          <p className="profile-card__name">심스펜드 님</p>
-          <p className="profile-card__email">hello@simspend.com</p>
+          <p className="profile-card__name">{profile.name} 님</p>
+          <p className="profile-card__email">{profile.email}</p>
         </ProfileInfo>
         <button type="button" className="profile-card__edit" aria-label="프로필 수정">
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -43,7 +79,7 @@ export const MyPage: React.FC = () => {
       <SettingsSection>
         <p className="settings-section__title">일반 설정</p>
         <Card className="settings-list">
-          <SettingsRow>
+          <SettingsRowAsLink href="#notification" onClick={(e) => { e.preventDefault(); navigate('/notification-settings'); }}>
             <span className="settings-row__icon">
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M6 10a6 6 0 1 1 12 0c0 4 1.5 5.5 1.5 5.5H4.5S6 14 6 10Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round"/>
@@ -54,7 +90,7 @@ export const MyPage: React.FC = () => {
             <svg className="settings-row__chevron" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M9.5 5.5 16 12l-6.5 6.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-          </SettingsRow>
+          </SettingsRowAsLink>
           
           <SettingsRow>
             <span className="settings-row__icon">
@@ -81,7 +117,7 @@ export const MyPage: React.FC = () => {
       <SettingsSection>
         <p className="settings-section__title">고객 지원</p>
         <Card className="settings-list">
-          <SettingsRowAsLink href="#" onClick={(e) => e.preventDefault()}>
+          <SettingsRowAsLink href="#support" onClick={(e) => { e.preventDefault(); navigate('/support'); }}>
             <span className="settings-row__icon">
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.8"/>
@@ -95,7 +131,7 @@ export const MyPage: React.FC = () => {
             </svg>
           </SettingsRowAsLink>
           
-          <SettingsRowAsLink href="#" onClick={(e) => e.preventDefault()}>
+          <SettingsRowAsLink href="#faq" onClick={(e) => { e.preventDefault(); navigate('/faq'); }}>
             <span className="settings-row__icon">
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M6 4h9l3 3v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round"/>
@@ -145,10 +181,19 @@ export const MyPage: React.FC = () => {
 
 // Styled Components
 const MyPageContainer = styled.main`
-  padding: 20px 16px 20px;
+  padding: 16px 16px 88px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
+  background-color: ${({ theme }) => theme.colors.background};
+  min-height: 100vh;
+
+  .app-version {
+    text-align: center;
+    font-size: 12px;
+    color: ${({ theme }) => theme.colors.textSecondary};
+    padding: 12px 0 20px;
+  }
 `;
 
 const PageHeader = styled.header`
@@ -168,6 +213,10 @@ const BackButton = styled.button`
   align-items: center;
   justify-content: center;
   color: #2b2d42;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
 
   svg {
     width: 20px;
@@ -191,6 +240,25 @@ const Card = styled.div`
     align-items: center;
     gap: 16px;
     padding: 20px;
+
+    .profile-card__edit {
+      background: transparent;
+      border: none;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: ${({ theme }) => theme.colors.textSecondary};
+      cursor: pointer;
+      padding: 0;
+      flex: none;
+
+      svg {
+        width: 18px;
+        height: 18px;
+      }
+    }
   }
 
   &.settings-list {
@@ -206,7 +274,20 @@ const ProfileAvatar = styled.span`
   border-radius: 50%;
   overflow: hidden;
   flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   box-shadow: ${({ theme }) => theme.shadows.card};
+
+  .avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .avatar-emoji {
+    font-size: 28px;
+  }
 
   svg {
     display: block;
@@ -327,6 +408,9 @@ const ToggleButton = styled.button`
   height: 26px;
   border-radius: 999px;
   background: #d9dbe3;
+  border: none;
+  cursor: pointer;
+  padding: 0;
   position: relative;
   flex: none;
   transition: background 0.2s ease;

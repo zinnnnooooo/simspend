@@ -1,7 +1,47 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { useLedger } from '@/context/LedgerContext';
+import { useGraphAnimation } from '@/hooks/useGraphAnimation';
+
+interface NotificationItem {
+  id: string;
+  title: string;
+  message: string;
+  time: string;
+  isRead: boolean;
+}
+
+const INITIAL_NOTIFICATIONS: NotificationItem[] = [
+  {
+    id: 'noti_1',
+    title: 'AI 소비 리포트 발행 💡',
+    message: '이번 주 소비 패턴 분석과 똑똑한 절약 팁이 도착했습니다.',
+    time: '10분 전',
+    isRead: false
+  },
+  {
+    id: 'noti_2',
+    title: '가상 구매 배송 완료 📦',
+    message: '가상 주문하신 상품이 성공적으로 배송 완료 처리되었습니다.',
+    time: '2시간 전',
+    isRead: false
+  },
+  {
+    id: 'noti_3',
+    title: '목표 저축 응원 🎯',
+    message: '목표 달성까지 얼마 남지 않았어요! 오늘도 힘내서 저축해보세요.',
+    time: '어제',
+    isRead: true
+  },
+  {
+    id: 'noti_4',
+    title: '가계부 작성 알림 ✍️',
+    message: '오늘의 소비 내역을 잊지 말고 가계부에 기록해보세요.',
+    time: '2일 전',
+    isRead: true
+  }
+];
 
 export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -12,6 +52,27 @@ export const Dashboard: React.FC = () => {
     getSavingsGoal,
     getQuickMenu
   } = useLedger();
+
+  const progress = useGraphAnimation(1000);
+
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  const [notifications, setNotifications] = useState<NotificationItem[]>(INITIAL_NOTIFICATIONS);
+
+  const unreadCount = notifications.filter((n) => !n.isRead).length;
+
+  const handleToggleNotification = () => {
+    setIsNotificationOpen((prev) => !prev);
+  };
+
+  const handleMarkAllAsRead = () => {
+    setNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })));
+  };
+
+  const handleNotificationClick = (id: string) => {
+    setNotifications((prev) =>
+      prev.map((n) => (n.id === id ? { ...n, isRead: true } : n))
+    );
+  };
 
   const streak = getStreak();
   const weekly = getWeeklySummary();
@@ -26,13 +87,15 @@ export const Dashboard: React.FC = () => {
   // 도넛 차트 호 길이 계산
   const radius = 40;
   const circumference = 2 * Math.PI * radius;
-  const fillLength = (topCat.percentage / 100) * circumference;
+  const fillLength = ((topCat.percentage * progress) / 100) * circumference;
 
   // 저축 목표 세그먼트 개수 및 비율 계산
   const goalPercent = Math.round((goal.saved / goal.target) * 100);
-  const remaining = goal.target - goal.saved;
+  const animatedGoalPercent = Math.round(goalPercent * progress);
+  const animatedSaved = goal.saved * progress;
+  const remaining = goal.target - animatedSaved;
   const segmentCount = 5;
-  const progressUnits = (goalPercent / 100) * segmentCount;
+  const progressUnits = ((goalPercent * progress) / 100) * segmentCount;
 
   // 원화 포맷
   const fmtWon = (n: number) => '₩' + Math.round(n).toLocaleString('ko-KR');
@@ -45,7 +108,7 @@ export const Dashboard: React.FC = () => {
 
   return (
     <MainContainer>
-      {/* 헤더 */}
+      {/* 헤더 (시안처럼 흰색 카드 형태로 렌더링) */}
       <Header>
         <HeaderProfile>
           <HeaderAvatar onClick={() => navigate('/mypage')}>
@@ -66,8 +129,11 @@ export const Dashboard: React.FC = () => {
           </div>
         </HeaderProfile>
         <HeaderActions>
-          <IconButton aria-label="알림">
-            <IconButtonDot aria-hidden="true" />
+          <IconButton 
+            aria-label="알림"
+            onClick={handleToggleNotification}
+          >
+            {unreadCount > 0 && <IconButtonDot aria-hidden="true" />}
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M6 10a6 6 0 1 1 12 0c0 4 1.5 5.5 1.5 5.5H4.5S6 14 6 10Z" stroke="#2B2D42" strokeWidth="1.8" strokeLinejoin="round"/>
               <path d="M9.5 18.5a2.5 2.5 0 0 0 5 0" stroke="#2B2D42" strokeWidth="1.8" strokeLinecap="round"/>
@@ -82,9 +148,63 @@ export const Dashboard: React.FC = () => {
         </HeaderActions>
       </Header>
 
+      {/* 알림 드롭다운 팝업 오버레이 */}
+      {isNotificationOpen && (
+        <NotificationOverlay onClick={() => setIsNotificationOpen(false)}>
+          <NotificationCard onClick={(e) => e.stopPropagation()}>
+            <NotificationHeader>
+              <NotificationTitleWrap>
+                <NotificationTitle>알림</NotificationTitle>
+                {unreadCount > 0 && <NotificationBadge>{unreadCount}</NotificationBadge>}
+              </NotificationTitleWrap>
+              <NotificationActionGroup>
+                {unreadCount > 0 && (
+                  <NotificationHeaderBtn type="button" onClick={handleMarkAllAsRead}>
+                    모두 읽음
+                  </NotificationHeaderBtn>
+                )}
+                <NotificationCloseBtn 
+                  type="button" 
+                  onClick={() => setIsNotificationOpen(false)}
+                  aria-label="알림 닫기"
+                >
+                  ✕
+                </NotificationCloseBtn>
+              </NotificationActionGroup>
+            </NotificationHeader>
+
+            <NotificationList>
+              {notifications.length === 0 ? (
+                <NotificationEmpty>
+                  <span className="empty-icon">🔔</span>
+                  <p className="empty-text">받은 알림이 없습니다.</p>
+                </NotificationEmpty>
+              ) : (
+                notifications.map((noti) => (
+                  <NotificationItemRow
+                    key={noti.id}
+                    className={noti.isRead ? 'is-read' : 'is-unread'}
+                    onClick={() => handleNotificationClick(noti.id)}
+                  >
+                    <NotificationDot $isRead={noti.isRead} />
+                    <NotificationContent>
+                      <NotificationItemHead>
+                        <NotificationItemTitle>{noti.title}</NotificationItemTitle>
+                        <NotificationItemTime>{noti.time}</NotificationItemTime>
+                      </NotificationItemHead>
+                      <NotificationItemMessage>{noti.message}</NotificationItemMessage>
+                    </NotificationContent>
+                  </NotificationItemRow>
+                ))
+              )}
+            </NotificationList>
+          </NotificationCard>
+        </NotificationOverlay>
+      )}
+
       {/* 스트릭 카드 */}
       <Card className="streak-card">
-        <StreakTitle>{streak.currentStreak}일 연속 가계부 작성 중! 🔥</StreakTitle>
+        <StreakTitle>{streak.currentStreak}일 연속 가계부 작성 중!🔥</StreakTitle>
         <StreakSubtitle>작은 습관이 큰 변화를 만들어요.</StreakSubtitle>
         
         <StreakRow>
@@ -92,7 +212,10 @@ export const Dashboard: React.FC = () => {
             const checked = streak.checked[i];
             return (
               <StreakDay key={i} className={checked ? 'is-checked' : ''}>
-                <StreakBadge>{checked ? checkSvg : null}</StreakBadge>
+                {/* 시안처럼 체크 여부에 관계없이 아이콘을 띄우고 클래스 투명도로 구분 */}
+                <StreakBadge className={checked ? 'checked' : 'unchecked'}>
+                  {checkSvg}
+                </StreakBadge>
                 <StreakDayLabel>{label}</StreakDayLabel>
               </StreakDay>
             );
@@ -104,44 +227,54 @@ export const Dashboard: React.FC = () => {
 
       {/* 2열 카드: 막대그래프 / 도넛 */}
       <StatRow>
-        <Card className="stat-card weekly-card">
+        <Card 
+          className="stat-card weekly-card" 
+          onClick={() => navigate('/statistics')} 
+          style={{ cursor: 'pointer' }}
+        >
           <WeeklyCardTitle>이번 주 지출 금액 요약</WeeklyCardTitle>
           <BarChartContainer>
             {weekly.days.map((day, i) => {
               const amount = weekly.amounts[i];
               const heightPct = Math.max(14, Math.round((amount / maxAmount) * 100));
+              const animatedHeight = heightPct * progress;
               const isPeak = i === peakIndex;
               return (
                 <BarChartCol key={i} className={isPeak ? 'is-peak' : ''}>
-                  <BarChartBar style={{ height: `${heightPct}%` }} />
+                  <BarChartBar style={{ height: `${animatedHeight}%` }} />
                   <BarChartLabel>{day}</BarChartLabel>
                 </BarChartCol>
               );
             })}
           </BarChartContainer>
-          <StatCardAmount>{fmtWon(weekly.total)}</StatCardAmount>
+          <StatCardAmount>{fmtWon(weekly.total * progress)}</StatCardAmount>
           <StatCardBadge>
             지난주 보다 {Math.round(weekly.diffFromLastWeek / 10000)}만원 더 썼어요!
           </StatCardBadge>
         </Card>
 
-        <Card className="stat-card donut-card">
+        <Card 
+          className="stat-card donut-card" 
+          onClick={() => navigate('/statistics')} 
+          style={{ cursor: 'pointer' }}
+        >
           <DonutContainer>
             <svg viewBox="0 0 100 100">
-              <circle cx="50" cy="50" r="40" fill="none" stroke="#ECEDF1" strokeWidth="14" />
+              {/* 시안의 부드럽고 통통한 도넛 그래프 모양에 가깝게 strokeWidth 조정 */}
+              <circle cx="50" cy="50" r="40" fill="none" stroke="#ECEDF1" strokeWidth="12" />
               <circle
                 cx="50"
                 cy="50"
                 r="40"
                 fill="none"
-                stroke="#2B2D42"
-                strokeWidth="14"
+                stroke="#1E1F2E"
+                strokeWidth="12"
                 strokeLinecap="round"
                 transform="rotate(-90 50 50)"
                 strokeDasharray={`${fillLength} ${circumference}`}
               />
             </svg>
-            <DonutValue>{topCat.percentage}%</DonutValue>
+            <DonutValue>{Math.round(topCat.percentage * progress)}%</DonutValue>
           </DonutContainer>
           <DonutCardCaption>이번 주 가장 많은 지출</DonutCardCaption>
           <DonutCardCategory>{topCat.name}</DonutCardCategory>
@@ -161,7 +294,7 @@ export const Dashboard: React.FC = () => {
             <GoalCardTitle>{goal.title}</GoalCardTitle>
             <GoalCardDday>D{goal.dDay <= 0 ? goal.dDay : `+${goal.dDay}`}</GoalCardDday>
           </GoalCardTitleWrap>
-          <GoalCardPercent>{goalPercent}%</GoalCardPercent>
+          <GoalCardPercent>{animatedGoalPercent}%</GoalCardPercent>
         </GoalCardTop>
         <GoalProgress>
           {Array.from({ length: segmentCount }).map((_, i) => {
@@ -173,10 +306,11 @@ export const Dashboard: React.FC = () => {
             );
           })}
         </GoalProgress>
-        <GoalCardCaption>목표까지 {fmtWon(remaining)} 남았어요!</GoalCardCaption>
+        {/* 남은 금액 텍스트 강조(strong) 적용 */}
+        <GoalCardCaption>목표까지 <strong>{fmtWon(remaining)}</strong> 남았어요!</GoalCardCaption>
       </Card>
 
-      {/* 퀵메뉴 */}
+      {/* 퀵메뉴 (하단 아이콘/기능 수정 제외 반영) */}
       <Card>
         <QuickmenuTitle>심스펜드 시작하기</QuickmenuTitle>
         <QuickmenuGrid>
@@ -185,16 +319,16 @@ export const Dashboard: React.FC = () => {
             let targetPath = '/';
             if (item.label === '가상 쇼핑') {
               iconClass = 'fa-solid fa-cart-shopping';
-              targetPath = '/pay';
+              targetPath = '/shopping';
             } else if (item.label === '가상 배달') {
               iconClass = 'fa-solid fa-burger';
-              targetPath = '/pay';
+              targetPath = '/delivery';
             } else if (item.label === '가상 구매 목록') {
               iconClass = 'fa-solid fa-list-check';
-              targetPath = '/target';
+              targetPath = '/virtual-history';
             } else if (item.label === 'AI 리포트') {
               iconClass = 'fa-solid fa-chart-column';
-              targetPath = '/statistics';
+              targetPath = '/ai-report';
             }
             return (
               <QuickmenuItem key={item.id} onClick={() => navigate(targetPath)}>
@@ -211,20 +345,30 @@ export const Dashboard: React.FC = () => {
   );
 };
 
+
 // Styled Components
 const MainContainer = styled.main`
   width: 100%;
-  padding: 20px 16px 20px;
+  height: 100dvh;
+  padding: clamp(10px, 1.5vh, 20px) 16px clamp(96px, 13vh, 104px);
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: clamp(10px, 1.8vh, 20px);
+  background-color: ${({ theme }) => theme.colors.background};
+  overflow: hidden;
+  box-sizing: border-box;
+  transition: background-color 0.3s ease;
 `;
 
 const Header = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 0;
+  padding: clamp(8px, 1.2vh, 14px) 18px;
+  background: ${({ theme }) => theme.colors.cardBackground};
+  border-radius: 20px;
+  box-shadow: ${({ theme }) => theme.shadows.card};
+  border: 1px solid ${({ theme }) => theme.colors.border};
 `;
 
 const HeaderProfile = styled.div`
@@ -235,133 +379,206 @@ const HeaderProfile = styled.div`
 
 const HeaderAvatar = styled.span`
   position: relative;
-  width: 46px;
-  height: 46px;
-  border-radius: 14px;
+  width: clamp(38px, 5vh, 44px);
+  height: clamp(38px, 5vh, 44px);
+  border-radius: 50%;
   flex: none;
   cursor: pointer;
-  box-shadow: ${({ theme }) => theme.shadows.card};
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+
+  &:active {
+    transform: scale(0.95);
+  }
 
   svg:first-child {
     display: block;
     width: 100%;
     height: 100%;
-    border-radius: 14px;
+    border-radius: 50%;
     overflow: hidden;
   }
 `;
 
 const AvatarEdit = styled.span`
   position: absolute;
-  right: -4px;
-  bottom: -4px;
-  width: 18px;
-  height: 18px;
+  right: -2px;
+  bottom: -2px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
-  background: ${({ theme }) => theme.colors.cardBackground};
-  border: 1.5px solid ${({ theme }) => theme.colors.background};
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 4px rgba(43, 45, 66, 0.15);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
 
   svg {
-    width: 10px;
-    height: 10px;
+    width: 7px;
+    height: 7px;
   }
 `;
 
 const GreetingSub = styled.p`
-  margin-bottom: 2px;
-  font-size: 13px;
+  margin-bottom: 1px;
+  font-size: 12px;
   color: ${({ theme }) => theme.colors.textSecondary};
+  font-weight: 500;
 `;
 
 const GreetingMain = styled.p`
-  font-size: 17px;
-  font-weight: 800;
+  font-size: 16px;
+  font-weight: 700;
   color: ${({ theme }) => theme.colors.textPrimary};
 `;
 
 const HeaderActions = styled.div`
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 10px;
 `;
 
 const IconButton = styled.button`
   position: relative;
-  display: block;
-  width: 26px;
-  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: ${({ theme }) => theme.colors.cardBackground === '#FFFFFF' ? '#F1F3F6' : '#202336'};
+  border-radius: 50%;
+  transition: background 0.2s, transform 0.15s ease;
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.cardBackground === '#FFFFFF' ? '#EBECEF' : '#25283D'};
+  }
+
+  &:active {
+    transform: scale(0.93);
+  }
 
   svg {
     display: block;
-    width: 100%;
-    height: 100%;
+    width: 18px;
+    height: 18px;
+    stroke: ${({ theme }) => theme.colors.textPrimary};
+    path {
+      stroke: ${({ theme }) => theme.colors.textPrimary};
+    }
   }
 `;
 
 const IconButtonDot = styled.span`
   position: absolute;
-  top: -1px;
-  right: -1px;
-  width: 7px;
-  height: 7px;
+  top: 9px;
+  right: 9px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: ${({ theme }) => theme.colors.brandNegative};
-  border: 1.5px solid ${({ theme }) => theme.colors.background};
+  border: 1px solid ${({ theme }) => theme.colors.cardBackground};
 `;
 
 const Card = styled.section`
   width: 100%;
-  padding: 20px;
+  padding: clamp(14px, 2.2vh, 24px) 18px;
   border-radius: 20px;
   background: ${({ theme }) => theme.colors.cardBackground};
   box-shadow: ${({ theme }) => theme.shadows.card};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, background-color 0.3s ease;
+  box-sizing: border-box;
 
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  /* Level 1 Hero card styling for Streak card */
   &.streak-card {
-    padding: 18px 16px 16px;
+    background: ${({ theme }) => 
+      theme.colors.cardBackground === '#FFFFFF' 
+        ? 'linear-gradient(135deg, #191B2E 0%, #20243E 100%)' 
+        : 'linear-gradient(135deg, #131422 0%, #191B2E 100%)'};
+    color: #FFFFFF;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 12px 30px rgba(25, 27, 46, 0.12);
+    padding: clamp(16px, 2.5vh, 26px) 20px clamp(12px, 2vh, 20px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  &.weekly-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  &.donut-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
   }
 `;
 
 const StreakTitle = styled.p`
-  margin-bottom: 3px;
-  font-size: 14px;
+  margin-bottom: 4px;
+  font-size: 17px;
   line-height: 1.35;
-  font-weight: 800;
-  color: ${({ theme }) => theme.colors.textPrimary};
+  font-weight: 700;
+  color: #FFFFFF;
 `;
 
 const StreakSubtitle = styled.p`
-  margin-bottom: 16px;
-  font-size: 10px;
+  margin-bottom: clamp(10px, 1.6vh, 22px);
+  font-size: 12px;
   line-height: 1.4;
-  color: ${({ theme }) => theme.colors.textSecondary};
+  color: #9099A8;
+  font-weight: 500;
 `;
 
 const StreakRow = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 6px;
-  margin-bottom: 18px;
+  gap: 8px;
+  margin-bottom: clamp(12px, 2vh, 24px);
 `;
 
 const StreakBadge = styled.span`
-  width: 42px;
-  height: 42px;
+  width: clamp(30px, 4.2vh, 38px);
+  height: clamp(30px, 4.2vh, 38px);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #a8b4c8;
-  color: #ffffff;
+  color: #FFFFFF;
   flex: none;
+  transition: background-color 0.2s, transform 0.2s;
 
   svg {
-    width: 20px;
-    height: 20px;
+    width: 15px;
+    height: 15px;
+  }
+
+  &.checked {
+    background: ${({ theme }) => theme.colors.brandYellow};
+    color: #191B2E;
+    svg path {
+      stroke: #191B2E;
+    }
+  }
+
+  &.unchecked {
+    background: rgba(255, 255, 255, 0.12);
+    opacity: 0.6;
+    svg path {
+      stroke: rgba(255, 255, 255, 0.4);
+    }
   }
 `;
 
@@ -371,64 +588,76 @@ const StreakDay = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
-
-  &.is-checked ${StreakBadge} {
-    background: ${({ theme }) => theme.colors.textPrimary};
-  }
+  gap: clamp(4px, 0.6vh, 6px);
 `;
 
 const StreakDayLabel = styled.span`
-  font-size: 9px;
+  font-size: 11px;
   line-height: 1;
-  font-weight: 600;
-  color: ${({ theme }) => theme.colors.textSecondary};
+  font-weight: 700;
+  color: #9099A8;
+  
+  .is-checked & {
+    color: #FFFFFF;
+  }
 `;
 
 const StreakCta = styled(Link)`
-  display: block;
-  width: fit-content;
-  margin: 0 auto;
-  padding: 4px 8px;
-  font-size: 13px;
-  line-height: 1.4;
-  font-weight: 800;
-  text-align: center;
-  color: ${({ theme }) => theme.colors.textPrimary};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: clamp(40px, 5.2vh, 48px);
+  border-radius: 12px;
+  background: ${({ theme }) => theme.colors.brandYellow};
+  color: #191B2E;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background-color 0.2s, transform 0.15s ease;
+
+  &:hover {
+    background: #FFB000;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
 `;
 
 const StatRow = styled.section`
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: stretch;
-  gap: 16px;
+  gap: 14px;
 `;
 
 const WeeklyCardTitle = styled.p`
   width: 100%;
-  margin-bottom: 18px;
-  font-size: 13px;
+  margin-bottom: 12px;
+  font-size: 12px;
   line-height: 1.4;
-  font-weight: 800;
-  color: ${({ theme }) => theme.colors.textPrimary};
+  font-weight: 600;
+  color: ${({ theme }) => theme.colors.textSecondary};
 `;
 
 const BarChartContainer = styled.div`
   width: 100%;
-  height: 105px;
+  height: clamp(65px, 9vh, 90px);
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  margin-bottom: 14px;
+  margin-bottom: clamp(10px, 1.5vh, 16px);
+  padding: 0 2px;
 `;
 
 const BarChartBar = styled.div`
   position: relative;
-  z-index: 1;
-  width: 28px;
-  max-height: 78px;
-  border-radius: 3px 3px 0 0;
-  background: #c8d2df;
+  z-index: 2;
+  width: 8px;
+  border-radius: 999px;
+  background: ${({ theme }) => theme.colors.cardBackground === '#FFFFFF' ? '#CBD5E1' : '#454861'};
+  transition: background-color 0.2s ease;
 `;
 
 const BarChartCol = styled.div`
@@ -445,14 +674,14 @@ const BarChartCol = styled.div`
     content: "";
     position: absolute;
     top: 0;
-    width: 28px;
-    height: 78px;
-    border-radius: 3px 3px 0 0;
-    background: #eef2fa;
+    width: 8px;
+    height: 60px;
+    border-radius: 999px;
+    background: ${({ theme }) => theme.colors.cardBackground === '#FFFFFF' ? '#EEF2FA' : '#232537'};
   }
 
   &.is-peak ${BarChartBar} {
-    background: ${({ theme }) => theme.colors.textPrimary};
+    background: ${({ theme }) => theme.colors.brandYellow};
   }
 `;
 
@@ -465,30 +694,30 @@ const BarChartLabel = styled.span`
   color: ${({ theme }) => theme.colors.textSecondary};
 
   .is-peak & {
-    font-weight: 800;
+    font-weight: 700;
     color: ${({ theme }) => theme.colors.textPrimary};
   }
 `;
 
 const StatCardAmount = styled.p`
-  margin: 0 0 12px;
-  font-size: 26px;
+  margin: 0 0 6px;
+  font-size: 20px;
   line-height: 1.1;
-  font-weight: 800;
-  text-align: center;
+  font-weight: 700;
+  text-align: left;
   color: ${({ theme }) => theme.colors.textPrimary};
   white-space: nowrap;
 `;
 
 const StatCardBadge = styled.span`
   display: inline-block;
-  align-self: center;
+  align-self: flex-start;
   margin: 0;
-  padding: 7px 10px;
+  padding: 4px 8px;
   border-radius: 999px;
-  background: #fff3d9;
-  color: #c97b00;
-  font-size: 9px;
+  background: ${({ theme }) => theme.colors.cardBackground === '#FFFFFF' ? '#FFF4DF' : '#332715'};
+  color: ${({ theme }) => theme.colors.brandYellow};
+  font-size: 10px;
   line-height: 1.3;
   font-weight: 700;
   text-align: center;
@@ -497,9 +726,9 @@ const StatCardBadge = styled.span`
 
 const DonutContainer = styled.div`
   position: relative;
-  width: 110px;
-  height: 110px;
-  margin-bottom: 14px;
+  width: clamp(80px, 11vh, 105px);
+  height: clamp(80px, 11vh, 105px);
+  margin: 0 auto clamp(8px, 1.2vh, 14px);
   flex: none;
 `;
 
@@ -509,45 +738,54 @@ const DonutValue = styled.span`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
-  font-weight: 800;
+  font-size: clamp(18px, 2.5vh, 23px);
+  font-weight: 700;
   color: ${({ theme }) => theme.colors.textPrimary};
 `;
 
 const DonutCardCaption = styled.p`
-  margin-bottom: 8px;
-  font-size: 13px;
+  margin-bottom: 2px;
+  font-size: clamp(11px, 1.5vh, 12.5px);
   line-height: 1.4;
   color: ${({ theme }) => theme.colors.textSecondary};
+  font-weight: 600;
+  text-align: center;
 `;
 
 const DonutCardCategory = styled.p`
-  font-size: 26px;
+  font-size: clamp(18px, 2.8vh, 24px);
   line-height: 1.2;
-  font-weight: 800;
+  font-weight: 700;
   color: ${({ theme }) => theme.colors.brandYellow};
+  text-align: center;
 `;
 
 const GoalCardTop = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 16px;
+  margin-bottom: clamp(10px, 1.6vh, 18px);
 `;
 
 const GoalCardIcon = styled.span`
-  width: 44px;
-  height: 44px;
-  border-radius: 14px;
-  background: #fff3d9;
+  width: clamp(34px, 4.8vh, 42px);
+  height: clamp(34px, 4.8vh, 42px);
+  border-radius: 12px;
+  background: ${({ theme }) => theme.colors.cardBackground === '#FFFFFF' ? '#FFF4DF' : '#332715'};
   display: flex;
   align-items: center;
   justify-content: center;
   flex: none;
 
   svg {
-    width: 22px;
-    height: 22px;
+    width: clamp(16px, 2.2vh, 20px);
+    height: clamp(16px, 2.2vh, 20px);
+    rect {
+      stroke: ${({ theme }) => theme.colors.brandYellow};
+    }
+    circle {
+      fill: ${({ theme }) => theme.colors.brandYellow};
+    }
   }
 `;
 
@@ -558,35 +796,36 @@ const GoalCardTitleWrap = styled.div`
 
 const GoalCardTitle = styled.p`
   font-size: 15px;
-  font-weight: 800;
+  font-weight: 700;
   color: ${({ theme }) => theme.colors.textPrimary};
 `;
 
 const GoalCardDday = styled.p`
   margin-top: 2px;
-  font-size: 12px;
+  font-size: 11px;
   color: ${({ theme }) => theme.colors.textSecondary};
+  font-weight: 600;
 `;
 
 const GoalCardPercent = styled.p`
   flex: none;
-  font-size: 26px;
-  font-weight: 800;
+  font-size: 22px;
+  font-weight: 700;
   color: ${({ theme }) => theme.colors.brandYellow};
 `;
 
 const GoalProgress = styled.div`
   display: flex;
-  gap: 2px;
-  margin-bottom: 12px;
+  gap: 4px;
+  margin-bottom: clamp(8px, 1.2vh, 14px);
 `;
 
 const GoalProgressSeg = styled.div`
   position: relative;
   flex: 1;
-  height: 16px;
+  height: clamp(6px, 1vh, 8px);
   border-radius: 999px;
-  background: #dde0ea;
+  background: ${({ theme }) => theme.colors.cardBackground === '#FFFFFF' ? '#EEF2FA' : '#232537'};
   overflow: hidden;
 `;
 
@@ -600,21 +839,27 @@ const GoalProgressSegFill = styled.div`
 
 const GoalCardCaption = styled.p`
   text-align: center;
-  font-size: 13px;
+  font-size: 12.5px;
   color: ${({ theme }) => theme.colors.textSecondary};
+  font-weight: 600;
+
+  strong {
+    color: ${({ theme }) => theme.colors.textPrimary};
+    font-weight: 700;
+  }
 `;
 
 const QuickmenuTitle = styled.p`
-  margin-bottom: 16px;
+  margin-bottom: clamp(8px, 1.2vh, 16px);
   font-size: 15px;
-  font-weight: 800;
+  font-weight: 700;
   color: ${({ theme }) => theme.colors.textPrimary};
 `;
 
 const QuickmenuGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 12px;
+  gap: clamp(8px, 1.2vh, 16px);
 `;
 
 const QuickmenuItem = styled.div`
@@ -625,31 +870,262 @@ const QuickmenuItem = styled.div`
   gap: 8px;
   text-align: center;
   cursor: pointer;
+  transition: transform 0.15s ease;
+
+  &:active {
+    transform: scale(0.95);
+  }
 `;
 
 const QuickmenuThumb = styled.div`
   width: 100%;
   aspect-ratio: 1 / 1;
   border-radius: 14px;
-  background: #e4e5ea;
+  background: ${({ theme }) => theme.colors.cardBackground === '#FFFFFF' ? '#F5F6F9' : '#232537'};
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s;
+  transition: background-color 0.2s, transform 0.2s;
 
   &:hover {
-    background: #d8d9de;
+    background: ${({ theme }) => theme.colors.cardBackground === '#FFFFFF' ? '#EBECEF' : '#2B2E43'};
   }
 
   i {
-    font-size: 32px;
-    color: #2b2d42;
+    font-size: clamp(18px, 2.4vh, 22px);
+    color: ${({ theme }) => theme.colors.textPrimary};
   }
 `;
 
 const QuickmenuLabel = styled.span`
-  font-size: 10.5px;
+  font-size: 11px;
   line-height: 1.3;
   font-weight: 600;
   color: ${({ theme }) => theme.colors.textSecondary};
+`;
+
+const slideDown = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const NotificationOverlay = styled.div`
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 16, 26, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 12px 16px;
+  animation: fadeIn 0.18s ease-out;
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+`;
+
+const NotificationCard = styled.div`
+  width: 100%;
+  max-width: 440px;
+  margin-top: 64px;
+  background: ${({ theme }) => theme.colors.cardBackground};
+  border-radius: 24px;
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.16);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: ${slideDown} 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+`;
+
+const NotificationHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 18px;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+  background: ${({ theme }) => theme.colors.cardBackground};
+`;
+
+const NotificationTitleWrap = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
+const NotificationTitle = styled.h3`
+  font-size: 15px;
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors.textPrimary};
+  margin: 0;
+`;
+
+const NotificationBadge = styled.span`
+  background: ${({ theme }) => theme.colors.brandYellow};
+  color: #191B2E;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 999px;
+`;
+
+const NotificationActionGroup = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
+const NotificationHeaderBtn = styled.button`
+  background: transparent;
+  border: none;
+  font-size: 12px;
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors.textSecondary};
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 6px;
+  transition: color 0.15s, background 0.15s;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.textPrimary};
+    background: ${({ theme }) => theme.colors.background};
+  }
+`;
+
+const NotificationCloseBtn = styled.button`
+  background: transparent;
+  border: none;
+  font-size: 15px;
+  color: ${({ theme }) => theme.colors.textSecondary};
+  cursor: pointer;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.15s, color 0.15s;
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.background};
+    color: ${({ theme }) => theme.colors.textPrimary};
+  }
+`;
+
+const NotificationList = styled.div`
+  max-height: 360px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: ${({ theme }) => theme.colors.border};
+    border-radius: 4px;
+  }
+`;
+
+const NotificationItemRow = styled.div`
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 18px;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.background};
+  cursor: pointer;
+  transition: background 0.15s;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &.is-unread {
+    background: ${({ theme }) => theme.colors.cardBackground === '#FFFFFF' ? '#FFFDF5' : '#232014'};
+  }
+
+  &.is-read {
+    background: ${({ theme }) => theme.colors.cardBackground};
+    opacity: 0.75;
+  }
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.background};
+    opacity: 1;
+  }
+`;
+
+const NotificationDot = styled.span<{ $isRead: boolean }>`
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-top: 6px;
+  flex: none;
+  background: ${({ $isRead, theme }) => ($isRead ? 'transparent' : theme.colors.brandYellow)};
+`;
+
+const NotificationContent = styled.div`
+  flex: 1;
+  min-width: 0;
+`;
+
+const NotificationItemHead = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 4px;
+`;
+
+const NotificationItemTitle = styled.h4`
+  font-size: 13.5px;
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors.textPrimary};
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+const NotificationItemTime = styled.span`
+  font-size: 11px;
+  color: ${({ theme }) => theme.colors.textSecondary};
+  flex: none;
+`;
+
+const NotificationItemMessage = styled.p`
+  font-size: 12.5px;
+  color: ${({ theme }) => theme.colors.textSecondary};
+  line-height: 1.45;
+  margin: 0;
+`;
+
+const NotificationEmpty = styled.div`
+  padding: 40px 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+
+  .empty-icon {
+    font-size: 28px;
+  }
+
+  .empty-text {
+    font-size: 13px;
+    font-weight: 600;
+    color: ${({ theme }) => theme.colors.textSecondary};
+    margin: 0;
+  }
 `;

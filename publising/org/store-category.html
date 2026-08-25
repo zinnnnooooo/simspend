@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>SimSPEND · 가게 카테고리</title>
+  <link rel="stylesheet" href="css/common.css" />
+  <link rel="stylesheet" href="css/store-category.css" />
+</head>
+<body>
+  <div class="app">
+    <main class="sc">
+
+      <!-- 헤더 -->
+      <header class="sc-header">
+        <a href="delivery-home.html" class="sc-header__back" aria-label="뒤로가기">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 5 8 12l7 7" stroke="#2B2D42" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <h1 class="sc-header__title" id="pageTitle">치킨</h1>
+        <div class="sc-header__actions">
+          <button type="button" aria-label="검색">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="11" cy="11" r="6.5" stroke="#2B2D42" stroke-width="1.8"/>
+              <path d="m20 20-3.8-3.8" stroke="#2B2D42" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </button>
+          <button type="button" aria-label="필터">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 6h16M7 12h10M10 18h4" stroke="#2B2D42" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- 카테고리 탭 -->
+      <nav class="sc-tabs" id="categoryTabs"></nav>
+
+      <!-- 정렬/필터 칩 -->
+      <div class="sc-filters" id="sortChips">
+        <span class="sc-filter-chip is-active" data-sort="recommend">
+          추천순
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <span class="sc-filter-chip" data-sort="rating">평점순</span>
+        <span class="sc-filter-chip" data-sort="near">가까운순</span>
+        <span class="sc-filter-chip" data-sort="fast">배달빠른순</span>
+        <span class="sc-filter-chip" data-sort="min-order">최소주문순</span>
+      </div>
+
+      <!-- 매장 리스트 -->
+      <div id="storeList" class="sc-store-list"></div>
+
+    </main>
+
+    <!-- 하단 내비게이션 -->
+    <nav class="sc-nav">
+      <div class="sc-nav__row">
+        <a href="index.html" class="sc-nav__item is-active">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 10.5 12 4l8 6.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M6 9.5V19a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V9.5" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+          </svg>
+          <span class="sc-nav__label">Home</span>
+        </a>
+        <a href="add.html" class="sc-nav__item">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="3.5" y="6" width="17" height="13" rx="2.4" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M3.5 10.5h17" stroke="currentColor" stroke-width="1.8"/>
+          </svg>
+          <span class="sc-nav__label">Ledger</span>
+        </a>
+
+        <span class="sc-nav__center">
+          <a href="delivery-home.html" class="sc-nav__center-btn" aria-label="배달 메인으로">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 5v14M5 12h14" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/>
+            </svg>
+          </a>
+        </span>
+
+        <a href="statistics.html" class="sc-nav__item">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 19V10M12 19V5M19 19v-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="sc-nav__label">Stats</span>
+        </a>
+        <a href="mypage.html" class="sc-nav__item">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="8.5" r="3.5" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M4.5 19.5c1.4-3.2 4.3-5 7.5-5s6.1 1.8 7.5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+          <span class="sc-nav__label">My Page</span>
+        </a>
+      </div>
+      <p class="sc-nav__brand">SimSpend</p>
+    </nav>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/store-category.js"></script>
+</body>
+</html>

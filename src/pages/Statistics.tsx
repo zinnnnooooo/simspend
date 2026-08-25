@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useLedger } from '@/context/LedgerContext';
+import { useGraphAnimation } from '@/hooks/useGraphAnimation';
 
 export const Statistics: React.FC = () => {
   const navigate = useNavigate();
@@ -17,7 +18,11 @@ export const Statistics: React.FC = () => {
     getAiInsight
   } = useLedger();
 
-  const totalExpense = getMonthlyTotal('2024-10');
+  const progress = useGraphAnimation(1000);
+
+  const now = new Date();
+  const currentMonthKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+  const totalExpense = getMonthlyTotal(currentMonthKey);
   const monthlyStats = getMonthlyStats();
   const budget = getBudgetGoal();
   const savedAmount = getSavedAmount();
@@ -30,7 +35,7 @@ export const Statistics: React.FC = () => {
   // 예산 달성 도넛 차트 계산
   const budgetRadius = 40;
   const budgetCircumference = 2 * Math.PI * budgetRadius;
-  const budgetFillLength = (budget.achievedPercent / 100) * budgetCircumference;
+  const budgetFillLength = ((budget.achievedPercent * progress) / 100) * budgetCircumference;
 
   // 요일별 지출 최댓값 기준 높이 pct
   const maxWeeklyAmount = Math.max(...weekly.amounts);
@@ -46,6 +51,31 @@ export const Statistics: React.FC = () => {
 
   const fmtWon = (n: number) => '₩' + Math.round(n).toLocaleString('ko-KR');
 
+  const renderAiInsight = (text: string) => {
+    const keywords = ["쇼핑 소비가 25% 증가", "의류 구매"];
+    let parts: React.ReactNode[] = [text];
+
+    keywords.forEach((keyword) => {
+      const newParts: React.ReactNode[] = [];
+      parts.forEach((part) => {
+        if (typeof part === 'string') {
+          const splitText = part.split(keyword);
+          splitText.forEach((t, i) => {
+            newParts.push(t);
+            if (i < splitText.length - 1) {
+              newParts.push(<strong key={keyword + i}>{keyword}</strong>);
+            }
+          });
+        } else {
+          newParts.push(part);
+        }
+      });
+      parts = newParts;
+    });
+
+    return parts;
+  };
+
   return (
     <StatsContainer>
       {/* 헤더 */}
@@ -58,12 +88,21 @@ export const Statistics: React.FC = () => {
         <HeaderTitle>통계</HeaderTitle>
       </PageHeader>
 
+      {/* AI 소비 분석 */}
+      <Card className="ai-analysis">
+        <AiCardTitle>AI 소비 분석</AiCardTitle>
+        <AiCardContent>
+          <AiCardIcon>💡</AiCardIcon>
+          <AiCardText>{renderAiInsight(aiInsight)}</AiCardText>
+        </AiCardContent>
+      </Card>
+
       {/* 2x2 요약 카드 */}
       <StatsGrid>
         {/* 카드 1: 이번 달 총 지출 */}
         <Card className="stat-box">
           <StatBoxLabel>이번 달 총 지출</StatBoxLabel>
-          <StatBoxValue>{fmtWon(totalExpense)}</StatBoxValue>
+          <StatBoxValue>{fmtWon(totalExpense * progress)}</StatBoxValue>
           <StatBoxFooter>
             <div>
               <Pill className={monthlyStats.diffPercentFromLastMonth >= 0 ? 'pill--negative' : 'pill--positive'}>
@@ -98,7 +137,7 @@ export const Statistics: React.FC = () => {
                 strokeDasharray={`${budgetFillLength} ${budgetCircumference}`}
               />
             </svg>
-            <span className="mini-donut__value">{budget.achievedPercent}%</span>
+            <span className="mini-donut__value">{Math.round(budget.achievedPercent * progress)}%</span>
           </MiniDonut>
           <p className="stat-box__caption">예산 {budget.target.toLocaleString('ko-KR')}원</p>
         </Card>
@@ -106,7 +145,7 @@ export const Statistics: React.FC = () => {
         {/* 카드 3: 이번 달 모은 금액 */}
         <Card className="stat-box">
           <StatBoxLabel>이번 달 모은 금액</StatBoxLabel>
-          <StatBoxValue className="stat-box__value--accent">{fmtWon(savedAmount)}</StatBoxValue>
+          <StatBoxValue className="stat-box__value--accent">{fmtWon(savedAmount * progress)}</StatBoxValue>
           <div style={{ marginTop: 'auto' }}>
             <p className="stat-box__caption">
               지난 달 보다<br />
@@ -119,9 +158,9 @@ export const Statistics: React.FC = () => {
         <Card className="stat-box">
           <StatBoxLabel>목표 저축 진행률</StatBoxLabel>
           <ProgressBar>
-            <ProgressBarFill style={{ width: `${savingsProgress.percentage}%` }} />
+            <ProgressBarFill style={{ width: `${savingsProgress.percentage * progress}%` }} />
           </ProgressBar>
-          <StatBoxValueLg>{savingsProgress.percentage}%</StatBoxValueLg>
+          <StatBoxValueLg>{Math.round(savingsProgress.percentage * progress)}%</StatBoxValueLg>
           <p className="stat-box__caption">
             거의 다 왔어요!<br />
             조금만 더 파이팅!
@@ -135,27 +174,30 @@ export const Statistics: React.FC = () => {
         <CategoryCardBody>
           <CategoryDonut>
             <svg viewBox="0 0 100 100">
-              {categories.map((item, idx) => {
-                const strokeLength = (item.percentage / 100) * categoryCircumference;
-                const strokeOffset = -currentOffset;
-                currentOffset += strokeLength;
-                return (
-                  <circle
-                    key={idx}
-                    cx="50"
-                    cy="50"
-                    r="40"
-                    fill="none"
-                    stroke={categoryColors[idx % categoryColors.length]}
-                    strokeWidth="14"
-                    strokeDasharray={`${strokeLength} ${categoryCircumference}`}
-                    strokeDashoffset={strokeOffset}
-                    transform="rotate(-90 50 50)"
-                  />
-                );
-              })}
+              {(() => {
+                let innerOffset = 0;
+                return categories.map((item, idx) => {
+                  const strokeLength = ((item.percentage * progress) / 100) * categoryCircumference;
+                  const strokeOffset = -innerOffset;
+                  innerOffset += strokeLength;
+                  return (
+                    <circle
+                      key={idx}
+                      cx="50"
+                      cy="50"
+                      r="40"
+                      fill="none"
+                      stroke={categoryColors[idx % categoryColors.length]}
+                      strokeWidth="14"
+                      strokeDasharray={`${strokeLength} ${categoryCircumference}`}
+                      strokeDashoffset={strokeOffset}
+                      transform="rotate(-90 50 50)"
+                    />
+                  );
+                });
+              })()}
             </svg>
-            <span className="category-donut__value">{categories[0]?.percentage || 0}%</span>
+            <span className="category-donut__value">{Math.round((categories[0]?.percentage || 0) * progress)}%</span>
           </CategoryDonut>
 
           <CategoryLegend>
@@ -163,7 +205,7 @@ export const Statistics: React.FC = () => {
               <CategoryLegendRow key={idx}>
                 <CategoryLegendDot style={{ background: categoryColors[idx % categoryColors.length] }} />
                 <span className="category-legend__name">{item.name}</span>
-                <span className="category-legend__percent">{item.percentage}%</span>
+                <span className="category-legend__percent">{Math.round(item.percentage * progress)}%</span>
               </CategoryLegendRow>
             ))}
           </CategoryLegend>
@@ -179,7 +221,7 @@ export const Statistics: React.FC = () => {
             <span className="top-card__emoji">{topCategory.icon}</span>
             <span>{topCategory.name}</span>
           </TopCardTitle>
-          <TopCardAmount>{fmtWon(topCategory.amount)}</TopCardAmount>
+          <TopCardAmount>{fmtWon(topCategory.amount * progress)}</TopCardAmount>
           <p className="stat-box__caption">가장 많이 사용한 분야</p>
         </Card>
 
@@ -187,7 +229,7 @@ export const Statistics: React.FC = () => {
         <Card className="diff-card">
           <TopCardLabel>지난 달 대비</TopCardLabel>
           <DiffCardValue>
-            +{topCategory.diffPercentFromLastMonth}%
+            +{Math.round(topCategory.diffPercentFromLastMonth * progress)}%
             <span className="diff-card__arrow">↑</span>
           </DiffCardValue>
           <DiffCardFooter>
@@ -196,9 +238,9 @@ export const Statistics: React.FC = () => {
               30% 더 사용했어요
             </p>
             <DiffCardBars>
-              <span style={{ height: '35%' }} />
-              <span style={{ height: '60%' }} />
-              <span style={{ height: '85%' }} />
+              <span style={{ height: `${35 * progress}%` }} />
+              <span style={{ height: `${60 * progress}%` }} />
+              <span style={{ height: `${85 * progress}%` }} />
             </DiffCardBars>
           </DiffCardFooter>
         </Card>
@@ -211,24 +253,16 @@ export const Statistics: React.FC = () => {
           {weekly.days.map((day, i) => {
             const amount = weekly.amounts[i];
             const heightPct = Math.max(12, Math.round((amount / maxWeeklyAmount) * 100));
+            const animatedHeight = heightPct * progress;
             const isPeak = i === peakIndex;
             return (
               <WeekdayChartCol key={day} className={isPeak ? 'is-peak' : ''}>
-                <WeekdayChartBar style={{ height: `${heightPct}%` }} />
+                <WeekdayChartBar style={{ height: `${animatedHeight}%` }} />
                 <span className="weekday-chart__label">{day}</span>
               </WeekdayChartCol>
             );
           })}
         </WeekdayChart>
-      </Card>
-
-      {/* AI 소비 분석 */}
-      <Card className="ai-analysis">
-        <AiCardTitle>AI 소비 분석</AiCardTitle>
-        <AiCardContent>
-          <AiCardIcon>💡</AiCardIcon>
-          <AiCardText>{aiInsight}</AiCardText>
-        </AiCardContent>
       </Card>
     </StatsContainer>
   );
@@ -308,8 +342,12 @@ const Card = styled.div`
   }
 
   &.ai-analysis {
-    min-height: 120px;
-    padding: 24px;
+    min-height: 100px;
+    padding: clamp(14px, 2.2vh, 22px) 20px;
+    background: linear-gradient(135deg, #191B2E 0%, #20243E 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 12px 30px rgba(15, 16, 26, 0.15);
+    color: #FFFFFF;
   }
 `;
 
@@ -613,35 +651,41 @@ const WeekdayChartCol = styled.div`
 `;
 
 const AiCardTitle = styled.p`
-  margin-bottom: 18px;
-  font-size: 17px;
+  margin-bottom: 12px;
+  font-size: 16px;
   font-weight: 800;
-  color: #2b2d42;
+  color: #FFFFFF;
 `;
 
 const AiCardContent = styled.div`
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 16px;
 `;
 
 const AiCardIcon = styled.div`
-  width: 54px;
-  height: 54px;
+  width: 44px;
+  height: 44px;
   flex: none;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background: #f5f7fb;
-  font-size: 28px;
+  background: rgba(255, 255, 255, 0.1);
+  font-size: 22px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 `;
 
 const AiCardText = styled.p`
   flex: 1;
   margin: 0;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
-  line-height: 1.8;
-  color: #2b2d42;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+
+  strong {
+    color: #FFAE00;
+    font-weight: 700;
+  }
 `;

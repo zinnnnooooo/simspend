@@ -1,0 +1,354 @@
+/* ==========================================================================
+   SimSPEND · store-category.css (store-category.html - 가게 카테고리)
+   ========================================================================== */
+
+.sc {
+  padding: var(--space-2) var(--space-4) 130px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* ---------- 헤더 ---------- */
+.sc-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+}
+
+.sc-header__back {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-charcoal);
+  flex: none;
+}
+
+.sc-header__title {
+  flex: 1;
+  text-align: center;
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--color-charcoal);
+}
+
+.sc-header__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.sc-header__actions button,
+.sc-header__actions a {
+  width: 22px;
+  height: 22px;
+  color: var(--color-charcoal);
+  display: flex;
+}
+
+/* ---------- 카테고리 탭 ---------- */
+.sc-tabs {
+  display: flex;
+  gap: var(--space-5);
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+
+.sc-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.sc-tab {
+  flex: none;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  padding-bottom: 8px;
+  border-bottom: 2.5px solid transparent;
+  white-space: nowrap;
+}
+
+.sc-tab.is-active {
+  color: var(--color-charcoal);
+  border-bottom-color: var(--color-charcoal);
+}
+
+/* ---------- 정렬/필터 칩 ---------- */
+.sc-filters {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.sc-filters::-webkit-scrollbar {
+  display: none;
+}
+
+.sc-filter-chip {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 14px;
+  border-radius: var(--radius-pill);
+  background: var(--color-bg);
+  color: var(--color-text-secondary);
+  font-size: 12.5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.sc-filter-chip svg {
+  width: 12px;
+  height: 12px;
+}
+
+.sc-filter-chip.is-active {
+  background: var(--color-charcoal);
+  color: #ffffff;
+}
+
+/* ---------- 매장 리스트 ---------- */
+.sc-store-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* ---------- 매장 카드 ---------- */
+.sc-store-card {
+  padding: var(--space-4);
+}
+
+.sc-store-card__top {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.sc-store-card__thumb {
+  position: relative;
+  width: 92px;
+  height: 92px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, #FFE8B8, #FFD37A);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 38px;
+  flex: none;
+}
+
+.sc-store-card__badge {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  background: var(--color-charcoal);
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 3px 7px;
+  border-radius: 6px;
+}
+
+.sc-store-card__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.sc-store-card__name {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--color-charcoal);
+  margin-bottom: 4px;
+}
+
+.sc-store-card__rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--color-charcoal);
+  margin-bottom: 4px;
+}
+
+.sc-store-card__rating svg {
+  width: 13px;
+  height: 13px;
+}
+
+.sc-store-card__rating span {
+  color: var(--color-text-secondary);
+  font-weight: 600;
+}
+
+.sc-store-card__tags {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  margin-bottom: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sc-store-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.sc-store-card__meta svg {
+  width: 13px;
+  height: 13px;
+}
+
+.sc-store-card__meta .is-free {
+  color: var(--color-income);
+  font-weight: 700;
+}
+
+.sc-store-card__min-order {
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
+  font-size: 12.5px;
+  color: var(--color-text-secondary);
+}
+
+/* ---------- 프로모 배너 ---------- */
+.sc-promo {
+  position: relative;
+  padding: var(--space-5);
+  overflow: hidden;
+  background: linear-gradient(135deg, #FFF3D9, #FFE0A8);
+}
+
+.sc-promo__title {
+  font-size: 15.5px;
+  font-weight: 800;
+  color: var(--color-charcoal);
+  margin-bottom: 6px;
+  max-width: 65%;
+}
+
+.sc-promo__subtitle {
+  font-size: 12px;
+  color: var(--color-charcoal);
+  opacity: 0.65;
+  max-width: 65%;
+}
+
+.sc-promo__mascot {
+  position: absolute;
+  right: 14px;
+  bottom: 10px;
+  font-size: 44px;
+}
+
+/* ---------- 준비 중 카드 ---------- */
+.sc-empty-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-6) 0;
+  color: var(--color-text-muted);
+}
+
+.sc-empty-card svg {
+  width: 26px;
+  height: 26px;
+}
+
+.sc-empty-card__text {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+}
+
+/* ---------- 하단 내비게이션 (Home/Ledger/SimSpend/Stats/My Page) ---------- */
+.sc-nav {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+  width: 100%;
+  max-width: var(--app-max-width);
+  background: var(--color-surface);
+  border-top-left-radius: 22px;
+  border-top-right-radius: 22px;
+  box-shadow: 0 -8px 24px rgba(43, 45, 66, 0.08);
+  padding: 10px var(--space-3) calc(6px + env(safe-area-inset-bottom));
+  z-index: 20;
+}
+
+.sc-nav__row {
+  display: flex;
+  align-items: flex-end;
+}
+
+.sc-nav__item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.sc-nav__item svg {
+  width: 21px;
+  height: 21px;
+  color: var(--color-text-muted);
+}
+
+.sc-nav__label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.sc-nav__item.is-active svg,
+.sc-nav__item.is-active .sc-nav__label {
+  color: var(--color-charcoal);
+}
+
+.sc-nav__center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.sc-nav__center-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--color-charcoal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -28px;
+  box-shadow: 0 8px 18px rgba(43, 45, 66, 0.35);
+  border: 4px solid var(--color-bg);
+}
+
+.sc-nav__center-btn svg {
+  width: 18px;
+  height: 18px;
+  color: #ffffff;
+}
+
+.sc-nav__brand {
+  text-align: center;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: var(--color-text-muted);
+  margin-top: 4px;
+}

@@ -2,36 +2,36 @@ import { DefaultTheme } from 'styled-components';
 
 export const lightTheme: DefaultTheme = {
   colors: {
-    background: '#F8F9FC',
+    background: '#F5F6F9', // Seated Cool Gray Background
     cardBackground: '#FFFFFF',
-    textPrimary: '#1E1F2E',
-    textSecondary: '#8B8D9B',
-    brandYellow: '#FFAE00',
-    brandNegative: '#FF5C5C',
-    brandPositive: '#2F9E6E',
-    border: '#ECEDF1',
-    inputBg: '#ECEDF1',
+    textPrimary: '#191B2E', // Premium Deep Navy
+    textSecondary: '#8C94A7', // Enhanced contrast secondary text
+    brandYellow: '#FFAA00', // Refined SimSpend Orange
+    brandNegative: '#FF5B62', // Soft Coral Red
+    brandPositive: '#42B883', // Soft Green
+    border: '#EBECEF',
+    inputBg: '#F1F3F6',
   },
   shadows: {
-    card: '0 8px 24px rgba(0, 0, 0, 0.04)',
-    bottomSheet: '0 -10px 30px rgba(0, 0, 0, 0.08)',
+    card: '0 8px 30px rgba(25, 27, 46, 0.04)', // Very soft ambient shadow
+    bottomSheet: '0 -10px 40px rgba(25, 27, 46, 0.08)',
   }
 };
 
 export const darkTheme: DefaultTheme = {
   colors: {
-    background: '#121218',
-    cardBackground: '#1E1F2E',
-    textPrimary: '#FFFFFF',
-    textSecondary: '#8B8D9B',
-    brandYellow: '#FFAE00',
-    brandNegative: '#FF7D7D',
-    brandPositive: '#43C68A',
-    border: '#2D2E3C',
-    inputBg: '#2D2E3C',
+    background: '#0F101A', // Deeper modern dark background
+    cardBackground: '#191B2E', // Deep Navy surface for dark mode
+    textPrimary: '#F5F6F9',
+    textSecondary: '#8C94A7',
+    brandYellow: '#FFAA00',
+    brandNegative: '#FF5B62',
+    brandPositive: '#42B883',
+    border: '#25283D',
+    inputBg: '#202336',
   },
   shadows: {
-    card: '0 8px 24px rgba(0, 0, 0, 0.2)',
-    bottomSheet: '0 -10px 30px rgba(0, 0, 0, 0.3)',
+    card: '0 8px 30px rgba(0, 0, 0, 0.25)',
+    bottomSheet: '0 -10px 40px rgba(0, 0, 0, 0.35)',
   }
 };

@@ -17,6 +17,10 @@ export const GlobalStyle = createGlobalStyle`
     transition: background-color 0.2s ease, color 0.2s ease;
   }
 
+  html {
+    scrollbar-gutter: stable;
+  }
+
   body {
     font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
       "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;

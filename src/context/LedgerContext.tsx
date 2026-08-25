@@ -34,26 +34,41 @@ const LedgerContext = createContext<LedgerContextType | undefined>(undefined);
 const TX_STORAGE_KEY = 'simspend_transactions_v2';
 const VIRTUAL_STORAGE_KEY = 'simspendVirtualPurchases';
 
-// data.js의 시드 데이터 이식
-const seedTransactions: Transaction[] = [
-  { id: 'tx_01', date: '2024-10-24', type: 'expense', category: '식비', paymentMethod: '카드', amount: 4500, memo: '스타벅스 신사점', icon: 'cafe', createdAt: '2024-10-24T09:12:00.000Z' },
-  { id: 'tx_02', date: '2024-10-24', type: 'expense', category: '교통', paymentMethod: '카드', amount: 1250, memo: '서울버스교통', icon: 'bus', createdAt: '2024-10-24T08:03:00.000Z' },
-  { id: 'tx_03', date: '2024-10-24', type: 'expense', category: '쇼핑', paymentMethod: '카드', amount: 139250, memo: '쿠팡 겨울용품 구매', icon: 'bag', createdAt: '2024-10-24T07:00:00.000Z' },
-  { id: 'tx_04', date: '2024-10-23', type: 'expense', category: '구독', paymentMethod: '정기지출', amount: 8900, memo: '애플뮤직 구독', icon: 'music', createdAt: '2024-10-23T23:50:00.000Z' },
-  { id: 'tx_05', date: '2024-10-23', type: 'expense', category: '식비', paymentMethod: '카드', amount: 12700, memo: '김밥천국 선릉점', icon: 'food', createdAt: '2024-10-23T12:31:00.000Z' },
-  { id: 'tx_06', date: '2024-10-23', type: 'expense', category: '쇼핑', paymentMethod: '카드', amount: 6400, memo: '올리브영 강남점', icon: 'bag', createdAt: '2024-10-23T10:15:00.000Z' },
-  { id: 'tx_07', date: '2024-10-20', type: 'expense', category: '식비', paymentMethod: '카드', amount: 5200, memo: '스타벅스 여의도점', icon: 'cafe', createdAt: '2024-10-20T08:40:00.000Z' },
-  { id: 'tx_08', date: '2024-10-18', type: 'expense', category: '쇼핑', paymentMethod: '카드', amount: 82000, memo: '쿠팡 온라인쇼핑', icon: 'bag', createdAt: '2024-10-18T21:20:00.000Z' },
-  { id: 'tx_09', date: '2024-10-17', type: 'expense', category: '식비', paymentMethod: '카드', amount: 32000, memo: '한식당 점심', icon: 'food', createdAt: '2024-10-17T12:05:00.000Z' },
-  { id: 'tx_10', date: '2024-10-15', type: 'expense', category: '의료', paymentMethod: '카드', amount: 45000, memo: '우리동네의원', icon: 'bag', createdAt: '2024-10-15T15:30:00.000Z' },
-  { id: 'tx_11', date: '2024-10-10', type: 'expense', category: '구독', paymentMethod: '계좌이체', amount: 68000, memo: '통신비 자동이체', icon: 'bag', createdAt: '2024-10-10T09:00:00.000Z' },
-  { id: 'tx_12', date: '2024-10-08', type: 'expense', category: '쇼핑', paymentMethod: '카드', amount: 120000, memo: '무신사 스토어', icon: 'bag', createdAt: '2024-10-08T19:45:00.000Z' },
-  { id: 'tx_13', date: '2024-10-05', type: 'expense', category: '식비', paymentMethod: '카드', amount: 15300, memo: '김밥천국', icon: 'food', createdAt: '2024-10-05T18:10:00.000Z' },
-  { id: 'tx_14', date: '2024-10-03', type: 'expense', category: '구독', paymentMethod: '정기지출', amount: 17900, memo: '넷플릭스 구독', icon: 'music', createdAt: '2024-10-03T00:10:00.000Z' },
-  { id: 'tx_15', date: '2024-10-02', type: 'expense', category: '교통', paymentMethod: '카드', amount: 3200, memo: '서울버스교통', icon: 'bus', createdAt: '2024-10-02T08:15:00.000Z' },
-  { id: 'tx_16', date: '2024-10-06', type: 'expense', category: '여행', paymentMethod: '카드', amount: 196000, memo: '국내선 항공권', icon: 'travel', createdAt: '2024-10-06T11:00:00.000Z' },
-  { id: 'tx_17', date: '2024-10-01', type: 'expense', category: '주거', paymentMethod: '계좌이체', amount: 600000, memo: '월세 자동이체', icon: 'home', createdAt: '2024-10-01T09:00:00.000Z' }
-];
+// 현재 날짜 기준 동적 시드 데이터 생성
+const getInitialSeedTransactions = (): Transaction[] => {
+  const today = new Date();
+  const y = today.getFullYear();
+  const m = String(today.getMonth() + 1).padStart(2, '0');
+  const d = today.getDate();
+
+  const getDateStr = (dayOffset: number) => {
+    const target = new Date(y, today.getMonth(), Math.max(1, Math.min(28, d - dayOffset)));
+    const ty = target.getFullYear();
+    const tm = String(target.getMonth() + 1).padStart(2, '0');
+    const td = String(target.getDate()).padStart(2, '0');
+    return `${ty}-${tm}-${td}`;
+  };
+
+  return [
+    { id: 'tx_01', date: getDateStr(0), type: 'expense', category: '식비', paymentMethod: '카드', amount: 4500, memo: '스타벅스 신사점', icon: 'cafe', createdAt: new Date().toISOString() },
+    { id: 'tx_02', date: getDateStr(0), type: 'expense', category: '교통', paymentMethod: '카드', amount: 1250, memo: '서울버스교통', icon: 'bus', createdAt: new Date().toISOString() },
+    { id: 'tx_03', date: getDateStr(0), type: 'expense', category: '쇼핑', paymentMethod: '카드', amount: 139250, memo: '쿠팡 생활용품 구매', icon: 'bag', createdAt: new Date().toISOString() },
+    { id: 'tx_04', date: getDateStr(1), type: 'expense', category: '구독', paymentMethod: '정기지출', amount: 8900, memo: '애플뮤직 구독', icon: 'music', createdAt: new Date().toISOString() },
+    { id: 'tx_05', date: getDateStr(1), type: 'expense', category: '식비', paymentMethod: '카드', amount: 12700, memo: '김밥천국 선릉점', icon: 'food', createdAt: new Date().toISOString() },
+    { id: 'tx_06', date: getDateStr(2), type: 'expense', category: '쇼핑', paymentMethod: '카드', amount: 6400, memo: '올리브영 강남점', icon: 'bag', createdAt: new Date().toISOString() },
+    { id: 'tx_07', date: getDateStr(3), type: 'expense', category: '식비', paymentMethod: '카드', amount: 5200, memo: '스타벅스 여의도점', icon: 'cafe', createdAt: new Date().toISOString() },
+    { id: 'tx_08', date: getDateStr(4), type: 'expense', category: '쇼핑', paymentMethod: '카드', amount: 82000, memo: '쿠팡 온라인쇼핑', icon: 'bag', createdAt: new Date().toISOString() },
+    { id: 'tx_09', date: getDateStr(5), type: 'expense', category: '식비', paymentMethod: '카드', amount: 32000, memo: '한식당 점심', icon: 'food', createdAt: new Date().toISOString() },
+    { id: 'tx_10', date: getDateStr(6), type: 'expense', category: '의료', paymentMethod: '카드', amount: 45000, memo: '우리동네의원', icon: 'bag', createdAt: new Date().toISOString() },
+    { id: 'tx_11', date: getDateStr(7), type: 'expense', category: '구독', paymentMethod: '계좌이체', amount: 68000, memo: '통신비 자동이체', icon: 'bag', createdAt: new Date().toISOString() },
+    { id: 'tx_12', date: getDateStr(8), type: 'expense', category: '쇼핑', paymentMethod: '카드', amount: 120000, memo: '무신사 스토어', icon: 'bag', createdAt: new Date().toISOString() },
+    { id: 'tx_13', date: getDateStr(9), type: 'expense', category: '식비', paymentMethod: '카드', amount: 15300, memo: '김밥천국', icon: 'food', createdAt: new Date().toISOString() },
+    { id: 'tx_14', date: getDateStr(10), type: 'expense', category: '구독', paymentMethod: '정기지출', amount: 17900, memo: '넷플릭스 구독', icon: 'music', createdAt: new Date().toISOString() },
+    { id: 'tx_15', date: getDateStr(10), type: 'expense', category: '교통', paymentMethod: '카드', amount: 3200, memo: '서울버스교통', icon: 'bus', createdAt: new Date().toISOString() }
+  ];
+};
+
+const seedTransactions = getInitialSeedTransactions();
 
 const seedVirtualPurchases: VirtualPurchase[] = [];
 
@@ -68,14 +83,25 @@ export const LedgerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [virtualPurchases, setVirtualPurchases] = useState<VirtualPurchase[]>([]);
   const [savingsGoals] = useState<SavingsGoal[]>(defaultSavingsGoals);
 
-  // 초기 LocalStorage 바인딩
+  // 초기 LocalStorage 바인딩 (과거 2024년 고정 데이터가 저장되어 있거나 비어있을 경우 현재 기준 시드로 리프레시)
   useEffect(() => {
     const rawTx = localStorage.getItem(TX_STORAGE_KEY);
+    const initialSeeds = getInitialSeedTransactions();
     if (!rawTx) {
-      localStorage.setItem(TX_STORAGE_KEY, JSON.stringify(seedTransactions));
-      setTransactions(seedTransactions);
+      localStorage.setItem(TX_STORAGE_KEY, JSON.stringify(initialSeeds));
+      setTransactions(initialSeeds);
     } else {
-      setTransactions(JSON.parse(rawTx));
+      const parsed: Transaction[] = JSON.parse(rawTx);
+      // 만약 과거 2024년 하드코딩 데이터만 남아있고 현재 월 데이터가 없으면 최신 시드와 결합
+      const currentMonthKey = `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}`;
+      const hasCurrentMonth = parsed.some(t => t.date.startsWith(currentMonthKey));
+      if (!hasCurrentMonth) {
+        const merged = [...initialSeeds, ...parsed.filter(p => !p.id.startsWith('tx_0') && !p.id.startsWith('tx_1'))];
+        localStorage.setItem(TX_STORAGE_KEY, JSON.stringify(merged));
+        setTransactions(merged);
+      } else {
+        setTransactions(parsed);
+      }
     }
 
     const rawVirtual = localStorage.getItem(VIRTUAL_STORAGE_KEY);
@@ -166,8 +192,26 @@ export const LedgerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   const getMonthlyStats = () => ({ diffPercentFromLastMonth: 12 });
   const getBudgetGoal = () => ({ target: 1900000, achievedPercent: 76 });
-  const getSavedAmount = () => 128900;
-  const getSavingsProgress = () => ({ percentage: 83 });
+  
+  const getSavedAmount = () => {
+    const now = new Date();
+    const currentMonthKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+    const thisMonthSavings = transactions
+      .filter(tx => tx.date.startsWith(currentMonthKey) && tx.type === 'savings')
+      .reduce((sum, tx) => sum + tx.amount, 0);
+    return 128900 + thisMonthSavings;
+  };
+
+  const getSavingsProgress = () => {
+    const totalGoal = 660000;
+    const baseSaved = 528000;
+    const allSavingsTx = transactions
+      .filter(tx => tx.type === 'savings')
+      .reduce((sum, tx) => sum + tx.amount, 0);
+    const totalCurrentSaved = baseSaved + allSavingsTx;
+    const percentage = Math.min(100, Math.round((totalCurrentSaved / totalGoal) * 100));
+    return { percentage, totalSaved: totalCurrentSaved, target: totalGoal };
+  };
   
   const getCategoryBreakdown = () => [
     { name: '식비', percentage: 60 },

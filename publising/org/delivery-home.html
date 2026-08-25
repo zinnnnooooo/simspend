@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>SimSPEND · 배달 메인</title>
+  <link rel="stylesheet" href="common.css" />
+  <link rel="stylesheet" href="delivery-home.css" />
+</head>
+<body>
+  <div class="app">
+    <main class="dh">
+
+      <!-- 상단 바 -->
+      <div class="dh-topbar">
+        <button type="button" class="dh-topbar__location">
+          서울시 강남구 역삼동
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 9l6 6 6-6" stroke="#2B2D42" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div class="dh-topbar__actions">
+          <span class="icon-btn" aria-label="알림">
+            <span class="icon-btn__dot" aria-hidden="true"></span>
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6 10a6 6 0 1 1 12 0c0 4 1.5 5.5 1.5 5.5H4.5S6 14 6 10Z" stroke="#2B2D42" stroke-width="1.8" stroke-linejoin="round"/>
+              <path d="M9.5 18.5a2.5 2.5 0 0 0 5 0" stroke="#2B2D42" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <a href="#" class="icon-btn" aria-label="가상 장바구니">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6 8h12l1 12H5L6 8Z" stroke="#2B2D42" stroke-width="1.8" stroke-linejoin="round"/>
+              <path d="M9 8V6a3 3 0 0 1 6 0v2" stroke="#2B2D42" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- 검색창 -->
+      <label class="dh-search">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.8"/>
+          <path d="m20 20-3.8-3.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+        <input type="text" placeholder="먹고 싶은 음식을 검색해보세요" />
+      </label>
+
+      <!-- 챌린지 배너 -->
+      <section class="dh-banner">
+        <span class="dh-banner__badge">가상 배달 서비스</span>
+        <p class="dh-banner__title">배달 참기 챌린지!<br />오늘 아낀 돈을 저축해보세요</p>
+        <p class="dh-banner__subtitle">가상 주문 한 번으로 자산 방어 완료</p>
+      </section>
+
+      <!-- 카테고리 -->
+      <section class="dh-categories">
+        <a href="store-category.html?c=한식" class="dh-category">
+          <span class="dh-category__icon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6 3v7M4 3v7M8 3v7M4 10c0 1.8.9 2.6 2 2.6V21M14 3c-2 0-3 2.2-3 5.5S12 14 14 14s3-2.2 3-5.5S16 3 14 3ZM14 14v7"/>
+            </svg>
+          </span>
+          <span class="dh-category__label">한식</span>
+        </a>
+        <a href="store-category.html?c=분식" class="dh-category">
+          <span class="dh-category__icon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 10a8 8 0 0 1 16 0" fill="none"/>
+              <path d="M3 10h18l-1.4 8.2a2 2 0 0 1-2 1.8H6.4a2 2 0 0 1-2-1.8L3 10Z" fill="none"/>
+              <path d="M8 10V7M12 10V6M16 10V7" fill="none"/>
+            </svg>
+          </span>
+          <span class="dh-category__label">분식</span>
+        </a>
+        <a href="store-category.html?c=버거" class="dh-category">
+          <span class="dh-category__icon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 10a8 8 0 0 1 16 0H4Z" fill="none"/>
+              <path d="M3.5 13h17" fill="none"/>
+              <path d="M4 16.5h16a1.5 1.5 0 0 1 0 3H4a1.5 1.5 0 0 1 0-3Z" fill="none"/>
+            </svg>
+          </span>
+          <span class="dh-category__label">버거</span>
+        </a>
+        <a href="store-category.html?c=치킨" class="dh-category">
+          <span class="dh-category__icon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 8h9v8a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3V8Z" fill="none"/>
+              <path d="M14 10h2a2 2 0 0 1 0 4h-2" fill="none"/>
+              <path d="M5 8V6h9v2" fill="none"/>
+            </svg>
+          </span>
+          <span class="dh-category__label">치킨</span>
+        </a>
+        <a href="store-category.html?c=피자" class="dh-category">
+          <span class="dh-category__icon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3 21 19H3L12 3Z" fill="none"/>
+              <circle cx="12" cy="12" r="0.8" fill="currentColor" stroke="none"/>
+              <circle cx="10" cy="15.5" r="0.8" fill="currentColor" stroke="none"/>
+              <circle cx="14" cy="15.5" r="0.8" fill="currentColor" stroke="none"/>
+            </svg>
+          </span>
+          <span class="dh-category__label">피자</span>
+        </a>
+        <a href="store-category.html?c=일식" class="dh-category">
+          <span class="dh-category__icon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 11a8 8 0 0 1 16 0v1H4v-1Z" fill="none"/>
+              <path d="M3 12h18l-1 3.5a2 2 0 0 1-1.9 1.5H5.9A2 2 0 0 1 4 15.5L3 12Z" fill="none"/>
+              <path d="M18 6l2-2" fill="none"/>
+            </svg>
+          </span>
+          <span class="dh-category__label">일식</span>
+        </a>
+        <a href="store-category.html?c=카페" class="dh-category">
+          <span class="dh-category__icon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 8h11v6a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4V8Z" fill="none"/>
+              <path d="M16 9.5h1.5a2 2 0 0 1 0 4H16" fill="none"/>
+            </svg>
+          </span>
+          <span class="dh-category__label">카페</span>
+        </a>
+        <a href="#" class="dh-category">
+          <span class="dh-category__icon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="5.5" cy="12" r="1.6" fill="currentColor"/>
+              <circle cx="12" cy="12" r="1.6" fill="currentColor"/>
+              <circle cx="18.5" cy="12" r="1.6" fill="currentColor"/>
+            </svg>
+          </span>
+          <span class="dh-category__label">전체보기</span>
+        </a>
+      </section>
+
+      <!-- 절약 안내 -->
+      <a href="#" class="card dh-saving-card">
+        <span class="dh-saving-card__icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="3.2" fill="#ffffff"/>
+          </svg>
+        </span>
+        <span class="dh-saving-card__text">
+          <p class="dh-saving-card__title">현재 배달비 <span id="deliveryFeeSaved">0</span>원 절약 중</p>
+          <p class="dh-saving-card__subtitle">자산을 완벽하게 방어하고 있어요</p>
+        </span>
+        <svg class="dh-saving-card__chevron" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9.5 5.5 16 12l-6.5 6.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+
+      <!-- 인기 가상 맛집 -->
+      <section>
+        <div class="dh-section__header">
+          <p class="dh-section__title">인기 가상 맛집</p>
+          <a href="store-category.html" class="dh-section__more">전체보기</a>
+        </div>
+        <div class="dh-store-scroll" id="storeScroll"></div>
+      </section>
+
+      <!-- 프로모 2칸 -->
+      <section class="dh-promo-row">
+        <div class="card dh-promo-card">
+          <p class="dh-promo-card__label">오늘의 랭킹</p>
+          <p class="dh-promo-card__value">참기 1위<br />마라탕</p>
+        </div>
+        <div class="card dh-promo-card">
+          <p class="dh-promo-card__label">스페셜 혜택</p>
+          <p class="dh-promo-card__value">저축하고<br />포인트 2배</p>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- FAB -->
+    <div class="dh__fab-wrap">
+      <a href="store-category.html" class="dh__fab" aria-label="가게 둘러보기">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 5v14M5 12h14" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/>
+        </svg>
+      </a>
+    </div>
+
+    <!-- 하단 내비게이션 (배달 전용) -->
+    <nav class="dh-nav">
+      <a href="experience.html" class="dh-nav__item is-active">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 10.5 12 4l8 6.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M6 9.5V19a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V9.5" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        </svg>
+        <span class="dh-nav__label">홈</span>
+      </a>
+      <a href="#" class="dh-nav__item">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="3.5" y="6" width="17" height="13" rx="2.4" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M3.5 10.5h17" stroke="currentColor" stroke-width="1.8"/>
+        </svg>
+        <span class="dh-nav__label">소비</span>
+      </a>
+      <a href="#" class="dh-nav__item">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M8.3 12.3 10.7 14.7 15.6 9.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="dh-nav__label">습관</span>
+      </a>
+      <a href="#" class="dh-nav__item">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="5.5" cy="12" r="1.6" fill="currentColor"/>
+          <circle cx="12" cy="12" r="1.6" fill="currentColor"/>
+          <circle cx="18.5" cy="12" r="1.6" fill="currentColor"/>
+        </svg>
+        <span class="dh-nav__label">더보기</span>
+      </a>
+    </nav>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="delivery-home.js"></script>
+</body>
+</html>

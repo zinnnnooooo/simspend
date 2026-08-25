@@ -3,9 +3,9 @@
 export interface Transaction {
   id: string;
   date: string;         // YYYY-MM-DD
-  type: 'expense' | 'income';
-  category: string;     // 식비, 교통, 쇼핑, 구독, 의료, 주거, 여행, 기타
-  paymentMethod: string; // 카드, 현금, 계좌이체, 정기지출
+  type: 'expense' | 'income' | 'savings';
+  category: string;     // 식비, 교통, 쇼핑, 적금, 예금 등
+  paymentMethod?: string;
   amount: number;
   memo: string;
   icon: string;
@@ -14,6 +14,8 @@ export interface Transaction {
 
 export interface VirtualPurchase {
   id: string;
+  productId?: string;
+  image?: string;
   productName: string;
   category: string;
   brand: string;
@@ -36,3 +38,50 @@ export interface SavingsGoal {
   actionType: 'edit-fill' | 'tip' | 'celebrate';
   tip: string | null;
 }
+
+// === 가상 쇼핑 데이터 타입 정의 ===
+
+export interface ProductOptionItem {
+  name: string;
+  priceDelta?: number; // 옵션 추가금
+}
+
+export interface ProductOptionGroup {
+  name: string;
+  required?: boolean;
+  options: ProductOptionItem[];
+}
+
+export interface ProductReview {
+  id: string;
+  author: string;
+  rating: number;
+  date: string;
+  content: string;
+}
+
+export interface ProductSpec {
+  label: string;
+  value: string;
+}
+
+export interface ShoppingProduct {
+  id: string;
+  name: string;
+  category: '패션' | '전자기기' | '생활용품' | '뷰티' | '취미' | '명품' | '스포츠' | '도서' | '전체' | string;
+  brand: string;
+  originalPrice: number;
+  discountRate: number; // 할인율 (%)
+  price: number;        // 실제 판매가 (원)
+  savedAmount: number;  // 절약/아낀 금액 (originalPrice - price)
+  image: string;
+  badge?: 'BEST' | 'HOT' | 'SALE' | '추천' | string;
+  rating: number;
+  reviewCount: number;
+  colors?: string[];
+  options?: ProductOptionGroup[];
+  description: string;
+  specs?: ProductSpec[];
+  reviews?: ProductReview[];
+}
+
