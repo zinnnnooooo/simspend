@@ -143,14 +143,14 @@ const NavItem = styled(NavLink)`
   -webkit-tap-highlight-color: transparent;
   outline: none;
   cursor: pointer;
-  transition: color 0.2s ease, transform 0.15s ease;
+  transition: color 0.25s cubic-bezier(0.25, 1, 0.22, 1), transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 
   &.active {
     color: ${({ theme }) => theme.colors.brandYellow};
     
     svg {
       color: ${({ theme }) => theme.colors.brandYellow};
-      stroke-width: 2.4px;
+      strokeWidth: 2.4px;
     }
     span {
       font-weight: 700;
@@ -158,8 +158,26 @@ const NavItem = styled(NavLink)`
     }
   }
 
+  @media (hover: hover) {
+    &:hover {
+      color: ${({ theme }) => theme.colors.brandYellow};
+      transform: translateY(-2px);
+      
+      div {
+        transform: translateY(-2px) scale(1.08);
+      }
+    }
+  }
+
   &:active {
-    transform: scale(0.93);
+    transform: scale(0.95) translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+    &:hover, &:active, div {
+      transform: none !important;
+    }
   }
 `;
 

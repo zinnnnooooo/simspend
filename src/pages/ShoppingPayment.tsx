@@ -77,7 +77,7 @@ export const ShoppingPayment: React.FC = () => {
 
     setTimeout(() => {
       setIsProcessing(false);
-      navigate('/delivery-status'); // 가상 배송 진행 완료 화면으로 이동
+      navigate('/delivery-status', { state: { price: orderData.totalPrice } }); // 가상 배송 진행 완료 화면으로 이동
     }, 600);
   };
 

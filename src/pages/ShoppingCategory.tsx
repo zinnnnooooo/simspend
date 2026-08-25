@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { HorizontalScrollWrapper } from '@/components/HorizontalScrollWrapper';
 import { mockProducts, getProductsByCategory } from '@/data/mockProducts';
 import { ShoppingProduct } from '@/@types';
 
@@ -84,20 +85,22 @@ export const ShoppingCategory: React.FC = () => {
       )}
 
       {/* 2. 카테고리 가로 스크롤 탭 바 */}
-      <CategoryTabs>
-        {CATEGORIES.map(cat => {
-          const isActive = currentCategory === cat || (cat === '전체' && currentCategory === '전체보기');
-          return (
-            <CategoryTab
-              key={cat}
-              to={`/shopping/category?c=${encodeURIComponent(cat)}`}
-              className={isActive ? 'is-active' : ''}
-            >
-              {cat}
-            </CategoryTab>
-          );
-        })}
-      </CategoryTabs>
+      <HorizontalScrollWrapper>
+        <CategoryTabs>
+          {CATEGORIES.map(cat => {
+            const isActive = currentCategory === cat || (cat === '전체' && currentCategory === '전체보기');
+            return (
+              <CategoryTab
+                key={cat}
+                to={`/shopping/category?c=${encodeURIComponent(cat)}`}
+                className={isActive ? 'is-active' : ''}
+              >
+                {cat}
+              </CategoryTab>
+            );
+          })}
+        </CategoryTabs>
+      </HorizontalScrollWrapper>
 
       {/* 3. 정렬 필터 및 상품 개수 바 */}
       <FilterBar>
@@ -299,8 +302,8 @@ const CategoryTabs = styled.div`
   display: flex;
   gap: 8px;
   overflow-x: auto;
-  margin: 0 -20px;
-  padding: 0 20px 4px;
+  margin: -8px -20px -8px;
+  padding: 8px 20px 8px;
   -webkit-overflow-scrolling: touch;
 
   &::-webkit-scrollbar {
@@ -318,7 +321,20 @@ const CategoryTab = styled(Link)`
   background: ${({ theme }) => theme.colors.cardBackground};
   color: ${({ theme }) => theme.colors.textSecondary};
   border: 1px solid ${({ theme }) => theme.colors.border};
-  transition: all 0.2s;
+  transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+  @media (hover: hover) {
+    &:hover {
+      border-color: ${({ theme }) => theme.colors.brandYellow};
+      color: ${({ theme }) => theme.colors.brandYellow};
+      transform: translateY(-3px);
+      box-shadow: 0 4px 12px rgba(255, 174, 0, 0.15);
+    }
+  }
+
+  &:active {
+    transform: scale(0.96) translateY(0);
+  }
 
   &.is-active {
     background: #1E1F2E;
@@ -359,6 +375,12 @@ const SortButton = styled.button`
   padding: 4px 6px;
   border-radius: 6px;
   font-weight: 500;
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.textPrimary};
+    background: rgba(255, 174, 0, 0.05);
+  }
 
   &.is-active {
     color: ${({ theme }) => theme.colors.brandYellow};
@@ -380,10 +402,28 @@ const ProductCard = styled(Link)`
   overflow: hidden;
   text-decoration: none;
   box-shadow: ${({ theme }) => theme.shadows.card};
-  transition: transform 0.2s;
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease;
 
   &:hover {
-    transform: translateY(-3px);
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: ${({ theme }) => 
+      theme.colors.cardBackground === '#FFFFFF' 
+        ? '0 12px 28px rgba(25, 27, 46, 0.12)' 
+        : '0 12px 28px rgba(0, 0, 0, 0.4)'};
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      transform: perspective(600px) rotateX(4deg) rotateY(-2deg) translateY(-8px);
+      box-shadow: ${({ theme }) => 
+        theme.colors.cardBackground === '#FFFFFF' 
+          ? '0 16px 36px rgba(25, 27, 46, 0.16)' 
+          : '0 16px 36px rgba(0, 0, 0, 0.5)'};
+      
+      img {
+        transform: scale(1.08);
+      }
+    }
   }
 `;
 
@@ -392,6 +432,7 @@ const ProductImageWrap = styled.div`
   width: 100%;
   padding-top: 100%;
   background: #F3F4F6;
+  overflow: hidden;
 
   img {
     position: absolute;
@@ -400,6 +441,7 @@ const ProductImageWrap = styled.div`
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
   }
 `;
 
@@ -521,10 +563,11 @@ const QuickBuyBtn = styled.button`
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: transform 0.15s, opacity 0.2s;
+  transition: transform 0.2s, background-color 0.2s;
 
   &:hover {
-    opacity: 0.9;
+    background-color: #2b2c3d;
+    transform: scale(1.03);
   }
 
   &:active {

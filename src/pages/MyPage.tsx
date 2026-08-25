@@ -4,11 +4,13 @@ import styled from 'styled-components';
 import { useThemeMode } from '@/context/ThemeContext';
 import { UserProfile, PROFILE_STORAGE_KEY, defaultProfile } from '@/pages/EditProfile';
 import { useAuth } from '@/context/AuthContext';
+import { useUI } from '@/context/UIContext';
 
 export const MyPage: React.FC = () => {
   const navigate = useNavigate();
   const { isDarkMode, toggleDarkMode } = useThemeMode();
   const { user, loginWithGoogle, logout } = useAuth();
+  const { showSnackbar, showConfirm } = useUI();
 
   const [profile, setProfile] = useState<UserProfile>(() => {
     try {
@@ -54,6 +56,7 @@ export const MyPage: React.FC = () => {
           if (!user) {
             try {
               await loginWithGoogle();
+              showSnackbar('Google 로그인이 완료되었습니다.');
             } catch (error) {
               console.error('로그인 에러:', error);
             }
@@ -77,8 +80,8 @@ export const MyPage: React.FC = () => {
           )}
         </ProfileAvatar>
         <ProfileInfo>
-          <p className="profile-card__name">{user ? `${profile.name} 님` : '로그인이 필요합니다'}</p>
-          <p className="profile-card__email">{user ? profile.email : '여기를 눌러 Google 로그인하기'}</p>
+          <p className="profile-card__name">{user ? `${profile.name} 님` : '게스트 님'}</p>
+          <p className="profile-card__email">{user ? profile.email : '여기를 눌러 Google 계정 연동하기'}</p>
         </ProfileInfo>
         <button type="button" className="profile-card__edit" aria-label="프로필 수정">
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -163,18 +166,17 @@ export const MyPage: React.FC = () => {
       <SettingsSection>
         <p className="settings-section__title">계정 관리</p>
         <Card className="settings-list">
-          <SettingsRowAsLink href="#" onClick={async (e) => {
+          <SettingsRowAsLink href="#" onClick={(e) => {
             e.preventDefault();
-            if (user) {
+            showConfirm('로그아웃 하시겠습니까?', async () => {
               try {
                 await logout();
-                alert('로그아웃 되었습니다.');
+                showSnackbar('로그아웃되었습니다.');
+                navigate('/login', { replace: true });
               } catch (error) {
                 console.error('로그아웃 에러:', error);
               }
-            } else {
-              alert('로그인된 상태가 아닙니다.');
-            }
+            });
           }}>
             <span className="settings-row__icon">
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -190,7 +192,7 @@ export const MyPage: React.FC = () => {
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="9.5" cy="8" r="3.2" stroke="currentColor" strokeWidth="1.8"/>
                 <path d="M3.5 19.5c1.2-3.3 3.5-5 6-5s4.8 1.7 6 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
-                <path d="M16 11h5" stroke="currentColor" stroke-width="1.8" strokeLinecap="round"/>
+                <path d="M16 11h5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
               </svg>
             </span>
             <span className="settings-row__label">회원탈퇴</span>
@@ -258,12 +260,22 @@ const Card = styled.div`
   background: ${({ theme }) => theme.colors.cardBackground};
   border-radius: 20px;
   box-shadow: ${({ theme }) => theme.shadows.card};
+  transition: transform 0.25s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.25s ease;
 
   &.profile-card {
     display: flex;
     align-items: center;
     gap: 16px;
     padding: 20px;
+    cursor: pointer;
+
+    &:hover {
+      transform: translateY(-3px) scale(1.015);
+      box-shadow: ${({ theme }) => 
+        theme.colors.cardBackground === '#FFFFFF' 
+          ? '0 12px 30px rgba(25, 27, 46, 0.12)' 
+          : '0 12px 30px rgba(0, 0, 0, 0.4)'};
+    }
 
     .profile-card__edit {
       background: transparent;
@@ -390,9 +402,15 @@ const SettingsRowAsLink = styled.a`
   gap: 12px;
   padding: 16px 20px;
   text-decoration: none;
+  transition: background-color 0.25s, transform 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
 
   & + & {
     border-top: 1px solid ${({ theme }) => theme.colors.border};
+  }
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.cardBackground === '#FFFFFF' ? '#F9FAFB' : '#232537'};
+    transform: translateX(4px);
   }
 
   .settings-row__icon {

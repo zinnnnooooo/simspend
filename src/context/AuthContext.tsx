@@ -6,6 +6,8 @@ import { PROFILE_STORAGE_KEY, defaultProfile } from '@/pages/EditProfile';
 interface AuthContextType {
   user: User | null;
   loading: boolean;
+  isGuest: boolean;
+  setGuestMode: (guest: boolean) => void;
   loginWithGoogle: () => Promise<User>;
   logout: () => Promise<void>;
 }
@@ -15,6 +17,18 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isGuest, setIsGuest] = useState(() => {
+    return localStorage.getItem('simspend_guest') === 'true';
+  });
+
+  const setGuestMode = (guest: boolean) => {
+    setIsGuest(guest);
+    if (guest) {
+      localStorage.setItem('simspend_guest', 'true');
+    } else {
+      localStorage.removeItem('simspend_guest');
+    }
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
@@ -43,6 +57,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const result = await signInWithPopup(auth, googleProvider);
       const firebaseUser = result.user;
       
+      // Clear guest mode on successful login
+      setGuestMode(false);
+      
       const profileData = {
         name: firebaseUser.displayName || '사용자',
         email: firebaseUser.email || '',
@@ -63,6 +80,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const logout = async () => {
     try {
       await signOut(auth);
+      setGuestMode(false);
       localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(defaultProfile));
       window.dispatchEvent(new Event('simspend_profile_updated'));
     } catch (error) {
@@ -72,7 +90,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, loginWithGoogle, logout }}>
+    <AuthContext.Provider value={{ user, loading, isGuest, setGuestMode, loginWithGoogle, logout }}>
       {children}
     </AuthContext.Provider>
   );

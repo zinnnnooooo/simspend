@@ -75,7 +75,7 @@ export const Payment: React.FC = () => {
     });
 
     // 가상 배송 확인 화면으로 라우팅
-    navigate('/delivery-status');
+    navigate('/delivery-status', { state: { price: orderData.totalPrice } });
   };
 
   const fmtWon = (n: number) => Math.round(n).toLocaleString('ko-KR') + '원';

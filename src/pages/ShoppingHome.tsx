@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { HorizontalScrollWrapper } from '@/components/HorizontalScrollWrapper';
 import { useGraphAnimation } from '@/hooks/useGraphAnimation';
 import { 
   mockProducts, 
@@ -147,52 +148,54 @@ export const ShoppingHome: React.FC = () => {
         <ViewAllLink to="/shopping/category?c=전체">더보기 &gt;</ViewAllLink>
       </SectionHeader>
       
-      <HotDealScrollList>
-        {hotDeals.map(item => (
-          <HotDealCard key={item.id} to={`/shopping/product/${item.id}`}>
-            <HotDealImageWrap>
-              <img src={item.image} alt={item.name} loading="lazy" />
-              <DiscountBadge>{item.discountRate}% OFF</DiscountBadge>
-            </HotDealImageWrap>
-            <HotDealContent>
-              <ItemBrand>{item.brand}</ItemBrand>
-              <ItemName>{item.name}</ItemName>
-              <PriceRow>
-                <FinalPrice>{fmtWon(item.price)}</FinalPrice>
-                <OriginalPrice>{fmtWon(item.originalPrice)}</OriginalPrice>
-              </PriceRow>
-              <CardBottomActionRow>
-                <QuickBuyBtn 
-                  type="button" 
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    navigate('/shopping/payment', {
-                      state: {
-                        productId: item.id,
-                        productName: item.name,
-                        brand: item.brand,
-                        category: item.category,
-                        image: item.image,
-                        selectedColor: item.colors?.[0] || '기본',
-                        selectedOptionsText: '',
-                        highlightOption: item.badge || '',
-                        quantity: 1,
-                        unitPrice: item.price,
-                        totalPrice: item.price,
-                        totalSaved: item.savedAmount,
-                        originalPrice: item.originalPrice
-                      }
-                    });
-                  }}
-                >
-                  가상 구매
-                </QuickBuyBtn>
-              </CardBottomActionRow>
-            </HotDealContent>
-          </HotDealCard>
-        ))}
-      </HotDealScrollList>
+      <HorizontalScrollWrapper>
+        <HotDealScrollList>
+          {hotDeals.map(item => (
+            <HotDealCard key={item.id} to={`/shopping/product/${item.id}`}>
+              <HotDealImageWrap>
+                <img src={item.image} alt={item.name} loading="lazy" />
+                <DiscountBadge>{item.discountRate}% OFF</DiscountBadge>
+              </HotDealImageWrap>
+              <HotDealContent>
+                <ItemBrand>{item.brand}</ItemBrand>
+                <ItemName>{item.name}</ItemName>
+                <PriceRow>
+                  <FinalPrice>{fmtWon(item.price)}</FinalPrice>
+                  <OriginalPrice>{fmtWon(item.originalPrice)}</OriginalPrice>
+                </PriceRow>
+                <CardBottomActionRow>
+                  <QuickBuyBtn 
+                    type="button" 
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      navigate('/shopping/payment', {
+                        state: {
+                          productId: item.id,
+                          productName: item.name,
+                          brand: item.brand,
+                          category: item.category,
+                          image: item.image,
+                          selectedColor: item.colors?.[0] || '기본',
+                          selectedOptionsText: '',
+                          highlightOption: item.badge || '',
+                          quantity: 1,
+                          unitPrice: item.price,
+                          totalPrice: item.price,
+                          totalSaved: item.savedAmount,
+                          originalPrice: item.originalPrice
+                        }
+                      });
+                    }}
+                  >
+                    가상 구매
+                  </QuickBuyBtn>
+                </CardBottomActionRow>
+              </HotDealContent>
+            </HotDealCard>
+          ))}
+        </HotDealScrollList>
+      </HorizontalScrollWrapper>
 
       {/* 5. 실시간 인기 가상 아이템 (2열 그리드) */}
       <SectionHeader>
@@ -448,7 +451,11 @@ const CategoryItem = styled(Link)`
   align-items: center;
   gap: 8px;
   text-decoration: none;
-  transition: transform 0.15s;
+  transition: transform 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+  &:hover {
+    transform: translateY(-2px) scale(1.03);
+  }
 
   &:active {
     transform: scale(0.95);
@@ -466,7 +473,7 @@ const CategoryIconBox = styled.div`
   justify-content: center;
   color: ${({ theme }) => theme.colors.textPrimary};
   box-shadow: ${({ theme }) => theme.shadows.card};
-  transition: all 0.2s ease;
+  transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
 
   svg {
     width: 22px;
@@ -476,7 +483,7 @@ const CategoryIconBox = styled.div`
   ${CategoryItem}:hover & {
     border-color: ${({ theme }) => theme.colors.brandYellow};
     color: ${({ theme }) => theme.colors.brandYellow};
-    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 174, 0, 0.15);
   }
 `;
 
@@ -511,10 +518,54 @@ const HotDealCard = styled(Link)`
   overflow: hidden;
   text-decoration: none;
   box-shadow: ${({ theme }) => theme.shadows.card};
-  transition: transform 0.2s ease, box-shadow 0.2s;
+  transition: 
+    transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), 
+    box-shadow 0.4s cubic-bezier(0.25, 1, 0.22, 1),
+    border-color 0.3s ease;
+  position: relative;
 
-  &:hover {
-    transform: translateY(-2px);
+  &:active {
+    transform: scale(0.97) translateY(0);
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      transform: perspective(600px) rotateX(4deg) rotateY(-2deg) translateY(-8px);
+      border-color: rgba(255, 174, 0, 0.3);
+      box-shadow: 
+        ${({ theme }) => 
+          theme.colors.cardBackground === '#FFFFFF' 
+            ? '0 16px 36px rgba(25, 27, 46, 0.16)' 
+            : '0 16px 36px rgba(0, 0, 0, 0.55)'},
+        0 0 20px rgba(255, 174, 0, 0.1);
+      
+      img {
+        transform: scale(1.08);
+      }
+
+      /* Parallax: Discount Badge shifts higher */
+      span {
+        transform: translateY(-2px) scale(1.04);
+      }
+    }
+  }
+
+  /* Transition for children elements */
+  span, img {
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.22, 1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none !important;
+    &:hover, &:active {
+      transform: none !important;
+      box-shadow: ${({ theme }) => theme.shadows.card} !important;
+      border-color: ${({ theme }) => theme.colors.border} !important;
+    }
+    img, span {
+      transform: none !important;
+      transition: none !important;
+    }
   }
 `;
 
@@ -523,11 +574,13 @@ const HotDealImageWrap = styled.div`
   width: 100%;
   height: 120px;
   background: ${({ theme }) => theme.colors.background};
+  overflow: hidden;
 
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
   }
 `;
 
@@ -604,10 +657,58 @@ const QuickBuyBtn = styled.button`
   border-radius: 8px;
   cursor: pointer;
   white-space: nowrap;
-  transition: transform 0.15s, opacity 0.2s;
+  position: relative;
+  overflow: hidden;
+  transition: 
+    transform 0.25s cubic-bezier(0.25, 1, 0.22, 1), 
+    background-color 0.25s ease,
+    box-shadow 0.25s ease;
+  box-shadow: 0 2px 6px rgba(255, 174, 0, 0.12);
+
+  /* Shine sweep overlay */
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.4) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    transform: skewX(-20deg);
+    pointer-events: none;
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      background-color: #e59d00;
+      transform: translateY(-1px) scale(1.04);
+      box-shadow: 0 4px 12px rgba(255, 174, 0, 0.25);
+
+      &::after {
+        left: 200%;
+        transition: left 0.5s ease-out;
+      }
+    }
+  }
 
   &:active {
-    transform: scale(0.95);
+    transform: scale(0.96) translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+    &::after {
+      display: none;
+    }
+    &:hover, &:active {
+      transform: none !important;
+      box-shadow: none !important;
+    }
   }
 `;
 
@@ -624,10 +725,54 @@ const ProductCard = styled(Link)`
   overflow: hidden;
   text-decoration: none;
   box-shadow: ${({ theme }) => theme.shadows.card};
-  transition: transform 0.2s ease, box-shadow 0.2s;
+  transition: 
+    transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), 
+    box-shadow 0.4s cubic-bezier(0.25, 1, 0.22, 1),
+    border-color 0.3s ease;
+  position: relative;
 
-  &:hover {
-    transform: translateY(-2px);
+  &:active {
+    transform: scale(0.97) translateY(0);
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      transform: perspective(600px) rotateX(4deg) rotateY(-2deg) translateY(-8px);
+      border-color: rgba(255, 174, 0, 0.3);
+      box-shadow: 
+        ${({ theme }) => 
+          theme.colors.cardBackground === '#FFFFFF' 
+            ? '0 16px 36px rgba(25, 27, 46, 0.16)' 
+            : '0 16px 36px rgba(0, 0, 0, 0.55)'},
+        0 0 20px rgba(255, 174, 0, 0.1);
+      
+      img {
+        transform: scale(1.08);
+      }
+
+      /* Parallax: CardBadge/text translation */
+      span {
+        transform: translateY(-2px) scale(1.04);
+      }
+    }
+  }
+
+  /* Transition for children elements */
+  span, img {
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.22, 1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none !important;
+    &:hover, &:active {
+      transform: none !important;
+      box-shadow: ${({ theme }) => theme.shadows.card} !important;
+      border-color: ${({ theme }) => theme.colors.border} !important;
+    }
+    img, span {
+      transform: none !important;
+      transition: none !important;
+    }
   }
 `;
 
@@ -636,6 +781,7 @@ const ProductImageWrap = styled.div`
   width: 100%;
   padding-top: 100%;
   background: ${({ theme }) => theme.colors.background};
+  overflow: hidden;
 
   img {
     position: absolute;
@@ -644,6 +790,7 @@ const ProductImageWrap = styled.div`
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
   }
 `;
 

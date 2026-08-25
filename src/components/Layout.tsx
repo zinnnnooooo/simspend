@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { BottomNav } from '@/components/BottomNav';
@@ -11,6 +11,44 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const touchStart = useRef({ x: 0, y: 0 });
+  const [transitionActive, setTransitionActive] = useState(false);
+  const prevPathRef = useRef(location.pathname);
+
+  useEffect(() => {
+    const prev = prevPathRef.current;
+    const next = location.pathname;
+
+    if (prev !== next) {
+      prevPathRef.current = next;
+
+      const isKeyTransition = (p: string, n: string) => {
+        const keys = ['/shopping', '/delivery', '/delivery-status'];
+        const prevIsHome = p === '/';
+        const nextIsHome = n === '/';
+        const prevIsPayment = p.includes('/payment');
+        const nextIsCompletion = n === '/delivery-status';
+        const prevIsCompletion = p === '/delivery-status';
+        
+        const nextIsShopping = n.startsWith('/shopping');
+        const nextIsDelivery = n.startsWith('/delivery');
+        const prevIsShopping = p.startsWith('/shopping');
+        const prevIsDelivery = p.startsWith('/delivery');
+
+        if (prevIsHome && (nextIsShopping || nextIsDelivery || nextIsCompletion)) return true;
+        if (nextIsHome && (prevIsShopping || prevIsDelivery || prevIsCompletion)) return true;
+        if (prevIsPayment && nextIsCompletion) return true;
+        return false;
+      };
+
+      if (isKeyTransition(prev, next)) {
+        setTransitionActive(true);
+        const timer = setTimeout(() => {
+          setTransitionActive(false);
+        }, 550);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [location.pathname]);
 
   // 주요 탭 페이지의 스와이프 순서 정의
   const PAGE_ORDER = ['/', '/add', '/statistics', '/pay', '/mypage'];
@@ -64,8 +102,6 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   const hideBottomNav = isDelivery || isShopping || isVirtualHistory || isAiReport || isSupport || isNotificationSettings || isFaq || isEditProfile;
 
-  const isLedger = location.pathname === '/add';
-
   return (
     <AppContainer>
       <ContentArea 
@@ -74,10 +110,11 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
         $hideBottomNav={hideBottomNav}
       >
         {/* key가 변경될 때마다 리렌더링 및 전환 애니메이션을 발동시킵니다 */}
-        <PageWrapper key={location.pathname} $noAnim={isLedger}>
+        <PageWrapper key={location.pathname}>
           {children || <Outlet />}
         </PageWrapper>
         {!hideBottomNav && <BottomNav />}
+        {transitionActive && <YellowTransitionOverlay />}
       </ContentArea>
     </AppContainer>
   );
@@ -85,7 +122,8 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
 
 const AppContainer = styled.div`
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
   background-color: ${({ theme }) => theme.colors.cardBackground === '#FFFFFF' ? '#E9EBF1' : '#08090E'};
   display: flex;
   justify-content: center;
@@ -96,7 +134,7 @@ const AppContainer = styled.div`
 const ContentArea = styled.div<{ $hideBottomNav?: boolean }>`
   width: 100%;
   max-width: 480px;
-  min-height: 100vh;
+  height: 100vh;
   background-color: ${({ theme }) => theme.colors.background};
   box-shadow: ${({ theme }) => theme.colors.cardBackground === '#FFFFFF' ? '0 0 40px rgba(25, 27, 46, 0.08)' : '0 0 40px rgba(0, 0, 0, 0.6)'};
   position: relative;
@@ -105,13 +143,15 @@ const ContentArea = styled.div<{ $hideBottomNav?: boolean }>`
   padding-bottom: ${({ $hideBottomNav }) => 
     $hideBottomNav ? '16px' : 'calc(76px + env(safe-area-inset-bottom) + 16px)'};
   overflow-x: hidden;
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 `;
 
 const slideFadeIn = keyframes`
   from {
-    opacity: 0.88;
-    transform: translateY(6px);
+    opacity: 0;
+    transform: translateY(4px);
   }
   to {
     opacity: 1;
@@ -119,12 +159,41 @@ const slideFadeIn = keyframes`
   }
 `;
 
-const PageWrapper = styled.div<{ $noAnim?: boolean }>`
+const PageWrapper = styled.div`
   width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   flex: 1;
   display: flex;
   flex-direction: column;
-  animation: ${({ $noAnim }) => ($noAnim ? 'none' : slideFadeIn)} 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: ${slideFadeIn} 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+`;
+
+const slideUpReveal = keyframes`
+  0% {
+    transform: scaleY(1.2);
+    transform-origin: top;
+  }
+  40% {
+    transform: scaleY(1.2);
+    transform-origin: top;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+`;
+
+const YellowTransitionOverlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: ${({ theme }) => theme.colors.brandYellow};
+  z-index: 9999;
+  pointer-events: none;
+  animation: ${slideUpReveal} 0.55s cubic-bezier(0.76, 0, 0.24, 1) forwards;
 `;
 
 export default Layout;

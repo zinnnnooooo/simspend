@@ -316,6 +316,16 @@ const Card = styled.div`
   background: ${({ theme }) => theme.colors.cardBackground};
   border-radius: 20px;
   box-shadow: ${({ theme }) => theme.shadows.card};
+  transition: transform 0.25s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.25s ease;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-3px) scale(1.015);
+    box-shadow: ${({ theme }) => 
+      theme.colors.cardBackground === '#FFFFFF' 
+        ? '0 12px 30px rgba(25, 27, 46, 0.12)' 
+        : '0 12px 30px rgba(0, 0, 0, 0.4)'};
+  }
 
   &.stat-box {
     min-height: 170px;

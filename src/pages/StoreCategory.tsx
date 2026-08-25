@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { HorizontalScrollWrapper } from '@/components/HorizontalScrollWrapper';
 import { mockStores } from '@/data/mockStores';
 
 export const StoreCategory: React.FC = () => {
@@ -48,30 +49,34 @@ export const StoreCategory: React.FC = () => {
       </ScHeader>
 
       {/* 둥근 캡슐 알약 형태의 카테고리 탭 */}
-      <ScTabs>
-        {['한식', '분식', '버거', '치킨', '피자', '일식', '카페'].map((c) => (
-          <ScTab 
-            key={c} 
-            to={`/delivery/category?c=${c}`} 
-            className={c === currentCategory ? 'is-active' : ''}
-          >
-            {c}
-          </ScTab>
-        ))}
-      </ScTabs>
+      <HorizontalScrollWrapper>
+        <ScTabs>
+          {['한식', '분식', '버거', '치킨', '피자', '일식', '카페'].map((c) => (
+            <ScTab 
+              key={c} 
+              to={`/delivery/category?c=${c}`} 
+              className={c === currentCategory ? 'is-active' : ''}
+            >
+              {c}
+            </ScTab>
+          ))}
+        </ScTabs>
+      </HorizontalScrollWrapper>
 
       {/* 필터 칩 */}
-      <ScFilters>
-        {['추천순', '평점순', '가까운순', '배달빠른순', '최소주문순'].map((f) => (
-          <FilterChip 
-            key={f} 
-            className={f === activeSort ? 'is-active' : ''}
-            onClick={() => setActiveSort(f)}
-          >
-            {f} {f === activeSort && <span className="arrow-icon">▼</span>}
-          </FilterChip>
-        ))}
-      </ScFilters>
+      <HorizontalScrollWrapper>
+        <ScFilters>
+          {['추천순', '평점순', '가까운순', '배달빠른순', '최소주문순'].map((f) => (
+            <FilterChip 
+              key={f} 
+              className={f === activeSort ? 'is-active' : ''}
+              onClick={() => setActiveSort(f)}
+            >
+              {f} {f === activeSort && <span className="arrow-icon">▼</span>}
+            </FilterChip>
+          ))}
+        </ScFilters>
+      </HorizontalScrollWrapper>
 
       {/* 맛집 가게 카드 목록 */}
       <StoreList>

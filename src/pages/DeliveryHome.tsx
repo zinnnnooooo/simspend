@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { HorizontalScrollWrapper } from '@/components/HorizontalScrollWrapper';
 import { mockStores } from '@/data/mockStores';
 
 // 2번 시안 맞춤 정밀 벡터 라인 아이콘 딕셔너리
@@ -194,37 +195,39 @@ export const DeliveryHome: React.FC = () => {
           <SectionMore to="/delivery/category?c=치킨">전체보기</SectionMore>
         </SectionHeader>
         
-        <StoreScroll>
-          {randomStores.map((store) => (
-            <StoreCard key={store.id} to={`/delivery/store/${store.id}`}>
-              <StoreCardThumb>
-                {store.badge && <StoreCardBadge>{store.badge}</StoreCardBadge>}
-                {store.image ? (
-                  <img src={store.image} alt={store.name} className="store-img" />
-                ) : (
-                  <span className="store-emoji">{store.emoji}</span>
-                )}
-                <StoreCardRating>
-                  ★ {store.rating}
-                </StoreCardRating>
-              </StoreCardThumb>
-              <StoreCardName>{store.name}</StoreCardName>
-              <StoreCardEta>가상 배달 {store.etaLabel}</StoreCardEta>
-              <StoreCardPriceRow>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                  <StoreCardPrice>{fmtWon(store.price)}</StoreCardPrice>
-                </div>
-                {/* 지출 절약 지갑 챌린지 버튼 */}
-                <SavingTriggerBtn type="button">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M19 7h-8a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2Z"/>
-                    <path d="M5 11H3a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h2"/>
-                  </svg>
-                </SavingTriggerBtn>
-              </StoreCardPriceRow>
-            </StoreCard>
-          ))}
-        </StoreScroll>
+        <HorizontalScrollWrapper>
+          <StoreScroll>
+            {randomStores.map((store) => (
+              <StoreCard key={store.id} to={`/delivery/store/${store.id}`}>
+                <StoreCardThumb>
+                  {store.badge && <StoreCardBadge>{store.badge}</StoreCardBadge>}
+                  {store.image ? (
+                    <img src={store.image} alt={store.name} className="store-img" />
+                  ) : (
+                    <span className="store-emoji">{store.emoji}</span>
+                  )}
+                  <StoreCardRating>
+                    ★ {store.rating}
+                  </StoreCardRating>
+                </StoreCardThumb>
+                <StoreCardName>{store.name}</StoreCardName>
+                <StoreCardEta>가상 배달 {store.etaLabel}</StoreCardEta>
+                <StoreCardPriceRow>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                    <StoreCardPrice>{fmtWon(store.price)}</StoreCardPrice>
+                  </div>
+                  {/* 지출 절약 지갑 챌린지 버튼 */}
+                  <SavingTriggerBtn type="button">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M19 7h-8a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2Z"/>
+                      <path d="M5 11H3a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h2"/>
+                    </svg>
+                  </SavingTriggerBtn>
+                </StoreCardPriceRow>
+              </StoreCard>
+            ))}
+          </StoreScroll>
+        </HorizontalScrollWrapper>
       </section>
 
       {/* 오늘의 추천 메뉴 섹션 */}
@@ -233,25 +236,27 @@ export const DeliveryHome: React.FC = () => {
           <SectionTitle>오늘의 추천 메뉴</SectionTitle>
         </SectionHeader>
         
-        <StoreScroll>
-          {randomMenus.map((menu, idx) => (
-            <RecommendMenuCard key={idx} to={`/delivery/store/${menu.storeId}`}>
-              <MenuCardThumb>
-                {menu.storeImage ? (
-                  <img src={menu.storeImage} alt={menu.name} className="menu-img" />
-                ) : (
-                  <span className="menu-emoji">{menu.storeEmoji}</span>
-                )}
-                <MenuCardRating>
-                  ⭐ 추천
-                </MenuCardRating>
-              </MenuCardThumb>
-              <MenuCardName>{menu.name}</MenuCardName>
-              <MenuCardStoreSub>{menu.storeName}</MenuCardStoreSub>
-              <MenuCardPrice>{fmtWon(menu.price)}</MenuCardPrice>
-            </RecommendMenuCard>
-          ))}
-        </StoreScroll>
+        <HorizontalScrollWrapper>
+          <StoreScroll>
+            {randomMenus.map((menu, idx) => (
+              <RecommendMenuCard key={idx} to={`/delivery/store/${menu.storeId}`}>
+                <MenuCardThumb>
+                  {menu.storeImage ? (
+                    <img src={menu.storeImage} alt={menu.name} className="menu-img" />
+                  ) : (
+                    <span className="menu-emoji">{menu.storeEmoji}</span>
+                  )}
+                  <MenuCardRating>
+                    ⭐ 추천
+                  </MenuCardRating>
+                </MenuCardThumb>
+                <MenuCardName>{menu.name}</MenuCardName>
+                <MenuCardStoreSub>{menu.storeName}</MenuCardStoreSub>
+                <MenuCardPrice>{fmtWon(menu.price)}</MenuCardPrice>
+              </RecommendMenuCard>
+            ))}
+          </StoreScroll>
+        </HorizontalScrollWrapper>
       </section>
     </DhContainer>
   );

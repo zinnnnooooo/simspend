@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { HorizontalScrollWrapper } from '@/components/HorizontalScrollWrapper';
 
 interface FaqItem {
   id: string;
@@ -103,18 +104,20 @@ export const Faq: React.FC = () => {
       </PageHeader>
 
       {/* 2. 카테고리 필터 탭 */}
-      <CategoryFilterBar>
-        {categories.map(cat => (
-          <CategoryFilterBtn
-            key={cat.id}
-            type="button"
-            className={selectedCategory === cat.id ? 'is-active' : ''}
-            onClick={() => setSelectedCategory(cat.id)}
-          >
-            {cat.label}
-          </CategoryFilterBtn>
-        ))}
-      </CategoryFilterBar>
+      <HorizontalScrollWrapper>
+        <CategoryFilterBar>
+          {categories.map(cat => (
+            <CategoryFilterBtn
+              key={cat.id}
+              type="button"
+              className={selectedCategory === cat.id ? 'is-active' : ''}
+              onClick={() => setSelectedCategory(cat.id)}
+            >
+              {cat.label}
+            </CategoryFilterBtn>
+          ))}
+        </CategoryFilterBar>
+      </HorizontalScrollWrapper>
 
       {/* 3. FAQ 아코디언 리스트 */}
       <FaqListSection>

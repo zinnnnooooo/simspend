@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { HorizontalScrollWrapper } from '@/components/HorizontalScrollWrapper';
 import { useLedger } from '@/context/LedgerContext';
 import { mockStores } from '@/data/mockStores';
 
@@ -166,22 +167,24 @@ export const StoreDetail: React.FC = () => {
       {(activeTab === '대표메뉴' || activeTab === '메인메뉴') && (
         <MenuSection>
           <MenuSectionTitle>🔥 가장 많이 선택하는 메뉴</MenuSectionTitle>
-          <BestMenuScroll>
-            {bestMenus.map((menu, idx) => (
-              <BestMenuCard key={idx} onClick={() => handleOrder(menu.name)}>
-                <div className="card-thumb">
-                  <span className="best-badge">BEST</span>
-                  <img 
-                    src={store.image || '/assets/chicken_thumbnail.png'} 
-                    alt={menu.name} 
-                    className="thumb-img" 
-                  />
-                </div>
-                <p className="menu-name">{menu.name}</p>
-                <p className="menu-price">{fmtWon(menu.price)}</p>
-              </BestMenuCard>
-            ))}
-          </BestMenuScroll>
+          <HorizontalScrollWrapper>
+            <BestMenuScroll>
+              {bestMenus.map((menu, idx) => (
+                <BestMenuCard key={idx} onClick={() => handleOrder(menu.name)}>
+                  <div className="card-thumb">
+                    <span className="best-badge">BEST</span>
+                    <img 
+                      src={store.image || '/assets/chicken_thumbnail.png'} 
+                      alt={menu.name} 
+                      className="thumb-img" 
+                    />
+                  </div>
+                  <p className="menu-name">{menu.name}</p>
+                  <p className="menu-price">{fmtWon(menu.price)}</p>
+                </BestMenuCard>
+              ))}
+            </BestMenuScroll>
+          </HorizontalScrollWrapper>
         </MenuSection>
       )}
 
@@ -492,6 +495,18 @@ const BestMenuCard = styled.div`
   border: 1.5px solid #F1F3F5;
   padding: 12px;
   cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease;
+
+  @media (hover: hover) {
+    &:hover {
+      transform: perspective(600px) rotateX(4deg) rotateY(-2deg) translateY(-6px);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+      
+      .thumb-img {
+        transform: scale(1.08);
+      }
+    }
+  }
 
   .card-thumb {
     position: relative;
@@ -506,6 +521,7 @@ const BestMenuCard = styled.div`
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
   }
 
   .best-badge {

@@ -494,6 +494,8 @@ export const Ledger: React.FC = () => {
 
 // Styled Components
 const LedgerContainer = styled.main`
+  width: 100%;
+  box-sizing: border-box;
   padding: 16px 16px 88px;
   display: flex;
   flex-direction: column;

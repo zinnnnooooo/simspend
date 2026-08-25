@@ -7,6 +7,7 @@ import { Layout } from '@/components/Layout';
 import { LedgerProvider } from '@/context/LedgerContext';
 import { ThemeModeProvider, useThemeMode } from '@/context/ThemeContext';
 import { AuthProvider } from '@/context/AuthContext';
+import { UIProvider } from '@/context/UIContext';
 
 // 페이지 임포트
 import { Splash } from '@/pages/Splash';
@@ -33,19 +34,38 @@ import { Support } from '@/pages/Support';
 import { NotificationSettings } from '@/pages/NotificationSettings';
 import { Faq } from '@/pages/Faq';
 import { EditProfile } from '@/pages/EditProfile';
+import { Login } from '@/pages/Login';
+import { useAuth } from '@/context/AuthContext';
 
 const NavigationRedirector: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { user, isGuest, loading } = useAuth();
 
-  // 최초 접속 시 스플래시 인트로 자동 유도
   useEffect(() => {
+    if (loading) return;
+
     const hasVisited = sessionStorage.getItem('simspend_visited');
+    
+    // 1. 최초 진입 시 스플래시 유도
     if (!hasVisited && location.pathname === '/') {
       sessionStorage.setItem('simspend_visited', 'true');
       navigate('/splash', { replace: true });
+      return;
     }
-  }, [location.pathname, navigate]);
+
+    // 2. 인증 가드 (비로그인 & 게스트 아닐 시 /login 이동)
+    if (!user && !isGuest) {
+      if (location.pathname !== '/login' && location.pathname !== '/splash') {
+        navigate('/login', { replace: true });
+      }
+    } else {
+      // 로그인 완료 또는 게스트 모드일 때 /login에 접근하면 홈으로 이동
+      if (location.pathname === '/login') {
+        navigate('/', { replace: true });
+      }
+    }
+  }, [location.pathname, navigate, user, isGuest, loading]);
 
   return null;
 };
@@ -57,6 +77,7 @@ const AppContent: React.FC = () => {
       <Routes>
         {/* Splash 화면: Layout(BottomNav 포함) 바깥 영역의 단독 라우트 */}
         <Route path="/splash" element={<Splash />} />
+        <Route path="/login" element={<Login />} />
 
         {/* 서비스 화면들: Layout을 부모 라우트 Wrapper로 지정하여 항상 BottomNav 유지 */}
         <Route element={<Layout />}>
@@ -96,7 +117,9 @@ const StyledApp: React.FC = () => {
       <GlobalStyle />
       <LedgerProvider>
         <Router>
-          <AppContent />
+          <UIProvider>
+            <AppContent />
+          </UIProvider>
         </Router>
       </LedgerProvider>
     </ThemeProvider>

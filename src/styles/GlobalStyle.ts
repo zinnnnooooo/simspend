@@ -1,9 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyle = createGlobalStyle`
-  /* Pretendard 폰트 임포트 */
-  @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css');
-
   * {
     box-sizing: border-box;
     margin: 0;
@@ -12,13 +9,10 @@ export const GlobalStyle = createGlobalStyle`
 
   html, body, #root {
     height: 100%;
+    overflow: hidden;
     background-color: ${({ theme }) => theme.colors.background};
     color: ${({ theme }) => theme.colors.textPrimary};
     transition: background-color 0.2s ease, color 0.2s ease;
-  }
-
-  html {
-    scrollbar-gutter: stable;
   }
 
   body {
@@ -27,7 +21,6 @@ export const GlobalStyle = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-tap-highlight-color: transparent;
-    overflow-x: hidden;
   }
 
   img, svg {
@@ -42,6 +35,15 @@ export const GlobalStyle = createGlobalStyle`
     cursor: pointer;
     color: inherit;
     outline: none;
+    transition: transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.2s, filter 0.2s;
+  }
+
+  button:hover {
+    filter: brightness(1.06);
+  }
+
+  button:active {
+    transform: scale(0.96);
   }
 
   a {
@@ -71,15 +73,25 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   /* 공통 스크롤바 디자인 */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #FFAE00 rgba(0, 0, 0, 0.05);
+  }
+
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: transparent;
+    background: ${({ theme }) => theme.colors.cardBackground === '#FFFFFF' ? '#F1F5F9' : '#1E2030'};
+    border-radius: 999px;
   }
   ::-webkit-scrollbar-thumb {
-    background: ${({ theme }) => theme.colors.border};
-    border-radius: 4px;
+    background: #FFAE00;
+    border-radius: 999px;
+    transition: background 0.2s ease;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #E59D00;
   }
 `;

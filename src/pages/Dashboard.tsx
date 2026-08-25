@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { useLedger } from '@/context/LedgerContext';
+import { useSequentialAnimation } from '@/hooks/useSequentialAnimation';
 import { useGraphAnimation } from '@/hooks/useGraphAnimation';
+import { useAuth } from '@/context/AuthContext';
+import { useUI } from '@/context/UIContext';
 
 interface NotificationItem {
   id: string;
@@ -45,6 +48,9 @@ const INITIAL_NOTIFICATIONS: NotificationItem[] = [
 
 export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
+  const { user, loginWithGoogle, logout } = useAuth();
+  const { showSnackbar, showConfirm } = useUI();
+  const [progress1, progress2, progress3] = useSequentialAnimation(3, 700, 300);
   const {
     getStreak,
     getWeeklySummary,
@@ -87,15 +93,15 @@ export const Dashboard: React.FC = () => {
   // 도넛 차트 호 길이 계산
   const radius = 40;
   const circumference = 2 * Math.PI * radius;
-  const fillLength = ((topCat.percentage * progress) / 100) * circumference;
+  const fillLength = ((topCat.percentage * progress2) / 100) * circumference;
 
   // 저축 목표 세그먼트 개수 및 비율 계산
   const goalPercent = Math.round((goal.saved / goal.target) * 100);
-  const animatedGoalPercent = Math.round(goalPercent * progress);
-  const animatedSaved = goal.saved * progress;
+  const animatedGoalPercent = Math.round(goalPercent * progress3);
+  const animatedSaved = goal.saved * progress3;
   const remaining = goal.target - animatedSaved;
   const segmentCount = 5;
-  const progressUnits = ((goalPercent * progress) / 100) * segmentCount;
+  const progressUnits = ((goalPercent * progress3) / 100) * segmentCount;
 
   // 원화 포맷
   const fmtWon = (n: number) => '₩' + Math.round(n).toLocaleString('ko-KR');
@@ -145,6 +151,31 @@ export const Dashboard: React.FC = () => {
               <path d="M4.5 19.5c1.4-3.2 4.3-5 7.5-5s6.1 1.8 7.5 5" stroke="#2B2D42" strokeWidth="1.8" strokeLinecap="round"/>
             </svg>
           </IconButton>
+          <AuthTextButton 
+            onClick={() => {
+              if (user) {
+                showConfirm('로그아웃 하시겠습니까?', async () => {
+                  try {
+                    await logout();
+                    showSnackbar('로그아웃되었습니다.');
+                    navigate('/login', { replace: true });
+                  } catch (error) {
+                    console.error('로그아웃 에러:', error);
+                  }
+                });
+              } else {
+                try {
+                  loginWithGoogle().then(() => {
+                    showSnackbar('Google 로그인이 완료되었습니다.');
+                  });
+                } catch (error) {
+                  console.error('로그인 에러:', error);
+                }
+              }
+            }}
+          >
+            {user ? '로그아웃' : '로그인'}
+          </AuthTextButton>
         </HeaderActions>
       </Header>
 
@@ -203,7 +234,7 @@ export const Dashboard: React.FC = () => {
       )}
 
       {/* 스트릭 카드 */}
-      <Card className="streak-card">
+      <Card className="streak-card" $index={0}>
         <StreakTitle>{streak.currentStreak}일 연속 가계부 작성 중!🔥</StreakTitle>
         <StreakSubtitle>작은 습관이 큰 변화를 만들어요.</StreakSubtitle>
         
@@ -231,13 +262,14 @@ export const Dashboard: React.FC = () => {
           className="stat-card weekly-card" 
           onClick={() => navigate('/statistics')} 
           style={{ cursor: 'pointer' }}
+          $index={1}
         >
           <WeeklyCardTitle>이번 주 지출 금액 요약</WeeklyCardTitle>
           <BarChartContainer>
             {weekly.days.map((day, i) => {
               const amount = weekly.amounts[i];
               const heightPct = Math.max(14, Math.round((amount / maxAmount) * 100));
-              const animatedHeight = heightPct * progress;
+              const animatedHeight = heightPct * progress1;
               const isPeak = i === peakIndex;
               return (
                 <BarChartCol key={i} className={isPeak ? 'is-peak' : ''}>
@@ -247,7 +279,7 @@ export const Dashboard: React.FC = () => {
               );
             })}
           </BarChartContainer>
-          <StatCardAmount>{fmtWon(weekly.total * progress)}</StatCardAmount>
+          <StatCardAmount>{fmtWon(weekly.total * progress1)}</StatCardAmount>
           <StatCardBadge>
             지난주 보다 {Math.round(weekly.diffFromLastWeek / 10000)}만원 더 썼어요!
           </StatCardBadge>
@@ -257,6 +289,7 @@ export const Dashboard: React.FC = () => {
           className="stat-card donut-card" 
           onClick={() => navigate('/statistics')} 
           style={{ cursor: 'pointer' }}
+          $index={2}
         >
           <DonutContainer>
             <svg viewBox="0 0 100 100">
@@ -274,7 +307,7 @@ export const Dashboard: React.FC = () => {
                 strokeDasharray={`${fillLength} ${circumference}`}
               />
             </svg>
-            <DonutValue>{Math.round(topCat.percentage * progress)}%</DonutValue>
+            <DonutValue>{Math.round(topCat.percentage * progress2)}%</DonutValue>
           </DonutContainer>
           <DonutCardCaption>이번 주 가장 많은 지출</DonutCardCaption>
           <DonutCardCategory>{topCat.name}</DonutCardCategory>
@@ -282,7 +315,7 @@ export const Dashboard: React.FC = () => {
       </StatRow>
 
       {/* 저축 목표 카드 */}
-      <Card onClick={() => navigate('/target')} style={{ cursor: 'pointer' }}>
+      <Card onClick={() => navigate('/target')} style={{ cursor: 'pointer' }} $index={3}>
         <GoalCardTop>
           <GoalCardIcon>
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -311,7 +344,7 @@ export const Dashboard: React.FC = () => {
       </Card>
 
       {/* 퀵메뉴 (하단 아이콘/기능 수정 제외 반영) */}
-      <Card>
+      <Card $index={4}>
         <QuickmenuTitle>심스펜드 시작하기</QuickmenuTitle>
         <QuickmenuGrid>
           {quickItems.map((item) => {
@@ -439,6 +472,31 @@ const HeaderActions = styled.div`
   gap: 10px;
 `;
 
+const AuthTextButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  padding: 0 16px;
+  background: ${({ theme }) => theme.colors.cardBackground === '#FFFFFF' ? '#F1F3F6' : '#202336'};
+  border-radius: 18px;
+  border: none;
+  color: ${({ theme }) => theme.colors.textPrimary};
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s ease;
+  box-sizing: border-box;
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.cardBackground === '#FFFFFF' ? '#EBECEF' : '#25283D'};
+  }
+  
+  &:active {
+    transform: scale(0.95);
+  }
+`;
+
 const IconButton = styled.button`
   position: relative;
   display: flex;
@@ -480,18 +538,112 @@ const IconButtonDot = styled.span`
   border: 1px solid ${({ theme }) => theme.colors.cardBackground};
 `;
 
-const Card = styled.section`
+const slideUpFadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const Card = styled.section<{ $index?: number }>`
   width: 100%;
   padding: clamp(14px, 2.2vh, 24px) 18px;
   border-radius: 20px;
   background: ${({ theme }) => theme.colors.cardBackground};
   box-shadow: ${({ theme }) => theme.shadows.card};
   border: 1px solid ${({ theme }) => theme.colors.border};
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, background-color 0.3s ease;
+  transition: 
+    transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), 
+    box-shadow 0.3s ease, 
+    border-color 0.3s ease, 
+    background-color 0.3s ease;
   box-sizing: border-box;
+  cursor: pointer;
+  position: relative;
 
-  &:hover {
-    transform: translateY(-2px);
+  /* Stagger entry animation */
+  animation: ${slideUpFadeIn} 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: ${({ $index = 0 }) => $index * 120}ms;
+
+  @media (hover: hover) {
+    &:hover {
+      transform: translateY(-5px) scale(1.01) rotateX(1deg) rotateY(0.5deg);
+      border-color: rgba(255, 174, 0, 0.3);
+      box-shadow: 
+        ${({ theme }) => 
+          theme.colors.cardBackground === '#FFFFFF' 
+            ? '0 12px 30px rgba(25, 27, 46, 0.12)' 
+            : '0 12px 30px rgba(0, 0, 0, 0.4)'},
+        0 0 15px rgba(255, 174, 0, 0.08);
+
+      /* Parallax element translation inside cards (Only for graphics) */
+      svg, img, circle, .goal-icon, span.checked, span.unchecked {
+        transform: translateY(-2px) scale(1.03);
+      }
+    }
+  }
+
+  &:active {
+    transform: scale(0.98) translateY(-2px);
+  }
+
+  /* Transition definition for graphics only */
+  svg, img, circle, .goal-icon, span.checked, span.unchecked {
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.22, 1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none !important;
+    animation: none !important;
+    &:hover, &:active {
+      transform: none !important;
+      box-shadow: ${({ theme }) => theme.shadows.card} !important;
+      border-color: ${({ theme }) => theme.colors.border} !important;
+    }
+    svg, img, circle {
+      transform: none !important;
+      transition: none !important;
+    }
+  }
+
+  /* Level 1 Hero card styling for Streak card */
+  &.streak-card {
+    background: ${({ theme }) => 
+      theme.colors.cardBackground === '#FFFFFF' 
+        ? 'linear-gradient(135deg, #191B2E 0%, #20243E 100%)' 
+        : 'linear-gradient(135deg, #131422 0%, #191B2E 100%)'};
+    color: #FFFFFF;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 12px 30px rgba(25, 27, 46, 0.12);
+    padding: clamp(16px, 2.5vh, 26px) 20px clamp(12px, 2vh, 20px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  &.weekly-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  &.donut-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }) => theme.colors.border} !important;
+    }
+    svg, img, circle, p, span, h3, h1 {
+      transform: none !important;
+      transition: none !important;
+    }
   }
 
   /* Level 1 Hero card styling for Streak card */
@@ -614,14 +766,59 @@ const StreakCta = styled(Link)`
   font-size: 14px;
   font-weight: 700;
   text-decoration: none;
-  transition: background-color 0.2s, transform 0.15s ease;
+  position: relative;
+  overflow: hidden;
+  transition: 
+    background-color 0.25s cubic-bezier(0.25, 1, 0.22, 1), 
+    transform 0.25s cubic-bezier(0.25, 1, 0.22, 1),
+    box-shadow 0.25s ease;
+  box-shadow: 0 4px 12px rgba(255, 174, 0, 0.15);
 
-  &:hover {
-    background: #FFB000;
+  /* Shine Sweep overlay */
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.35) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    transform: skewX(-20deg);
+    pointer-events: none;
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      background: #FFB000;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(255, 174, 0, 0.3);
+
+      &::after {
+        left: 200%;
+        transition: left 0.6s ease-out;
+      }
+    }
   }
 
   &:active {
-    transform: scale(0.98);
+    transform: scale(0.97) translateY(0);
+    box-shadow: 0 2px 6px rgba(255, 174, 0, 0.15);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+    &::after {
+      display: none;
+    }
+    &:hover, &:active {
+      transform: none !important;
+      box-shadow: none !important;
+    }
   }
 `;
 
@@ -870,10 +1067,41 @@ const QuickmenuItem = styled.div`
   gap: 8px;
   text-align: center;
   cursor: pointer;
-  transition: transform 0.15s ease;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  @media (hover: hover) {
+    &:hover {
+      transform: translateY(-4px) scale(1.03);
+      
+      div {
+        background: ${({ theme }) => theme.colors.cardBackground === '#FFFFFF' ? '#EBECEF' : '#2D3048'};
+        box-shadow: 0 6px 16px rgba(255, 174, 0, 0.12);
+        transform: translateY(-2px) scale(1.06);
+      }
+      
+      div i {
+        transform: scale(1.1) rotate(3deg);
+      }
+
+      span {
+        color: ${({ theme }) => theme.colors.textPrimary};
+      }
+    }
+  }
 
   &:active {
     transform: scale(0.95);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+    &:hover, &:active {
+      transform: none !important;
+      div {
+        transform: none !important;
+        box-shadow: none !important;
+      }
+    }
   }
 `;
 
@@ -885,15 +1113,15 @@ const QuickmenuThumb = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.2s, transform 0.2s;
-
-  &:hover {
-    background: ${({ theme }) => theme.colors.cardBackground === '#FFFFFF' ? '#EBECEF' : '#2B2E43'};
-  }
+  transition: 
+    background-color 0.3s cubic-bezier(0.25, 1, 0.22, 1), 
+    transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), 
+    box-shadow 0.3s ease;
 
   i {
     font-size: clamp(18px, 2.4vh, 22px);
     color: ${({ theme }) => theme.colors.textPrimary};
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.22, 1);
   }
 `;
 
