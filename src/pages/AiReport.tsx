@@ -476,36 +476,49 @@ const BarFill = styled.div`
 
 const InsightGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
+  width: 100%;
+  box-sizing: border-box;
 `;
 
 const InsightBox = styled.div`
   background: ${({ theme }) => theme.colors.background};
   border-radius: 14px;
-  padding: 12px;
+  padding: 12px 10px;
   display: flex;
-  gap: 10px;
-  align-items: flex-start;
+  gap: 8px;
+  align-items: center;
   border: 1px solid ${({ theme }) => theme.colors.border};
+  min-width: 0;
+  overflow: hidden;
+  box-sizing: border-box;
 `;
 
 const InsightIcon = styled.div`
   font-size: 20px;
   flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const InsightInfo = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2px;
+  flex: 1;
   min-width: 0;
+  overflow: hidden;
 `;
 
 const InsightTitle = styled.span`
   font-size: 11px;
   color: ${({ theme }) => theme.colors.textSecondary};
   font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const InsightValue = styled.span`
@@ -521,6 +534,9 @@ const InsightSub = styled.span`
   font-size: 11px;
   font-weight: 700;
   color: #2F9E6E;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const RiskItemList = styled.div`
