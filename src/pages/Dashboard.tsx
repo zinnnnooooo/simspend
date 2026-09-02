@@ -1255,13 +1255,12 @@ const NotificationList = styled.div`
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-
+  -ms-overflow-style: none;
+  scrollbar-width: none;
   &::-webkit-scrollbar {
-    width: 5px;
-  }
-  &::-webkit-scrollbar-thumb {
-    background: ${({ theme }) => theme.colors.border};
-    border-radius: 4px;
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
   }
 `;
 

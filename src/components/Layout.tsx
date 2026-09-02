@@ -143,8 +143,14 @@ const ContentArea = styled.div<{ $hideBottomNav?: boolean }>`
   padding-bottom: ${({ $hideBottomNav }) => 
     $hideBottomNav ? '16px' : 'calc(76px + env(safe-area-inset-bottom) + 16px)'};
   overflow-x: hidden;
-  overflow-y: scroll;
-  scrollbar-gutter: stable;
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 `;
 

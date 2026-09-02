@@ -72,26 +72,16 @@ export const GlobalStyle = createGlobalStyle`
     white-space: nowrap;
   }
 
-  /* 공통 스크롤바 디자인 */
+  /* 스크롤바 UI 완전히 숨김 (모든 브라우저 대응, 스크롤 기능 및 레이아웃 유지) */
   * {
-    scrollbar-width: thin;
-    scrollbar-color: #FFAE00 rgba(0, 0, 0, 0.05);
+    -ms-overflow-style: none !important; /* IE and Edge */
+    scrollbar-width: none !important; /* Firefox */
   }
 
-  ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-  ::-webkit-scrollbar-track {
-    background: ${({ theme }) => theme.colors.cardBackground === '#FFFFFF' ? '#F1F5F9' : '#1E2030'};
-    border-radius: 999px;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: #FFAE00;
-    border-radius: 999px;
-    transition: background 0.2s ease;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: #E59D00;
+  *::-webkit-scrollbar {
+    display: none !important; /* Chrome, Safari, Edge, Opera */
+    width: 0 !important;
+    height: 0 !important;
+    background: transparent !important;
   }
 `;
