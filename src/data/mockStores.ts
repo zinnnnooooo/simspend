@@ -39,7 +39,7 @@ export const mockStores: Store[] = [
   // === 한식 ===
   {
     id: 'store_korean_01',
-    name: '백종원가상쌈밥 역삼본점',
+    name: '백종원쌈밥 둔산본점',
     emoji: '🍲',
     image: '/design/del/02.jpg',
     rating: 4.6,
@@ -106,7 +106,7 @@ export const mockStores: Store[] = [
   },
   {
     id: 'store_korean_02',
-    name: '한샘가상국밥 역삼점',
+    name: '한샘국밥 둔산 갤러리아점',
     emoji: '🍲',
     image: '/design/del/18.jpg',
     rating: 4.7,
@@ -243,7 +243,7 @@ export const mockStores: Store[] = [
   // === 분식 ===
   {
     id: 'store_boonsik_01',
-    name: '엽기가상떡볶이 강남역점',
+    name: '엽기떡볶이 둔산점',
     emoji: '🌶️',
     image: '/design/del/01.jpg',
     rating: 4.9,
@@ -311,7 +311,7 @@ export const mockStores: Store[] = [
   },
   {
     id: 'store_boonsik_02',
-    name: '남다르가상김밥',
+    name: '남다른 김밥',
     emoji: '🍙',
     image: '/design/del/04.jpg',
     rating: 4.5,
@@ -367,7 +367,7 @@ export const mockStores: Store[] = [
   },
   {
     id: 'store_boonsik_03',
-    name: '청년가상신전떡볶이',
+    name: '신전떡볶이 갈마점',
     emoji: '🍢',
     image: '/design/del/05.jpg',
     rating: 4.8,
@@ -412,7 +412,7 @@ export const mockStores: Store[] = [
   // === 버거 ===
   {
     id: 'store_burger_01',
-    name: '쉑쉑가상버거 강남점',
+    name: '쉐이크쉑버거 둔산 갤러리아 타임월드점',
     emoji: '🍔',
     image: '/design/del/06.jpg',
     rating: 4.8,
@@ -470,7 +470,7 @@ export const mockStores: Store[] = [
   },
   {
     id: 'store_burger_02',
-    name: '맥도날가상버거 선릉점',
+    name: '맥도날드 월평점',
     emoji: '🍔',
     image: '/design/del/07.jpg',
     rating: 4.4,
@@ -511,7 +511,7 @@ export const mockStores: Store[] = [
   },
   {
     id: 'store_burger_03',
-    name: '맘스터가상싸이버거',
+    name: '맘스터치 탄방점',
     emoji: '🍗',
     image: '/design/del/03.jpg',
     rating: 4.7,
@@ -546,7 +546,7 @@ export const mockStores: Store[] = [
   // === 치킨 ===
   {
     id: 'store_chicken_01',
-    name: '바삭바삭 챌린지 치킨',
+    name: 'BBQ 치킨',
     emoji: '🍗',
     image: '/design/del/21.jpg',
     rating: 4.9,
@@ -561,7 +561,7 @@ export const mockStores: Store[] = [
     badge: '인기',
     menus: [
       {
-        name: '오리진 후라이드 치킨',
+        name: 'BBQ 황금 올리브 후라이드',
         price: 17000,
         desc: '바삭바삭함의 정석, 전통 후라이드',
         image: '/design/del/ss/013.jpg',
@@ -589,7 +589,7 @@ export const mockStores: Store[] = [
   },
   {
     id: 'store_chicken_02',
-    name: '교촌가상허니콤보',
+    name: '교촌치킨 정부청사점',
     emoji: '🍗',
     image: '/design/del/08.jpg',
     rating: 4.8,
@@ -603,7 +603,7 @@ export const mockStores: Store[] = [
     savingLabel: '시크릿 갈릭 소스 증정',
     menus: [
       {
-        name: '달달 촉촉 허니콤보',
+        name: '교촌 허니콤보',
         price: 23000,
         desc: '꿀을 발라 달콤 짭조름하고 바삭한 날개/다리 콤보 치킨',
         image: '/design/del/ss/014.jpg',
@@ -631,7 +631,7 @@ export const mockStores: Store[] = [
   },
   {
     id: 'store_chicken_03',
-    name: '굽네가상고추바사삭',
+    name: '굽네치킨 갈마점',
     emoji: '🔥',
     image: '/design/del/09.jpg',
     rating: 4.9,
@@ -677,7 +677,7 @@ export const mockStores: Store[] = [
   // === 피자 ===
   {
     id: 'store_pizza_01',
-    name: '도미노가상피자 역삼본점',
+    name: '도미노피자 괴정점',
     emoji: '🍕',
     image: '/design/del/10.jpg',
     rating: 4.7,
@@ -719,7 +719,7 @@ export const mockStores: Store[] = [
   },
   {
     id: 'store_pizza_02',
-    name: '피자나가가상피자',
+    name: '피자헛 내동점',
     emoji: '🍕',
     image: '/design/del/11.jpg',
     rating: 4.3,
@@ -759,7 +759,7 @@ export const mockStores: Store[] = [
   },
   {
     id: 'store_pizza_03',
-    name: '파파존가상슈퍼파파스',
+    name: '파파존스 만년점',
     emoji: '🍕',
     image: '/design/del/12.jpg',
     rating: 4.8,
@@ -795,7 +795,7 @@ export const mockStores: Store[] = [
   // === 일식 ===
   {
     id: 'store_japanese_01',
-    name: '심스시: 장외 초밥',
+    name: '참스시: 장외 초밥',
     emoji: '🍣',
     image: '/assets/sushi_thumbnail.png',
     rating: 4.7,
@@ -837,7 +837,7 @@ export const mockStores: Store[] = [
   },
   {
     id: 'store_japanese_02',
-    name: '홍대가상돈부리',
+    name: '하루 돈부리',
     emoji: '🍛',
     image: '/design/del/13.jpg',
     rating: 4.6,
@@ -878,7 +878,7 @@ export const mockStores: Store[] = [
   },
   {
     id: 'store_japanese_03',
-    name: '가상라멘 멘야 역삼점',
+    name: '멘야 둔산본점',
     emoji: '🍜',
     image: '/design/del/14.jpg',
     rating: 4.7,
@@ -923,7 +923,7 @@ export const mockStores: Store[] = [
   // === 카페 ===
   {
     id: 'store_cafe_01',
-    name: '가상블루보틀 역삼스튜디오',
+    name: '가상블루보틀 대전신세계점',
     emoji: '☕',
     image: '/design/del/15.jpg',
     rating: 4.9,
@@ -966,7 +966,7 @@ export const mockStores: Store[] = [
   },
   {
     id: 'store_cafe_02',
-    name: '스타벅가상대리점 강남점',
+    name: '스타벅가상대리점 둔산점',
     emoji: '☕',
     image: '/design/del/17.jpg',
     rating: 4.8,
@@ -1010,7 +1010,7 @@ export const mockStores: Store[] = [
   },
   {
     id: 'store_cafe_03',
-    name: '설빙가상디저트 선릉점',
+    name: '설빙가상디저트 대전 신세계점',
     emoji: '🍧',
     image: '/design/del/16.jpg',
     rating: 4.7,
