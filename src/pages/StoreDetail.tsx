@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { HorizontalScrollWrapper } from '@/components/HorizontalScrollWrapper';
@@ -13,6 +13,11 @@ export const StoreDetail: React.FC = () => {
 
   // 탭 상태 ('대표메뉴', '메인메뉴', '사이드', '리뷰')
   const [activeTab, setActiveTab] = useState('대표메뉴');
+
+  // 사이드 메뉴 장바구니/주문 상태 및 Toast 피드백 UI 상태
+  const [cartItems, setCartItems] = useState<{ name: string; price: number; quantity: number }[]>([]);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [isToastVisible, setIsToastVisible] = useState(false);
 
   if (!store) {
     return (
@@ -33,6 +38,59 @@ export const StoreDetail: React.FC = () => {
   // 메뉴 주문 클릭 시 옵션 선택 페이지로 이동
   const handleOrder = (menuName: string) => {
     navigate(`/delivery/option/${store.id}/${encodeURIComponent(menuName)}`);
+  };
+
+  // 사이드 메뉴 클릭 시 즉시 장바구니 담기 및 수량 증가
+  const handleSideOrder = (side: { name: string; price: number }) => {
+    setCartItems((prev) => {
+      const existingIndex = prev.findIndex((item) => item.name === side.name);
+      if (existingIndex > -1) {
+        const updated = [...prev];
+        updated[existingIndex] = {
+          ...updated[existingIndex],
+          quantity: updated[existingIndex].quantity + 1,
+        };
+        return updated;
+      } else {
+        return [...prev, { name: side.name, price: side.price, quantity: 1 }];
+      }
+    });
+
+    setToastMessage(`'${side.name}'가(이) 장바구니에 담겼습니다.`);
+    setIsToastVisible(true);
+  };
+
+  // Toast 알림 자동 숨김
+  useEffect(() => {
+    if (isToastVisible) {
+      const timer = setTimeout(() => {
+        setIsToastVisible(false);
+      }, 1800);
+      return () => clearTimeout(timer);
+    }
+  }, [isToastVisible]);
+
+  // 하단 장바구니/구매 제출
+  const handleCartSubmit = () => {
+    if (cartItems.length > 0) {
+      const mainItem = cartItems[0];
+      const totalQuantity = cartItems.reduce((sum, i) => sum + i.quantity, 0);
+      const totalPrice = cartItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
+      const selectedDetails = cartItems.map((item) => `${item.name} x${item.quantity}`);
+
+      navigate('/delivery/payment', {
+        state: {
+          storeId: store.id,
+          storeName: store.name,
+          menuName: cartItems.length === 1 ? mainItem.name : `${mainItem.name} 외 ${cartItems.length - 1}건`,
+          quantity: totalQuantity,
+          totalPrice,
+          selectedDetails,
+        },
+      });
+    } else {
+      handleOrder(mainMenus[0]?.name || '');
+    }
   };
 
   const fmtWon = (n: number) => Math.round(n).toLocaleString('ko-KR') + '원';
@@ -230,14 +288,9 @@ export const StoreDetail: React.FC = () => {
           <MenuSectionTitle>사이드 & 음료</MenuSectionTitle>
           <SideMenuGrid>
             {sideMenus.map((side, idx) => (
-              <SideCard key={idx} onClick={() => handleOrder(side.name)}>
-                <div className="side-thumb">
-                  <span className="side-emoji">{side.emoji}</span>
-                </div>
-                <div className="side-meta">
-                  <p className="name">{side.name}</p>
-                  <p className="price">{fmtWon(side.price)}</p>
-                </div>
+              <SideCard key={idx} onClick={() => handleSideOrder(side)}>
+                <p className="name">{side.name}</p>
+                <p className="price">{fmtWon(side.price)}</p>
               </SideCard>
             ))}
           </SideMenuGrid>
@@ -252,14 +305,19 @@ export const StoreDetail: React.FC = () => {
         </MenuSection>
       )}
 
+      {/* 피드백 Toast UI */}
+      <Toast className={isToastVisible ? 'is-visible' : ''}>
+        {toastMessage}
+      </Toast>
+
       {/* 하단 고정 바로구매/장바구니 버튼 구성 */}
       <BottomStickyBar>
         <CartActionsRow>
-          <CartOutlineBtn onClick={() => handleOrder(mainMenus[0]?.name || '')}>
-            장바구니
+          <CartOutlineBtn onClick={handleCartSubmit}>
+            장바구니 {cartItems.length > 0 ? `(${cartItems.reduce((sum, i) => sum + i.quantity, 0)})` : ''}
           </CartOutlineBtn>
-          <BuyDirectBtn onClick={() => handleOrder(mainMenus[0]?.name || '')}>
-            바로 구매
+          <BuyDirectBtn onClick={handleCartSubmit}>
+            바로 구매 {cartItems.length > 0 ? `(${fmtWon(cartItems.reduce((sum, i) => sum + i.price * i.quantity, 0))})` : ''}
           </BuyDirectBtn>
         </CartActionsRow>
       </BottomStickyBar>
@@ -658,38 +716,29 @@ const SideCard = styled.div`
   border-radius: 16px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
   border: 1.5px solid #F1F3F5;
-  overflow: hidden;
+  padding: 16px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 
-  .side-thumb {
-    width: 100%;
-    height: 96px;
-    background: linear-gradient(135deg, #E2E8F0 0%, #CBD5E1 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .side-emoji {
-    font-size: 32px;
-  }
-
-  .side-meta {
-    padding: 12px;
+  &:active {
+    transform: scale(0.98);
   }
 
   .name {
-    font-size: 13px;
+    font-size: 13.5px;
     font-weight: 800;
     color: #1A1C29;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
   .price {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 850;
     color: #FF5A5A;
   }
@@ -758,3 +807,28 @@ const EmptyText = styled.p`
   padding: 48px 0;
   line-height: 1.5;
 `;
+
+const Toast = styled.div`
+  position: fixed;
+  left: 50%;
+  bottom: 100px;
+  z-index: 1000;
+  transform: translate(-50%, 16px);
+  padding: 12px 18px;
+  border-radius: 999px;
+  background: rgba(32, 43, 64, 0.95);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  white-space: nowrap;
+
+  &.is-visible {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+`;
+

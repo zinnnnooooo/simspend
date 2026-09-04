@@ -57,7 +57,7 @@ export const mockStores: Store[] = [
         name: '매콤 제육 쌈밥 정식',
         price: 12000,
         desc: '불향 가득한 제육볶음과 유기농 모둠 쌈정식',
-        image: '/design/del/ss/001.jpg',
+        image: '/design/del/ss/025.jpg',
         optionGroups: [
           {
             name: '밥 종류 선택',
@@ -82,7 +82,7 @@ export const mockStores: Store[] = [
         name: '간장 우삼겹 쌈밥 정식',
         price: 13000,
         desc: '달콤한 비법 소스로 볶아낸 우삼겹 정식',
-        image: '/design/del/ss/002.jpg',
+        image: '/design/del/ss/026.jpg',
         optionGroups: [
           {
             name: '고기 양 선택',
@@ -98,6 +98,36 @@ export const mockStores: Store[] = [
             options: [
               { name: '구이용 생마늘/고추 추가', price: 500 },
               { name: '김치찌개 추가', price: 3500 }
+            ]
+          }
+        ]
+      },
+      {
+        name: '훈제 오리 쌈밥 정식',
+        price: 14000,
+        desc: '담백한 훈제 오리와 특제 머스타드 드레싱 쌈정식',
+        optionGroups: [
+          {
+            name: '밥 종류 선택',
+            required: true,
+            options: [
+              { name: '백미공깃밥', price: 0 },
+              { name: '건강 보리밥 변경', price: 1000 }
+            ]
+          }
+        ]
+      },
+      {
+        name: '고추장 대패삼겹 쌈밥 정식',
+        price: 13500,
+        desc: '매콤달콤한 고추장 특제 소스로 볶은 대패삼겹 정식',
+        optionGroups: [
+          {
+            name: '매운맛 단계',
+            required: true,
+            options: [
+              { name: '보통 매운맛', price: 0 },
+              { name: '화끈한 매운맛', price: 500 }
             ]
           }
         ]
@@ -168,6 +198,38 @@ export const mockStores: Store[] = [
             ]
           }
         ]
+      },
+      {
+        name: '얼큰 사골 내장국밥',
+        price: 10000,
+        desc: '쫄깃한 오소리감투와 곱창이 들어간 얼큰 사골 국밥',
+        image: '/design/del/ss/029.jpg',
+        optionGroups: [
+          {
+            name: '맵기 선택',
+            required: true,
+            options: [
+              { name: '기본 얼큰한 맛', price: 0 },
+              { name: '아주 매운맛', price: 500 }
+            ]
+          }
+        ]
+      },
+      {
+        name: '모둠 수육 한접시',
+        price: 18000,
+        desc: '머릿고기, 수육, 전통 순대가 조화롭게 담긴 안주 겸 별미',
+        image: '/design/del/ss/030.jpg',
+        optionGroups: [
+          {
+            name: '소스 선택',
+            required: false,
+            options: [
+              { name: '새우젓 추가', price: 0 },
+              { name: '초고추장 소스 추가', price: 500 }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -217,7 +279,7 @@ export const mockStores: Store[] = [
         name: '달콤 소갈비찜 (소)',
         price: 35000,
         desc: '과일 양념으로 부드럽게 재운 최고급 소갈비찜',
-        image: '/design/del/ss/006.jpg?v=2',
+        image: '/design/del/ss/006.jpg',
         optionGroups: [
           {
             name: '공깃밥 포함 여부',
@@ -233,6 +295,37 @@ export const mockStores: Store[] = [
             options: [
               { name: '알감자 사리 추가', price: 1500 },
               { name: '모둠 야채 사리 추가', price: 2000 }
+            ]
+          }
+        ]
+      },
+      {
+        name: '치즈 폭탄 돼지갈비찜 (소)',
+        price: 31000,
+        desc: '자연산 모짜렐라 치즈가 이불처럼 덮인 고소한 돼지 갈비찜',
+        image: '/design/del/ss/027.jpg',
+        optionGroups: [
+          {
+            name: '맵기 단계',
+            required: true,
+            options: [
+              { name: '순한맛 (아이 추천)', price: 0 },
+              { name: '매콤한 맛', price: 0 }
+            ]
+          }
+        ]
+      },
+      {
+        name: '로제 매운 갈비찜 (소)',
+        price: 30000,
+        desc: '부드러운 크림과 매콤한 갈비찜 소스의 환상적 콜라보',
+        image: '/design/del/ss/028.jpg',
+        optionGroups: [
+          {
+            name: '사리 선택',
+            required: false,
+            options: [
+              { name: '중국당면 추가', price: 2500 }
             ]
           }
         ]
@@ -258,7 +351,7 @@ export const mockStores: Store[] = [
     badge: '인기',
     menus: [
       {
-        name: '엽기 떡볶이 (기본맛)',
+        name: '엽기 떡볶이',
         price: 14000,
         desc: '중독성 강한 매운맛의 국민 대표 떡볶이',
         optionGroups: [
@@ -292,9 +385,9 @@ export const mockStores: Store[] = [
         ]
       },
       {
-        name: '바삭 모둠 튀김 (5개)',
-        price: 4000,
-        desc: '김말이, 야채튀김, 만두 등 모둠 구성',
+        name: '마라 엽기 떡볶이',
+        price: 16000,
+        desc: '알싸하고 기분좋게 매운 마라 엽기 떡볶이',
         image: '/design/del/ss/007.jpg',
         optionGroups: [
           {
@@ -306,6 +399,27 @@ export const mockStores: Store[] = [
             ]
           }
         ]
+      },
+      {
+        name: '로제 엽기 떡볶이',
+        price: 16000,
+        desc: '부드러운 크림 풍미와 매콤한 엽떡 소스의 조화',
+        optionGroups: [
+          {
+            name: '맵기 선택',
+            required: true,
+            options: [
+              { name: '착한맛', price: 0 },
+              { name: '오리지널맛', price: 0 }
+            ]
+          }
+        ]
+      },
+      {
+        name: '마라 로제 엽기 떡볶이',
+        price: 18000,
+        desc: '알싸한 마라와 부드러운 크림의 풍미가 조화롭게 합쳐진 베스트 셀러',
+        optionGroups: []
       }
     ]
   },
@@ -362,6 +476,18 @@ export const mockStores: Store[] = [
             ]
           }
         ]
+      },
+      {
+        name: '매콤 진미채 김밥',
+        price: 4500,
+        desc: '쫄깃한 오징어 진미채를 매콤 양념에 무쳐 싼 인기 김밥',
+        optionGroups: []
+      },
+      {
+        name: '옛날 쌀 떡볶이',
+        price: 5000,
+        desc: '쫄깃한 쌀떡과 큼직한 어묵이 들어간 단짠 떡볶이',
+        optionGroups: []
       }
     ]
   },
@@ -402,6 +528,53 @@ export const mockStores: Store[] = [
               { name: '신전튀김오뎅 (6개) 추가', price: 2000 },
               { name: '잡채말이 튀김 (3개) 추가', price: 2000 },
               { name: '매운 신전 치즈김밥 추가', price: 4000 }
+            ]
+          }
+        ]
+      },
+      {
+        name: '기본 신전 국물 떡볶이',
+        price: 3500,
+        desc: '카레향 은은한 신전 특제 매콤 국물 떡볶이',
+        optionGroups: [
+          {
+            name: '맵기 단계',
+            required: true,
+            options: [
+              { name: '순한맛', price: 0 },
+              { name: '매운맛', price: 0 }
+            ]
+          }
+        ]
+      },
+      {
+        name: '신전 분모자 떡볶이',
+        price: 6500,
+        desc: '쫀득한 분모자 당면이 국물 양념에 쏙 밴 별미 떡볶이',
+        image: '/design/del/ss/035.jpg',
+        optionGroups: [
+          {
+            name: '맵기 단계',
+            required: true,
+            options: [
+              { name: '순한맛', price: 0 },
+              { name: '매운맛', price: 0 }
+            ]
+          }
+        ]
+      },
+      {
+        name: '신전 로제 떡볶이',
+        price: 5500,
+        desc: '부드러운 크림과 신전 특제 매콤 소스가 어우러진 신전 대표 로제 떡볶이',
+        image: '/design/del/ss/036.jpg',
+        optionGroups: [
+          {
+            name: '맵기 단계',
+            required: true,
+            options: [
+              { name: '순한맛', price: 0 },
+              { name: '매운맛', price: 0 }
             ]
           }
         ]
@@ -465,6 +638,18 @@ export const mockStores: Store[] = [
             ]
           }
         ]
+      },
+      {
+        name: '슈룸 버거 (버섯 패티)',
+        price: 10500,
+        desc: '몬테레이 잭 치즈와 체다 치즈로 채워 튀긴 몬터레이 버섯 버거',
+        optionGroups: []
+      },
+      {
+        name: '크런치 치킨 쉑 버거',
+        price: 9500,
+        desc: '바삭하게 튀겨낸 닭가슴살 패티와 듬뿍 올려진 쉐이크쉑 피클',
+        optionGroups: []
       }
     ]
   },
@@ -506,6 +691,32 @@ export const mockStores: Store[] = [
             ]
           }
         ]
+      },
+      {
+        name: '매콤 스파이시 상하이 버거',
+        price: 6900,
+        desc: '매콤하게 시즈닝된 100% 닭가슴 통살 패티와 싱싱한 양상추',
+        optionGroups: [
+          {
+            name: '세트 변경',
+            required: false,
+            options: [
+              { name: '세트로 업그레이드', price: 2300 }
+            ]
+          }
+        ]
+      },
+      {
+        name: '1955 버거 단품',
+        price: 7200,
+        desc: '113g 두툼한 순쇠고기 패티와 스페셜 1955 소스',
+        optionGroups: []
+      },
+      {
+        name: '불고기 버거 단품',
+        price: 4500,
+        desc: '한국인 입맛에 딱 맞춘 달콤한 불고기 소스와 순돈육 패티',
+        optionGroups: []
       }
     ]
   },
@@ -539,6 +750,24 @@ export const mockStores: Store[] = [
             ]
           }
         ]
+      },
+      {
+        name: '딥치즈 싸이버거 세트',
+        price: 8500,
+        desc: '풍미 가득 딥치즈 소스가 듬뿍 올려진 통다리살 버거',
+        optionGroups: []
+      },
+      {
+        name: '불싸이버거 세트',
+        price: 7900,
+        desc: '불맛 강한 스파이시 소스가 가미된 매니아 추천 버거',
+        optionGroups: []
+      },
+      {
+        name: '케이준 양념치킨 반마리',
+        price: 11000,
+        desc: '매콤달콤한 케이준 양념 소스가 바삭하게 버무려진 치킨',
+        optionGroups: []
       }
     ]
   },
@@ -670,6 +899,24 @@ export const mockStores: Store[] = [
             ]
           }
         ]
+      },
+      {
+        name: '굽네 볼케이노 오븐구이',
+        price: 19500,
+        desc: '불맛이 살아있는 화끈하고 핫한 오븐구이 치킨',
+        optionGroups: []
+      },
+      {
+        name: '굽네 오리지널 오븐치킨',
+        price: 17900,
+        desc: '기름기를 쏙 뺀 고소하고 겉바속촉 오리지널 치킨',
+        optionGroups: []
+      },
+      {
+        name: '남해마늘 바사삭',
+        price: 21000,
+        desc: '남해 마늘과 알싸한 마늘바사삭 시즈닝의 감칠맛',
+        optionGroups: []
       }
     ]
   },
@@ -788,6 +1035,24 @@ export const mockStores: Store[] = [
             ]
           }
         ]
+      },
+      {
+        name: '존스 페이버릿 피자 (L)',
+        price: 29500,
+        desc: '이탈리안 소시지, 페퍼로니와 6가지 치즈의 묵직한 조화',
+        optionGroups: []
+      },
+      {
+        name: '올미트 피자 (L)',
+        price: 28500,
+        desc: '페퍼로니, 햄, 쇠고기가 풍성하게 올려진 고기 피자',
+        optionGroups: []
+      },
+      {
+        name: '아이리쉬 포테이토 피자 (L)',
+        price: 27500,
+        desc: '달콤한 갈릭 소스와 감자의 고소함이 조화로운 피자',
+        optionGroups: []
       }
     ]
   },
@@ -916,6 +1181,33 @@ export const mockStores: Store[] = [
             ]
           }
         ]
+      },
+      {
+        name: '얼큰 카라구치 매운 라멘',
+        price: 10000,
+        desc: '비법 다대기 양념을 풀어얼큰하고 매운 돈코츠 라멘',
+        optionGroups: [
+          {
+            name: '매운맛 선택',
+            required: true,
+            options: [
+              { name: '1단계 (신라면 수준)', price: 0 },
+              { name: '2단계 (불닭 수준)', price: 500 }
+            ]
+          }
+        ]
+      },
+      {
+        name: '특제 마제소바 (비빔라멘)',
+        price: 10500,
+        desc: '다진 고기와 특제 소스, 계란 노른자를 비벼먹는 비빔 라멘',
+        optionGroups: []
+      },
+      {
+        name: '바삭 수제 야끼교자 (5개)',
+        price: 4500,
+        desc: '한쪽은 바삭하고 한쪽은 촉촉하게 구워낸 일본식 만두',
+        optionGroups: []
       }
     ]
   },
@@ -1047,6 +1339,24 @@ export const mockStores: Store[] = [
             ]
           }
         ]
+      },
+      {
+        name: '애플망고 치즈 설빙',
+        price: 13900,
+        desc: '달콤한 애플망고와 고소한 프리미엄 치즈 큐브가 듬뿍 가미된 빙수',
+        optionGroups: []
+      },
+      {
+        name: '딥초코 브라우니 설빙',
+        price: 12900,
+        desc: '진한 초코 가루와 쫀득 브라우니 조각이 가득한 초코 빙수',
+        optionGroups: []
+      },
+      {
+        name: '바삭 꿀호떡 (2개)',
+        price: 4500,
+        desc: '달콤한 꿀과 갓 튀긴 고소함이 조화로운 디저트 호떡',
+        optionGroups: []
       }
     ]
   }
