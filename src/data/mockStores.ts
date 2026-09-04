@@ -217,7 +217,7 @@ export const mockStores: Store[] = [
         name: '달콤 소갈비찜 (소)',
         price: 35000,
         desc: '과일 양념으로 부드럽게 재운 최고급 소갈비찜',
-        image: '/design/del/ss/006.jpg',
+        image: '/design/del/ss/006.jpg?v=2',
         optionGroups: [
           {
             name: '공깃밥 포함 여부',
@@ -295,6 +295,7 @@ export const mockStores: Store[] = [
         name: '바삭 모둠 튀김 (5개)',
         price: 4000,
         desc: '김말이, 야채튀김, 만두 등 모둠 구성',
+        image: '/design/del/ss/007.jpg',
         optionGroups: [
           {
             name: '튀김 구성 변경',
