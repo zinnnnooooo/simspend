@@ -643,12 +643,14 @@ export const mockStores: Store[] = [
         name: '슈룸 버거 (버섯 패티)',
         price: 10500,
         desc: '몬테레이 잭 치즈와 체다 치즈로 채워 튀긴 몬터레이 버섯 버거',
+        image: '/design/del/ss/037.jpg',
         optionGroups: []
       },
       {
         name: '크런치 치킨 쉑 버거',
         price: 9500,
         desc: '바삭하게 튀겨낸 닭가슴살 패티와 듬뿍 올려진 쉐이크쉑 피클',
+        image: '/design/del/ss/038.jpg',
         optionGroups: []
       }
     ]
@@ -710,12 +712,14 @@ export const mockStores: Store[] = [
         name: '1955 버거 단품',
         price: 7200,
         desc: '113g 두툼한 순쇠고기 패티와 스페셜 1955 소스',
+        image: '/design/del/ss/039.jpg',
         optionGroups: []
       },
       {
         name: '불고기 버거 단품',
         price: 4500,
         desc: '한국인 입맛에 딱 맞춘 달콤한 불고기 소스와 순돈육 패티',
+        image: '/design/del/ss/040.jpg',
         optionGroups: []
       }
     ]
@@ -739,6 +743,7 @@ export const mockStores: Store[] = [
         name: '싸이 버거 세트',
         price: 7500,
         desc: '매콤한 통다리살 패티와 고소한 소스가 조화로운 맘스 대표 세트',
+        image: '/design/del/ss/041.jpg',
         optionGroups: [
           {
             name: '감자튀김 종류 변경',
@@ -755,18 +760,21 @@ export const mockStores: Store[] = [
         name: '딥치즈 싸이버거 세트',
         price: 8500,
         desc: '풍미 가득 딥치즈 소스가 듬뿍 올려진 통다리살 버거',
+        image: '/design/del/ss/042.jpg',
         optionGroups: []
       },
       {
         name: '불싸이버거 세트',
         price: 7900,
         desc: '불맛 강한 스파이시 소스가 가미된 매니아 추천 버거',
+        image: '/design/del/ss/043.jpg',
         optionGroups: []
       },
       {
         name: '케이준 양념치킨 반마리',
         price: 11000,
         desc: '매콤달콤한 케이준 양념 소스가 바삭하게 버무려진 치킨',
+        image: '/design/del/ss/044.jpg',
         optionGroups: []
       }
     ]
@@ -904,12 +912,14 @@ export const mockStores: Store[] = [
         name: '굽네 볼케이노 오븐구이',
         price: 19500,
         desc: '불맛이 살아있는 화끈하고 핫한 오븐구이 치킨',
+        image: '/design/del/ss/045.jpg',
         optionGroups: []
       },
       {
         name: '굽네 오리지널 오븐치킨',
         price: 17900,
         desc: '기름기를 쏙 뺀 고소하고 겉바속촉 오리지널 치킨',
+        image: '/design/del/ss/046.jpg',
         optionGroups: []
       },
       {
@@ -1040,18 +1050,28 @@ export const mockStores: Store[] = [
         name: '존스 페이버릿 피자 (L)',
         price: 29500,
         desc: '이탈리안 소시지, 페퍼로니와 6가지 치즈의 묵직한 조화',
+        image: '/design/del/ss/046.jpg',
         optionGroups: []
       },
       {
         name: '올미트 피자 (L)',
         price: 28500,
         desc: '페퍼로니, 햄, 쇠고기가 풍성하게 올려진 고기 피자',
+        image: '/design/del/ss/047.jpg',
         optionGroups: []
       },
       {
         name: '아이리쉬 포테이토 피자 (L)',
         price: 27500,
         desc: '달콤한 갈릭 소스와 감자의 고소함이 조화로운 피자',
+        image: '/design/del/ss/048.jpg',
+        optionGroups: []
+      },
+      {
+        name: '스파이시 치킨랜치 피자 (L)',
+        price: 27500,
+        desc: '갈릭 랜치 소스에 그릴드 치킨과 할라피뇨가 조화로운 인기 피자',
+        image: '/design/del/ss/049.jpg',
         optionGroups: []
       }
     ]
@@ -1186,6 +1206,7 @@ export const mockStores: Store[] = [
         name: '얼큰 카라구치 매운 라멘',
         price: 10000,
         desc: '비법 다대기 양념을 풀어얼큰하고 매운 돈코츠 라멘',
+        image: '/design/del/ss/050.jpg',
         optionGroups: [
           {
             name: '매운맛 선택',
@@ -1201,13 +1222,24 @@ export const mockStores: Store[] = [
         name: '특제 마제소바 (비빔라멘)',
         price: 10500,
         desc: '다진 고기와 특제 소스, 계란 노른자를 비벼먹는 비빔 라멘',
+        image: '/design/del/ss/051.jpg',
         optionGroups: []
       },
       {
-        name: '바삭 수제 야끼교자 (5개)',
-        price: 4500,
-        desc: '한쪽은 바삭하고 한쪽은 촉촉하게 구워낸 일본식 만두',
-        optionGroups: []
+        name: '진한 미소 라멘',
+        price: 10000,
+        desc: '구수한 일본 미소 된장과 돼지 사골 육수가 어우러진 감칠맛 라멘',
+        image: '/design/del/ss/052.jpg',
+        optionGroups: [
+          {
+            name: '면의 익힘 정도',
+            required: true,
+            options: [
+              { name: '기본 면 익힘', price: 0 },
+              { name: '꼬들꼬들하게 카타멘', price: 0 }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -1344,18 +1376,35 @@ export const mockStores: Store[] = [
         name: '애플망고 치즈 설빙',
         price: 13900,
         desc: '달콤한 애플망고와 고소한 프리미엄 치즈 큐브가 듬뿍 가미된 빙수',
+        image: '/design/del/ss/053.jpg',
         optionGroups: []
       },
       {
         name: '딥초코 브라우니 설빙',
         price: 12900,
         desc: '진한 초코 가루와 쫀득 브라우니 조각이 가득한 초코 빙수',
+        image: '/design/del/ss/054.jpg',
         optionGroups: []
       },
       {
         name: '바삭 꿀호떡 (2개)',
         price: 4500,
         desc: '달콤한 꿀과 갓 튀긴 고소함이 조화로운 디저트 호떡',
+        image: '/design/del/ss/055.jpg',
+        optionGroups: []
+      },
+      {
+        name: '생딸기 찹쌀떡 설빙',
+        price: 13500,
+        desc: '상큼한 생딸기와 쫀득한 찹쌀떡이 어우러진 시즌 인기 설빙',
+        image: '/design/del/ss/056.jpg',
+        optionGroups: []
+      },
+      {
+        name: '인절미 토스트',
+        price: 4800,
+        desc: '바삭한 식빵 사이에 쫄깃한 인절미 떡이 들어간 시그니처 토스트',
+        image: '/design/del/ss/057.jpg',
         optionGroups: []
       }
     ]
