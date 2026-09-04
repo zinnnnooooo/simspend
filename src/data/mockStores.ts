@@ -328,6 +328,7 @@ export const mockStores: Store[] = [
         name: '꽉찬 참치 마요 김밥',
         price: 4500,
         desc: '참치와 마요네즈가 듬뿍 들어간 영양 김밥',
+        image: '/design/del/ss/008.jpg',
         optionGroups: [
           {
             name: '오이 제외 선택',
@@ -351,6 +352,7 @@ export const mockStores: Store[] = [
         name: '수제 등심 돈까스 김밥',
         price: 4800,
         desc: '바삭한 돈까스가 통째로 들어간 별미 김밥',
+        image: '/design/del/ss/009.jpg',
         optionGroups: [
           {
             name: '토핑 업그레이드',
@@ -382,6 +384,7 @@ export const mockStores: Store[] = [
         name: '치즈 폭탄 신전 떡볶이',
         price: 6000,
         desc: '고소한 모짜렐라 치즈가 듬뿍 올라간 국물 떡볶이',
+        image: '/design/del/ss/010.jpg',
         optionGroups: [
           {
             name: '매운 맵기 설정',
@@ -427,6 +430,7 @@ export const mockStores: Store[] = [
         name: '쉑 버거 (Single)',
         price: 8900,
         desc: '비프패티와 토마토, 쉑소스가 토핑된 수제버거',
+        image: '/design/del/ss/011.jpg',
         optionGroups: [
           {
             name: '패티 종류 선택',
@@ -450,6 +454,7 @@ export const mockStores: Store[] = [
         name: '스모크 쉑 버거',
         price: 10900,
         desc: '베이컨과 체리 페퍼가 들어간 스모키한 버거',
+        image: '/design/del/ss/012.jpg',
         optionGroups: [
           {
             name: '세트 구성 업그레이드',
@@ -559,6 +564,7 @@ export const mockStores: Store[] = [
         name: '오리진 후라이드 치킨',
         price: 17000,
         desc: '바삭바삭함의 정석, 전통 후라이드',
+        image: '/design/del/ss/013.jpg',
         optionGroups: [
           {
             name: '뼈 / 순살 타입 선택',
@@ -600,6 +606,7 @@ export const mockStores: Store[] = [
         name: '달달 촉촉 허니콤보',
         price: 23000,
         desc: '꿀을 발라 달콤 짭조름하고 바삭한 날개/다리 콤보 치킨',
+        image: '/design/del/ss/014.jpg',
         optionGroups: [
           {
             name: '윙/봉/다리 콤보 부위',
@@ -642,6 +649,7 @@ export const mockStores: Store[] = [
         name: '고추 바사삭 오븐구이',
         price: 21000,
         desc: '청양고추 알갱이가 쏙쏙 박힌 바삭한 웰빙 오븐치킨',
+        image: '/design/del/ss/015.jpg',
         optionGroups: [
           {
             name: '고기 조리 스타일',
@@ -686,6 +694,7 @@ export const mockStores: Store[] = [
         name: '리치 포테이토 피자 (L)',
         price: 25900,
         desc: '부드러운 감자와 베이컨이 어우러진 베스트셀러',
+        image: '/design/del/ss/016.jpg',
         optionGroups: [
           {
             name: '도우 종류 및 엣지 선택',
@@ -768,6 +777,7 @@ export const mockStores: Store[] = [
         name: '수퍼 파파스 피자 (L)',
         price: 28500,
         desc: '파파존스 고유의 풍미가 돋보이는 정통 오리지널 피자',
+        image: '/design/del/ss/018.jpg',
         optionGroups: [
           {
             name: '패밀리 업그레이드',
@@ -802,6 +812,7 @@ export const mockStores: Store[] = [
         name: '특선 모둠초밥 (12pcs)',
         price: 18000,
         desc: '광어, 연어, 참치, 새우 등으로 구성된 고품격 초밥',
+        image: '/design/del/ss/019.jpg',
         optionGroups: [
           {
             name: '와사비 양 조절',
@@ -843,6 +854,7 @@ export const mockStores: Store[] = [
         name: '싱싱 생연어 사케동',
         price: 14000,
         desc: '생연어를 올려 알싸한 와사비와 비벼먹는 일본식 덮밥',
+        image: '/design/del/ss/020.jpg',
         optionGroups: [
           {
             name: '연어 양 선택',
@@ -929,6 +941,7 @@ export const mockStores: Store[] = [
         name: '뉴올리언스 콜드브루 라떼',
         price: 6200,
         desc: '볶은 치커리와 유기농 설탕이 들어간 블루보틀 시그니처',
+        image: '/design/del/ss/022.jpg',
         optionGroups: [
           {
             name: '밀크 종류 커스텀',
@@ -970,6 +983,7 @@ export const mockStores: Store[] = [
         name: '카페 아메리카노 (Tall)',
         price: 4500,
         desc: '스타벅스 고유의 딥한 에스프레소 아메리카노',
+        image: '/design/del/ss/023.jpg',
         optionGroups: [
           {
             name: '온도/컵 사이즈',
@@ -1013,6 +1027,7 @@ export const mockStores: Store[] = [
         name: '고소한 인절미 빙수',
         price: 9900,
         desc: '고소한 콩가루와 쫄깃한 인절미 떡이 듬뿍 올라간 시그니처 빙수',
+        image: '/design/del/ss/024.jpg',
         optionGroups: [
           {
             name: '연어만큼 소중한 연유',
