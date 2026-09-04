@@ -174,7 +174,7 @@ export const StoreDetail: React.FC = () => {
                   <div className="card-thumb">
                     <span className="best-badge">BEST</span>
                     <img 
-                      src={store.image || '/assets/chicken_thumbnail.png'} 
+                      src={menu.image || store.image || '/assets/chicken_thumbnail.png'} 
                       alt={menu.name} 
                       className="thumb-img" 
                     />
@@ -213,7 +213,7 @@ export const StoreDetail: React.FC = () => {
                 </div>
                 <div className="menu-right">
                   <img 
-                    src={store.image || '/assets/chicken_thumbnail.png'} 
+                    src={menu.image || store.image || '/assets/chicken_thumbnail.png'} 
                     alt={menu.name} 
                     className="menu-thumb" 
                   />

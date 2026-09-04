@@ -13,6 +13,7 @@ export interface StoreMenu {
   name: string;
   price: number;
   desc: string;
+  image?: string;
   optionGroups?: OptionGroup[];
 }
 
@@ -40,6 +41,7 @@ export const mockStores: Store[] = [
     id: 'store_korean_01',
     name: '백종원가상쌈밥 역삼본점',
     emoji: '🍲',
+    image: '/design/del/02.jpg',
     rating: 4.6,
     reviewCount: 95,
     menuTags: ['제육쌈밥정식', '우삼겹쌈밥'],
@@ -55,6 +57,7 @@ export const mockStores: Store[] = [
         name: '매콤 제육 쌈밥 정식',
         price: 12000,
         desc: '불향 가득한 제육볶음과 유기농 모둠 쌈정식',
+        image: '/design/del/ss/001.jpg',
         optionGroups: [
           {
             name: '밥 종류 선택',
@@ -79,6 +82,7 @@ export const mockStores: Store[] = [
         name: '간장 우삼겹 쌈밥 정식',
         price: 13000,
         desc: '달콤한 비법 소스로 볶아낸 우삼겹 정식',
+        image: '/design/del/ss/002.jpg',
         optionGroups: [
           {
             name: '고기 양 선택',
@@ -104,6 +108,7 @@ export const mockStores: Store[] = [
     id: 'store_korean_02',
     name: '한샘가상국밥 역삼점',
     emoji: '🍲',
+    image: '/design/del/18.jpg',
     rating: 4.7,
     reviewCount: 180,
     menuTags: ['순대국밥', '수육국밥', '모둠순대'],
@@ -118,6 +123,7 @@ export const mockStores: Store[] = [
         name: '진국 순대국밥',
         price: 9000,
         desc: '직접 우려낸 깊고 구수한 순대국밥',
+        image: '/design/del/ss/003.jpg',
         optionGroups: [
           {
             name: '순대 옵션 선택',
@@ -143,6 +149,7 @@ export const mockStores: Store[] = [
         name: '명가 수육국밥',
         price: 9500,
         desc: '부드러운 살코기가 듬뿍 들어간 맑은 국밥',
+        image: '/design/del/ss/004.jpg',
         optionGroups: [
           {
             name: '수육 사이즈',
@@ -168,6 +175,7 @@ export const mockStores: Store[] = [
     id: 'store_korean_03',
     name: '도란도란가상갈비찜',
     emoji: '🍖',
+    image: '/design/del/19.jpg',
     rating: 4.9,
     reviewCount: 95,
     menuTags: ['매운갈비찜', '간장갈비찜'],
@@ -183,6 +191,7 @@ export const mockStores: Store[] = [
         name: '중독 매운 갈비찜 (소)',
         price: 28000,
         desc: '스트레스 날리는 매콤함, 부드러운 돼지 갈비찜',
+        image: '/design/del/ss/005.jpg',
         optionGroups: [
           {
             name: '매운맛 조절',
@@ -208,6 +217,7 @@ export const mockStores: Store[] = [
         name: '달콤 소갈비찜 (소)',
         price: 35000,
         desc: '과일 양념으로 부드럽게 재운 최고급 소갈비찜',
+        image: '/design/del/ss/006.jpg',
         optionGroups: [
           {
             name: '공깃밥 포함 여부',
@@ -235,6 +245,7 @@ export const mockStores: Store[] = [
     id: 'store_boonsik_01',
     name: '엽기가상떡볶이 강남역점',
     emoji: '🌶️',
+    image: '/design/del/01.jpg',
     rating: 4.9,
     reviewCount: 520,
     menuTags: ['엽기떡볶이', '주먹김밥', '모둠튀김'],
@@ -301,6 +312,7 @@ export const mockStores: Store[] = [
     id: 'store_boonsik_02',
     name: '남다르가상김밥',
     emoji: '🍙',
+    image: '/design/del/04.jpg',
     rating: 4.5,
     reviewCount: 140,
     menuTags: ['참치김밥', '돈까스김밥', '국물떡볶이'],
@@ -354,6 +366,7 @@ export const mockStores: Store[] = [
     id: 'store_boonsik_03',
     name: '청년가상신전떡볶이',
     emoji: '🍢',
+    image: '/design/del/05.jpg',
     rating: 4.8,
     reviewCount: 320,
     menuTags: ['치즈떡볶이', '오뎅튀김', '신전김밥'],
@@ -397,6 +410,7 @@ export const mockStores: Store[] = [
     id: 'store_burger_01',
     name: '쉑쉑가상버거 강남점',
     emoji: '🍔',
+    image: '/design/del/06.jpg',
     rating: 4.8,
     reviewCount: 450,
     menuTags: ['쉑버거', '스모크쉑', '치즈프라이'],
@@ -452,6 +466,7 @@ export const mockStores: Store[] = [
     id: 'store_burger_02',
     name: '맥도날가상버거 선릉점',
     emoji: '🍔',
+    image: '/design/del/07.jpg',
     rating: 4.4,
     reviewCount: 900,
     menuTags: ['빅맥', '상하이버거', '1955버거'],
@@ -492,6 +507,7 @@ export const mockStores: Store[] = [
     id: 'store_burger_03',
     name: '맘스터가상싸이버거',
     emoji: '🍗',
+    image: '/design/del/03.jpg',
     rating: 4.7,
     reviewCount: 410,
     menuTags: ['싸이버거', '딥치즈버거', '케이준양념감자'],
@@ -526,7 +542,7 @@ export const mockStores: Store[] = [
     id: 'store_chicken_01',
     name: '바삭바삭 챌린지 치킨',
     emoji: '🍗',
-    image: '/assets/chicken_thumbnail.png',
+    image: '/design/del/21.jpg',
     rating: 4.9,
     reviewCount: 312,
     menuTags: ['후라이드', '양념치킨', '간장치킨'],
@@ -568,6 +584,7 @@ export const mockStores: Store[] = [
     id: 'store_chicken_02',
     name: '교촌가상허니콤보',
     emoji: '🍗',
+    image: '/design/del/08.jpg',
     rating: 4.8,
     reviewCount: 820,
     menuTags: ['허니콤보', '레드콤보', '반반오리지날'],
@@ -608,6 +625,7 @@ export const mockStores: Store[] = [
     id: 'store_chicken_03',
     name: '굽네가상고추바사삭',
     emoji: '🔥',
+    image: '/design/del/09.jpg',
     rating: 4.9,
     reviewCount: 650,
     menuTags: ['고추바사삭', '볼케이노', '오리지널오븐'],
@@ -652,6 +670,7 @@ export const mockStores: Store[] = [
     id: 'store_pizza_01',
     name: '도미노가상피자 역삼본점',
     emoji: '🍕',
+    image: '/design/del/10.jpg',
     rating: 4.7,
     reviewCount: 189,
     menuTags: ['포테이토피자', '블랙타이거슈림프'],
@@ -692,6 +711,7 @@ export const mockStores: Store[] = [
     id: 'store_pizza_02',
     name: '피자나가가상피자',
     emoji: '🍕',
+    image: '/design/del/11.jpg',
     rating: 4.3,
     reviewCount: 110,
     menuTags: ['페퍼로니피자', '콤비네이션피자'],
@@ -731,6 +751,7 @@ export const mockStores: Store[] = [
     id: 'store_pizza_03',
     name: '파파존가상슈퍼파파스',
     emoji: '🍕',
+    image: '/design/del/12.jpg',
     rating: 4.8,
     reviewCount: 340,
     menuTags: ['수퍼파파스', '존스페이버릿', '갈릭릭디핑'],
@@ -806,6 +827,7 @@ export const mockStores: Store[] = [
     id: 'store_japanese_02',
     name: '홍대가상돈부리',
     emoji: '🍛',
+    image: '/design/del/13.jpg',
     rating: 4.6,
     reviewCount: 150,
     menuTags: ['사케동', '가츠동', '에비동'],
@@ -845,6 +867,7 @@ export const mockStores: Store[] = [
     id: 'store_japanese_03',
     name: '가상라멘 멘야 역삼점',
     emoji: '🍜',
+    image: '/design/del/14.jpg',
     rating: 4.7,
     reviewCount: 290,
     menuTags: ['돈코츠라멘', '카라구치라멘', '야끼교자'],
@@ -889,6 +912,7 @@ export const mockStores: Store[] = [
     id: 'store_cafe_01',
     name: '가상블루보틀 역삼스튜디오',
     emoji: '☕',
+    image: '/design/del/15.jpg',
     rating: 4.9,
     reviewCount: 680,
     menuTags: ['싱글오리진', '뉴올리언스라떼'],
@@ -930,6 +954,7 @@ export const mockStores: Store[] = [
     id: 'store_cafe_02',
     name: '스타벅가상대리점 강남점',
     emoji: '☕',
+    image: '/design/del/17.jpg',
     rating: 4.8,
     reviewCount: 1200,
     menuTags: ['아메리카노', '카페라떼', '자몽허니블랙티'],
@@ -972,6 +997,7 @@ export const mockStores: Store[] = [
     id: 'store_cafe_03',
     name: '설빙가상디저트 선릉점',
     emoji: '🍧',
+    image: '/design/del/16.jpg',
     rating: 4.7,
     reviewCount: 230,
     menuTags: ['인절미설빙', '애플망고치즈설빙'],

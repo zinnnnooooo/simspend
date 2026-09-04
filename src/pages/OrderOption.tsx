@@ -139,7 +139,7 @@ export const OrderOption: React.FC = () => {
       {/* 상단 히어로 배너 이미지 영역 */}
       <HeroBanner>
         <img 
-          src={store.image || '/assets/chicken_thumbnail.png'} 
+          src={menu.image || store.image || '/assets/chicken_thumbnail.png'} 
           alt={menu.name} 
           className="hero-img" 
         />
