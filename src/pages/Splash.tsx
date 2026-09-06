@@ -28,28 +28,8 @@ export const Splash: React.FC = () => {
       <SpacerTop />
       
       <Brand>
-        <Logo viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="SimSPEND 로고">
-          {/* 가방 손잡이 */}
-          <path d="M45 37 Q45 15 60 15 Q75 15 75 37" fill="none" stroke="#1E1F2E" strokeWidth="6.5" strokeLinecap="round"/>
-          {/* 가방 몸체 */}
-          <rect x="21" y="34" width="78" height="62" rx="20" fill="#FFFFFF" stroke="#1E1F2E" strokeWidth="6.5"/>
-          {/* 하트 */}
-          <path d="M60 74 C 52 67, 40 60, 40 49 C 40 42, 45 37, 52 37 C 56 37, 59 39, 60 43 C 61 39, 64 37, 68 37 C 75 37, 80 42, 80 49 C 80 60, 68 67, 60 74 Z" fill="#FFAE00"/>
-          {/* 계산기 */}
-          <g transform="translate(70,58)">
-            <rect x="0" y="0" width="34" height="44" rx="8" fill="#FFFFFF" stroke="#1E1F2E" strokeWidth="5.5"/>
-            <rect x="5.5" y="6.5" width="23" height="9" rx="3" fill="#FFAE00"/>
-            <rect x="6" y="21" width="6" height="6" rx="1.6" fill="#1E1F2E"/>
-            <rect x="14" y="21" width="6" height="6" rx="1.6" fill="#1E1F2E"/>
-            <rect x="22" y="21" width="6" height="6" rx="1.6" fill="#1E1F2E"/>
-            <rect x="6" y="30" width="6" height="6" rx="1.6" fill="#1E1F2E"/>
-            <rect x="14" y="30" width="6" height="6" rx="1.6" fill="#1E1F2E"/>
-            <rect x="22" y="30" width="6" height="6" rx="1.6" fill="#1E1F2E"/>
-          </g>
-        </Logo>
-        
+        <Wordmark>Sim<span>SPEND</span></Wordmark>
         <Tagline>당신의 소비 습관을 지키는 가장 쉬운 방법</Tagline>
-        <Wordmark>SimSPEND</Wordmark>
       </Brand>
 
       <SpacerGrow />
@@ -111,9 +91,7 @@ const SplashContainer = styled.main`
 `;
 
 const SpacerTop = styled.div`
-  flex: 0 0 auto;
-  height: 34vh;
-  min-height: 140px;
+  flex: 1;
 `;
 
 const Brand = styled.div`
@@ -121,31 +99,30 @@ const Brand = styled.div`
   flex-direction: column;
   align-items: center;
   text-align: center;
-`;
-
-const Logo = styled.svg`
-  width: 108px;
-  height: 108px;
-  margin-bottom: 20px;
   animation: ${splashPop} 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 `;
 
-const Tagline = styled.p`
-  font-size: 13px;
-  color: ${({ theme }) => theme.colors.textSecondary};
-  letter-spacing: -0.01em;
-  margin-bottom: 8px;
-`;
-
 const Wordmark = styled.h1`
-  font-size: 36px;
+  font-size: 42px;
   font-weight: 800;
   color: ${({ theme }) => theme.colors.textPrimary};
   letter-spacing: -0.02em;
+  margin-bottom: 12px;
+
+  span {
+    color: ${({ theme }) => theme.colors.brandYellow};
+  }
+`;
+
+const Tagline = styled.p`
+  font-size: 15px;
+  font-weight: 500;
+  color: ${({ theme }) => theme.colors.textSecondary};
+  letter-spacing: -0.01em;
 `;
 
 const SpacerGrow = styled.div`
-  flex: 1 1 auto;
+  flex: 1;
 `;
 
 const Footer = styled.div`
@@ -187,3 +164,4 @@ const Secure = styled.p`
     flex: none;
   }
 `;
+
