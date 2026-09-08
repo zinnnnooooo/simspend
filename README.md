@@ -342,52 +342,24 @@ Hook 호출과 컴포넌트 구조 점검 및 수정
 
 Firebase 설정과 Vercel 환경 변수 구성 점검
 
-🗂️ Project Structure
+## 🗂️ Project Structure
 
+```text
 simspend/
 ├── src/
 │   ├── components/
-│   │   ├── BottomNav.tsx
-│   │   ├── HorizontalScrollWrapper.tsx
-│   │   └── Layout.tsx
-│   │
 │   ├── context/
-│   │   ├── AuthContext.tsx
-│   │   ├── LedgerContext.tsx
-│   │   ├── ThemeContext.tsx
-│   │   └── UIContext.tsx
-│   │
 │   ├── data/
-│   │   ├── mockProducts.ts
-│   │   └── mockStores.ts
-│   │
 │   ├── firebase/
-│   │   └── config.ts
-│   │
 │   ├── hooks/
-│   │   ├── useGraphAnimation.ts
-│   │   └── useSequentialAnimation.ts
-│   │
 │   ├── pages/
-│   │   ├── Dashboard.tsx
-│   │   ├── Ledger.tsx
-│   │   ├── Statistics.tsx
-│   │   ├── AiReport.tsx
-│   │   ├── Experience.tsx
-│   │   ├── ShoppingHome.tsx
-│   │   ├── ProductDetail.tsx
-│   │   ├── DeliveryHome.tsx
-│   │   ├── StoreDetail.tsx
-│   │   ├── MyPage.tsx
-│   │   └── Login.tsx
-│   │
 │   ├── styles/
 │   ├── App.tsx
 │   └── main.tsx
-│
 ├── package.json
 ├── tsconfig.json
 └── vite.config.ts
+```
 
 📝 What I Learned
 
