@@ -75,7 +75,23 @@ const HeroMotion: React.FC = () => {
       <RippleCircle $delay={0.4} />
       <RippleCircle $delay={0.8} />
       <HeroCenter>
-        <div className="glow-icon">🪙</div>
+        <div className="glow-icon" aria-label="Coin icon">
+          <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="32" cy="32" r="30" fill="#FFAA00" stroke="#191B2E" strokeWidth="3.5" />
+            <circle cx="32" cy="32" r="23" fill="#FFC107" stroke="#191B2E" strokeWidth="1.5" strokeOpacity="0.3" />
+            <text
+              x="32"
+              y="40"
+              textAnchor="middle"
+              fill="#191B2E"
+              fontSize="26"
+              fontWeight="900"
+              fontFamily="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+            >
+              ₩
+            </text>
+          </svg>
+        </div>
         <p className="simulating-text">SIMULATING...</p>
         <p className="desc-text">진짜 지출은 ₩0, 가상 지출로 지출 방어 중!</p>
       </HeroCenter>
@@ -217,7 +233,11 @@ const HeroCenter = styled.div`
   text-align: center;
 
   .glow-icon {
-    font-size: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
     margin-bottom: 20px;
     filter: drop-shadow(0 0 20px rgba(255, 170, 0, 0.5));
     animation: pulse 1.5s ease-in-out infinite;
