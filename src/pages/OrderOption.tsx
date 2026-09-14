@@ -18,7 +18,7 @@ export const OrderOption: React.FC = () => {
     required: false,
     options: [
       { name: '콜라', price: 2000 },
-      { name: '제일제당 사이다', price: 2000 },
+      { name: '사이다', price: 2000 },
       { name: '제로콜라', price: 2500 }
     ]
   };

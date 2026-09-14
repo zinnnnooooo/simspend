@@ -887,19 +887,20 @@ const SheetOverlay = styled.div`
 const SheetForm = styled.form`
   position: fixed;
   left: 50%;
-  bottom: 0;
-  transform: translate(-50%, 100%);
-  width: 100%;
+  bottom: calc(98px + env(safe-area-inset-bottom));
+  transform: translate(-50%, calc(100% + 120px));
+  width: calc(100% - 32px);
   max-width: 480px;
   background: ${({ theme }) => theme.colors.cardBackground};
-  border-top-left-radius: 24px;
-  border-top-right-radius: 24px;
-  padding: 20px 20px calc(24px + env(safe-area-inset-bottom));
+  border-radius: 24px;
+  padding: 20px 20px 24px;
   z-index: 1000;
   transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-  max-height: 88vh;
+  max-height: calc(85vh - 98px);
   overflow-y: auto;
   border: 1px solid ${({ theme }) => theme.colors.border};
+  box-shadow: ${({ theme }) => theme.shadows.bottomSheet};
+  box-sizing: border-box;
 
   .is-open & {
     transform: translate(-50%, 0);
