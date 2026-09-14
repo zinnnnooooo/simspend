@@ -445,16 +445,16 @@ SimSPEND를 만들면서 AI를 단순히 코드를 생성하는 도구가 아니
 ### **Project 바로가기**
 
 - **Live Demo**  
-- [https://simspend.vercel.app/](https://simspend.vercel.app/)
+  [어플리케이션 바로가기](https://simspend.vercel.app/)
 
-- **GitHub Repository** 
-- [https://github.com/zinnnnooooo/simspend](https://github.com/zinnnnooooo/simspend)
+- **GitHub Repository**  
+  [깃허브 바로가기](https://github.com/zinnnnooooo/simspend)
 
-- **Figma Design**
-- https://www.figma.com/design/dQ4JRCKvYUIy87vlD53fb1/%EC%8B%AC-%EC%8A%A4%ED%8E%9C%EB%93%9C?node-id=0-1&t=zvbK7K8nWk0isIwc-1
+- **Figma Design**  
+  [피그마 바로가기](https://www.figma.com/design/dQ4JRCKvYUIy87vlD53fb1/%EC%8B%AC-%EC%8A%A4%ED%8E%9C%EB%93%9C?node-id=0-1&t=zvbK7K8nWk0isIwc-1)
 
-- **Note Folio**
-- https://notefolio.net/parkings/466196
+- **Note Folio**  
+  [노트폴리오 바로가기](https://notefolio.net/parkings/466196)
 
 <br>
 
