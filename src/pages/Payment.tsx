@@ -132,7 +132,6 @@ export const Payment: React.FC = () => {
             placeholder="주소를 입력하세요" 
             value={address} 
             onChange={(e) => setAddress(e.target.value)} 
-            required 
           />
         </FormGroup>
         <FormGroup>
