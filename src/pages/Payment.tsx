@@ -81,7 +81,7 @@ export const Payment: React.FC = () => {
   const fmtWon = (n: number) => Math.round(n).toLocaleString('ko-KR') + '원';
 
   return (
-    <PayContainer onSubmit={handlePaymentSubmit}>
+    <PayContainer onSubmit={handlePaymentSubmit} noValidate>
       {/* 헤더 */}
       <PageHeader>
         <BackButton type="button" onClick={() => navigate(-1)} aria-label="뒤로가기">
@@ -107,7 +107,6 @@ export const Payment: React.FC = () => {
             placeholder="이름을 입력하세요" 
             value={userName} 
             onChange={(e) => setUserName(e.target.value)} 
-            required 
           />
         </FormGroup>
         <FormGroup>
@@ -117,7 +116,6 @@ export const Payment: React.FC = () => {
             placeholder="010-0000-0000" 
             value={phone} 
             onChange={(e) => setPhone(e.target.value)} 
-            required 
           />
         </FormGroup>
       </FormSectionCard>

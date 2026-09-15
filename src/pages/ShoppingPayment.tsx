@@ -82,7 +82,7 @@ export const ShoppingPayment: React.FC = () => {
   };
 
   return (
-    <SpContainer onSubmit={handlePaymentSubmit}>
+    <SpContainer onSubmit={handlePaymentSubmit} noValidate>
       {/* 1. 상단 헤더 */}
       <SpHeader>
         <HeaderBack type="button" onClick={() => navigate(-1)} aria-label="뒤로가기">
@@ -137,8 +137,7 @@ export const ShoppingPayment: React.FC = () => {
             type="text" 
             value={userName} 
             onChange={(e) => setUserName(e.target.value)} 
-            placeholder="주문자 성함"
-            required 
+            placeholder="주문자 성함" 
           />
         </FormGroup>
         <FormGroup>
@@ -147,8 +146,7 @@ export const ShoppingPayment: React.FC = () => {
             type="tel" 
             value={phone} 
             onChange={(e) => setPhone(e.target.value)} 
-            placeholder="010-0000-0000"
-            required 
+            placeholder="010-0000-0000" 
           />
         </FormGroup>
       </SectionCard>
@@ -162,8 +160,7 @@ export const ShoppingPayment: React.FC = () => {
             type="text" 
             value={address} 
             onChange={(e) => setAddress(e.target.value)} 
-            placeholder="도로명 주소 또는 지번 주소"
-            required 
+            placeholder="도로명 주소 또는 지번 주소" 
           />
         </FormGroup>
         <FormGroup>
